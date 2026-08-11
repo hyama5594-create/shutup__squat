@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SHUT UP SQUAT!!!">
+<meta name="theme-color" content="#d92b2b" id="themeColorMeta">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<title>SHUT UP SQUAT!!!</title>
+<style>
+:root{
+  --bg:#f7f6f4; --card:#ffffff; --line:#e9e5e0; --line2:#d9d4ce;
+  --txt:#211f1e; --sub:#8d8781; --red:#d92b2b; --redsoft:#fdeeee; --reddeep:#b81f1f;
+  --ok:#1fa06a; --oksoft:#e7f6ef; --amber:#c98a12; --ambersoft:#fdf6e7; --sub2:#66605b;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;padding-bottom:132px}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:3px solid var(--red);padding:12px 16px 9px}
+header h1{font-size:1.05rem;letter-spacing:.14em;font-weight:800;color:var(--txt)}
+header h1 span{color:var(--red)}
+header .tag{font-size:.6rem;color:var(--sub);letter-spacing:.24em;text-transform:uppercase}
+main{padding:14px 14px 20px;max-width:560px;margin:0 auto}
+/* tabs */
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{flex:1;background:none;border:none;color:var(--sub);font-size:.68rem;padding:9px 0 8px;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav.tabs button .ic{font-size:1.15rem;line-height:1}
+nav.tabs button.on{color:var(--red);font-weight:700}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card h2{font-size:.76rem;color:var(--sub);letter-spacing:.12em;margin-bottom:10px;text-transform:uppercase}
+/* week/day pickers */
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;background:var(--card);border:1.5px solid var(--line2);color:var(--txt);border-radius:20px;padding:7px 13px;font-size:.8rem;font-family:inherit;white-space:nowrap;position:relative;font-weight:600}
+.pill.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.pill.deload{border-style:dashed}
+.pill .dot{position:absolute;top:1px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--ok);border:1.5px solid #fff}
+.daypills{display:flex;gap:8px;margin:10px 0 2px}
+.daypills .pill{flex:1;text-align:center;padding:9px 0}
+/* exercise cards */
+.ex{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line2);border-radius:14px;padding:12px 12px 11px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.ex.big3{border-left-color:var(--red)}
+.ex.done{border-left-color:var(--ok);background:#fbfdfc}
+.ex.done .exname{color:var(--sub)}
+.exhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.exname{font-size:1rem;font-weight:800;line-height:1.35}
+.excat{font-size:.62rem;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.rx{text-align:right;flex:0 0 auto}
+.rx .scheme{font-size:.95rem;font-weight:800}
+.rx .rpe{display:inline-block;font-size:.66rem;color:var(--reddeep);font-weight:800;background:var(--redsoft);border-radius:6px;padding:2px 7px;margin-top:3px}
+.target{margin-top:8px;background:var(--redsoft);border-radius:9px;padding:7px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.target .lbl{font-size:.66rem;color:var(--reddeep);line-height:1.4}
+.target .kg{font-size:1.2rem;font-weight:800;color:var(--red);white-space:nowrap}
+.target .kg small{font-size:.68rem;color:var(--sub);font-weight:600}
+.memo{margin-top:8px;font-size:.74rem;color:#7a6428;line-height:1.5;background:var(--ambersoft);border-left:3px solid var(--amber);padding:5px 9px;border-radius:0 7px 7px 0}
+/* set rows */
+.sets{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.setrow{display:grid;grid-template-columns:24px 1fr 1fr 1fr 42px;gap:6px;align-items:center}
+.setrow.bw{grid-template-columns:24px 1fr 1fr 42px}
+.setrow .n{font-size:.72rem;color:var(--sub);text-align:center;font-weight:700}
+.setrow input{width:100%;background:#fff;border:1.5px solid var(--line2);border-radius:9px;color:var(--txt);font-size:1rem;font-weight:700;font-family:inherit;padding:9px 4px;text-align:center;-moz-appearance:textfield}
+.setrow input.auto{color:var(--red);background:var(--redsoft);border-color:#f3c9c9}
+.setrow input::-webkit-outer-spin-button,.setrow input::-webkit-inner-spin-button{-webkit-appearance:none}
+.setrow input:focus{outline:none;border-color:var(--red)}
+.setrow .chk{width:40px;height:40px;border-radius:10px;background:#fff;border:1.5px solid var(--line2);color:var(--sub);font-size:1.05rem;font-family:inherit}
+.setrow .chk.on{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:800}
+.sethead{display:grid;grid-template-columns:24px 1fr 1fr 1fr 42px;gap:6px;font-size:.6rem;color:var(--sub);text-align:center;margin-top:9px;font-weight:700;letter-spacing:.06em}
+.sethead.bw{grid-template-columns:24px 1fr 1fr 42px}
+.e1line{margin-top:8px;font-size:.72rem;color:var(--sub);display:flex;justify-content:space-between;font-weight:600}
+.e1line b{color:var(--ok)}
+/* warmup */
+.warm{border-left:5px solid var(--amber)}
+.warm ul{list-style:none;margin-top:2px}
+.warm li{font-size:.82rem;padding:5px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px}
+.warm li:last-child{border:none}
+.warm li span{color:var(--sub);font-size:.7rem;text-align:right}
+/* timer */
+#timerbar{position:fixed;bottom:calc(53px + env(safe-area-inset-bottom));left:0;right:0;z-index:29;background:var(--card);border-top:1px solid var(--line);padding:7px 12px;display:flex;align-items:center;gap:8px}
+#timerbar .tdisp{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:74px}
+#timerbar.running .tdisp{color:var(--red)}
+#timerbar button{background:var(--bg);border:1.5px solid var(--line2);color:var(--txt);border-radius:9px;padding:7px 10px;font-size:.75rem;font-weight:700;font-family:inherit}
+#timerbar button.go{background:var(--red);border-color:var(--red);color:#fff}
+#timerbar #tmode{padding:7px 9px;font-size:.95rem;line-height:1}
+#timerbar #tmode.sure{background:var(--redsoft);border-color:var(--red)}
+/* settings/buttons */
+.field{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.field:last-child{border:none}
+.field label{font-size:.88rem;font-weight:700}
+.field input{width:110px;background:#fff;border:1.5px solid var(--line2);border-radius:9px;color:var(--txt);font-size:1rem;font-weight:700;padding:9px;text-align:center;font-family:inherit}
+.field input:focus{outline:none;border-color:var(--red)}
+.btn{display:block;width:100%;background:var(--red);border:none;color:#fff;border-radius:11px;padding:13px;font-size:.95rem;font-weight:800;font-family:inherit;margin-top:12px}
+.btn.ghost{background:#fff;border:1.5px solid var(--line2);color:var(--txt)}
+.btn.danger{background:#fff;border:1.5px solid var(--red);color:var(--red)}
+/* charts */
+canvas{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;font-size:.7rem;color:var(--sub);margin-top:6px;flex-wrap:wrap;font-weight:600}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+/* guide */
+.guide h3{font-size:.92rem;color:var(--red);margin:16px 0 6px;font-weight:800}
+.guide p,.guide li{font-size:.84rem;line-height:1.75}
+.guide ul{padding-left:18px;margin:4px 0}
+.guide .qa{background:var(--bg);border-radius:9px;padding:9px 11px;margin:8px 0}
+.guide .qa b{display:block;font-size:.8rem;margin-bottom:3px}
+.guide .qa p{font-size:.78rem;color:var(--sub)}
+table.rpet{width:100%;border-collapse:collapse;font-size:.62rem;margin-top:8px}
+table.rpet th,table.rpet td{border:1px solid var(--line);padding:3px 2px;text-align:center;font-variant-numeric:tabular-nums}
+table.rpet th{background:var(--bg);color:var(--sub)}
+table.rpet td.hd{background:var(--redsoft);color:var(--reddeep);font-weight:800}
+.note{font-size:.7rem;color:var(--sub);margin-top:8px;line-height:1.6}
+.prog{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.prog i{display:block;height:100%;background:var(--red);border-radius:4px}
+.stat3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat .v{font-size:1.15rem;font-weight:800;color:var(--red)}
+.stat .l{font-size:.6rem;color:var(--sub);margin-top:2px;font-weight:700}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;font-weight:700;font-size:.8rem;padding:9px 18px;border-radius:20px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+/* summary modal */
+#smodal{position:fixed;inset:0;z-index:55;background:rgba(20,18,17,.65);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 14px 40px}
+#smodal.open{display:flex}
+#smodal .box{background:var(--card);border-radius:16px;padding:14px;max-width:440px;width:100%}
+#smodal img{width:100%;border-radius:10px;border:1px solid var(--line)}
+#smodal .row{display:flex;gap:8px;margin-top:10px}
+#smodal .row .btn{margin-top:0}
+/* ===== candytune mode ===== */
+body.candy{
+  --bg:#fff6f9; --card:#ffffff; --line:#ffd9e6; --line2:#ffc2d8;
+  --txt:#4a3540; --sub:#b08a9b; --red:#f45f9a; --redsoft:#ffe9f2; --reddeep:#d84280;
+  --ok:#3fc99b; --oksoft:#e6faf2; --amber:#f7973f; --ambersoft:#fff3e4; --sub2:#7f5b6d;
+  background-image:radial-gradient(#ffe3ee 8%,transparent 9%),radial-gradient(#ffe3ee 8%,transparent 9%);
+  background-size:36px 36px;background-position:0 0,18px 18px;
+}
+body.candy header{border-bottom:5px solid;border-image:linear-gradient(90deg,#e8434a,#f7973f,#7fd8b4,#7cc7ee,#3d6fd8,#a678d8,#f78bc0) 1}
+body.candy header h1 span{color:var(--red)}
+body.candy .card,body.candy .ex{border-radius:20px}
+body.candy .setrow input,body.candy .setrow .chk,body.candy .field input{border-radius:14px}
+body.candy .btn{border-radius:18px}
+body.candy .prog{height:8px;border-radius:5px}
+body.candy .prog i{background:linear-gradient(90deg,#e8434a,#f7973f,#7fd8b4,#7cc7ee,#3d6fd8,#a678d8,#f78bc0)}
+body.candy .ex.c0{border-left-color:#e8434a}
+body.candy .ex.c1{border-left-color:#3d6fd8}
+body.candy .ex.c2{border-left-color:#f78bc0}
+body.candy .ex.c3{border-left-color:#7fd8b4}
+body.candy .ex.c4{border-left-color:#7cc7ee}
+body.candy .ex.c5{border-left-color:#a678d8}
+body.candy .ex.c6{border-left-color:#f7973f}
+body.candy .ex.done{border-left-color:var(--ok);background:#fdfffd}
+body.candy .warm{border-left-color:#f7973f}
+body.candy .toast{background:var(--reddeep)}
+#themeBtn{position:absolute;top:14px;right:14px;background:var(--redsoft);border:1.5px solid var(--line2);border-radius:18px;padding:6px 12px;font-size:.7rem;font-weight:800;color:var(--reddeep);font-family:inherit}
+header{position:relative}
+select.pick{width:100%;font-size:1rem;font-weight:800;font-family:inherit;color:var(--txt);background:var(--redsoft) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none'/></svg>") no-repeat right 10px center;border:1.5px solid var(--line2);border-radius:10px;padding:7px 30px 7px 10px;-webkit-appearance:none;appearance:none;line-height:1.3}
+select.pick:focus{outline:none;border-color:var(--red)}
+body.candy select.pick{border-radius:14px}
+
+/* ===== dopagaki mode ===== */
+body.dopa{
+  --bg:#07030f; --card:#150a24; --line:#33165a; --line2:#4a2280;
+  --txt:#f4ecff; --sub:#c0a9e2; --red:#ff2d95; --redsoft:#2a0f3f; --reddeep:#ff6fc0;
+  --ok:#16f2e6; --oksoft:#0b2f34; --amber:#ffcf3d; --ambersoft:#2e2408; --sub2:#c0a9e2;
+  background-image:repeating-linear-gradient(90deg,rgba(255,45,149,.05) 0 2px,transparent 2px 6px);
+}
+body.dopa header{background:linear-gradient(180deg,#1a0930,#07030f);border-bottom:3px solid var(--red);box-shadow:0 0 22px rgba(255,45,149,.5)}
+body.dopa header h1{text-shadow:0 0 12px rgba(255,45,149,.9)}
+body.dopa header h1 span{color:#16f2e6;text-shadow:0 0 14px rgba(22,242,230,.9)}
+body.dopa .card,body.dopa .ex{box-shadow:0 0 0 1px rgba(255,45,149,.18),0 6px 22px rgba(0,0,0,.6)}
+body.dopa .ex.big3{border-left-color:#ffcf3d}
+body.dopa .ex.done{background:#0f2229;border-left-color:#16f2e6;box-shadow:0 0 16px rgba(22,242,230,.3)}
+body.dopa .setrow .chk.on{background:#16f2e6;border-color:#16f2e6;color:#04262b;box-shadow:0 0 14px rgba(22,242,230,.8)}
+body.dopa .setrow input.auto{color:#ffcf3d;background:#2a2008;border-color:#6b5410}
+body.dopa .target{background:#2a0f3f}
+body.dopa .target .lbl{color:#ff9fd4}
+body.dopa .target .kg{color:#ffcf3d;text-shadow:0 0 10px rgba(255,207,61,.7)}
+body.dopa .pill.on{box-shadow:0 0 14px rgba(255,45,149,.8)}
+body.dopa .prog i{background:linear-gradient(90deg,#ff2d95,#ffcf3d,#16f2e6)}
+body.dopa .memo{color:#ffd98a}
+body.dopa nav.tabs{background:#120725;border-top:1px solid #33165a}
+body.dopa #timerbar{background:#120725}
+body.dopa .btn{box-shadow:0 0 16px rgba(255,45,149,.5)}
+body.dopa .toast{background:#ff2d95;color:#fff;box-shadow:0 0 20px rgba(255,45,149,.8)}
+/* テーマ選択ボタン */
+.thsel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.thbtn{background:var(--bg);border:1.5px solid var(--line2);border-radius:12px;padding:10px 4px;font-size:.68rem;font-weight:700;font-family:inherit;color:var(--txt);display:flex;flex-direction:column;align-items:center;gap:4px}
+.thbtn b{font-size:1.3rem;line-height:1}
+.thbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.dopastat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.dopastat div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+.dopastat span{display:block;font-size:.6rem;color:var(--sub)}
+.dopastat b{font-size:1rem;color:var(--amber)}
+/* 演出オーバーレイ */
+#dopa{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;pointer-events:none}
+#dopa.on{display:flex}
+#dopaflash{position:absolute;inset:0;opacity:0}
+#dopabox{position:relative;text-align:center;transform:scale(.7);opacity:0;
+  background:radial-gradient(ellipse at center,rgba(7,3,15,.94) 0%,rgba(7,3,15,.86) 62%,rgba(7,3,15,0) 100%);
+  padding:34px 30px 40px;border-radius:28px}
+#dopabox.in{animation:dpop .22s cubic-bezier(.2,1.5,.4,1) forwards}
+@keyframes dpop{to{transform:scale(1);opacity:1}}
+.dreels{display:flex;gap:10px;justify-content:center}
+.dreel{width:82px;height:104px;border-radius:14px;background:linear-gradient(180deg,#1d0b33,#0a0416);
+  border:3px solid #ff2d95;box-shadow:0 0 24px rgba(255,45,149,.8),inset 0 0 18px rgba(0,0,0,.9);
+  display:flex;align-items:center;justify-content:center;font-size:2.6rem;overflow:hidden}
+.dreel.stop{border-color:#ffcf3d;box-shadow:0 0 30px rgba(255,207,61,.95)}
+.dreel span{display:block;filter:drop-shadow(0 0 8px rgba(255,255,255,.5))}
+.dreel.spin span{animation:dspin .09s linear infinite}
+@keyframes dspin{0%{transform:translateY(-46px);opacity:.25}50%{opacity:1}100%{transform:translateY(46px);opacity:.25}}
+#dopamsg{margin-top:16px;font-size:2.1rem;font-weight:900;letter-spacing:.06em;
+  background:linear-gradient(90deg,#ff2d95,#ffcf3d,#16f2e6,#ff2d95);background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:dflow 1.1s linear infinite;
+  filter:drop-shadow(0 0 12px rgba(255,45,149,.8))}
+@keyframes dflow{to{background-position:300% 0}}
+#dopapt{margin-top:4px;font-size:1.5rem;font-weight:900;color:#ffcf3d;text-shadow:0 0 14px rgba(255,207,61,.9)}
+#dopasub{margin-top:6px;font-size:.85rem;font-weight:800;color:#16f2e6;text-shadow:0 0 10px rgba(22,242,230,.8)}
+.dparts{position:absolute;inset:0;overflow:hidden}
+.dpart{position:absolute;width:10px;height:10px;border-radius:2px;will-change:transform,opacity}
+/* ヘッダーのドパPTバッジ */
+#dopahud{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:linear-gradient(90deg,#1d0b33,#2a0f3f);border:1.5px solid #ff2d95;border-radius:14px;
+  padding:8px 14px;margin-bottom:10px;font-size:.78rem;font-weight:900;color:#ffcf3d;
+  box-shadow:0 0 18px rgba(255,45,149,.45);white-space:nowrap}
+#dopahud i{font-style:normal;color:#16f2e6}
+#dopahud u{text-decoration:none;color:#9b7fc4;font-size:.62rem;font-weight:800;letter-spacing:.08em}
+@media(prefers-reduced-motion:reduce){#dopabox.in{animation:none;transform:scale(1);opacity:1}}
+
+
+/* --- dopa: 可読性の修正 --- */
+body.dopa .setrow input,
+body.dopa .field input,
+body.dopa textarea.cfg{background:#1c0d31;border-color:#4a2280;color:#ffffff}
+body.dopa .setrow input:focus,
+body.dopa .field input:focus,
+body.dopa textarea.cfg:focus{border-color:#16f2e6;box-shadow:0 0 12px rgba(22,242,230,.5)}
+body.dopa .setrow input::placeholder,
+body.dopa .field input::placeholder,
+body.dopa textarea.cfg::placeholder{color:#7b62a3}
+body.dopa .setrow .chk{background:#1c0d31;border-color:#4a2280;color:#8f77b8}
+body.dopa .btn.ghost{background:#1c0d31;border-color:#4a2280;color:#f4ecff;box-shadow:none}
+body.dopa .btn.danger{background:#2a0f22;border-color:#ff2d95;color:#ff8ec4;box-shadow:none}
+body.dopa .setrow input.auto{color:#ffe27a;background:#33280a;border-color:#8a6d14}
+body.dopa .excat{color:#a98fd0}
+body.dopa .sethead{color:#a98fd0}
+body.dopa .setrow .n{color:#a98fd0}
+body.dopa .note,body.dopa .warm li span,body.dopa .e1line{color:#b9a3dc}
+body.dopa .memo{background:#2e2408;border-left-color:#ffcf3d;color:#ffdf9b}
+body.dopa .card h2{color:#c9b3ea}
+body.dopa .exname{color:#ffffff}
+body.dopa .ex.done .exname{color:#8fd9d2}
+body.dopa .rx .scheme{color:#ffffff}
+body.dopa .rx .rpe{background:#3d1230;color:#ff9fd4}
+body.dopa .guide p,body.dopa .guide li{color:#e6dbf7}
+body.dopa .guide .qa{background:#1c0d31}
+body.dopa .guide .qa p{color:#b9a3dc}
+body.dopa table.rpet th{background:#1c0d31;color:#c0a9e2}
+body.dopa table.rpet td{color:#e6dbf7}
+body.dopa table.rpet td.hd{background:#3d1230;color:#ffcf3d}
+body.dopa .psess .pl{color:#b9a3dc}
+body.dopa .stat .l,body.dopa .legend{color:#b9a3dc}
+body.dopa .vsrow .yo{color:#6fc0ff}
+body.dopa select.pick{background-color:#2a0f3f;color:#ffffff;border-color:#4a2280}
+body.dopa .pill{color:#f4ecff}
+body.dopa .field label{color:#f4ecff}
+body.dopa .thbtn{color:#f4ecff}
+body.dopa .pill.on{background:#c8006a;border-color:#ff2d95;color:#ffffff}
+body.dopa .btn{background:#c8006a;color:#ffffff}
+body.dopa .thbtn.on{background:#c8006a;border-color:#ff2d95}
+body.dopa #timerbar button.go{background:#c8006a;border-color:#ff2d95}
+
+/* ===== ジムモード ===== */
+.gymtop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.gymhead{flex:1;text-align:center}
+.gday{font-size:.7rem;color:var(--sub2);font-weight:800;letter-spacing:.1em}
+.gcount{font-size:.95rem;font-weight:900;margin-top:1px}
+.gcount span{font-size:.68rem;color:var(--sub2);font-weight:700}
+.gnav{width:46px;height:46px;border-radius:50%;background:var(--card);border:1.5px solid var(--line2);
+  color:var(--txt);font-size:1.6rem;line-height:1;font-family:inherit;flex:0 0 auto}
+.gnav:disabled{opacity:.3}
+.gdots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.gdot{width:20px;height:6px;border-radius:3px;background:var(--line);border:none;padding:0}
+.gdot.warm{width:12px}
+.gdot.fin{background:var(--ok)}
+.gdot.on{background:var(--red);box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--red)}
+.gundo{display:block;width:100%;background:var(--ambersoft);border:1.5px solid var(--amber);color:var(--amber);
+  border-radius:12px;padding:10px;font-size:.82rem;font-weight:800;font-family:inherit;margin-bottom:10px}
+.gcard{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--red);
+  border-radius:16px;padding:16px 14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.gcard.warmcard{border-left-color:var(--amber)}
+.gcard.warmcard.fin{border-left-color:var(--ok)}
+.gtag{font-size:.64rem;color:var(--sub2);letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+.gname{font-size:1.7rem;font-weight:900;line-height:1.25;margin-top:4px}
+select.gpick{font-size:1.45rem;font-weight:900;margin-top:6px;padding:10px 34px 10px 12px}
+.gscheme{font-size:1rem;font-weight:800;color:var(--sub2);margin-top:6px}
+.gscheme b{color:var(--red)}
+.gtarget{margin-top:12px;background:var(--redsoft);border-radius:12px;padding:11px 13px;display:flex;
+  align-items:baseline;gap:9px;flex-wrap:wrap}
+.gtarget span{font-size:.7rem;color:var(--reddeep);font-weight:800}
+.gtarget b{font-size:2rem;font-weight:900;color:var(--red);line-height:1}
+.gtarget b small{font-size:.8rem;margin-left:2px}
+.gtarget i{flex:0 0 100%;font-size:.68rem;color:var(--sub2);font-style:normal}
+.gsets{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.gset{display:grid;grid-template-columns:22px 1fr 1fr 1fr 56px;gap:7px;align-items:center;
+  padding:5px;border-radius:12px}
+.gset.next{background:var(--redsoft);box-shadow:inset 0 0 0 1.5px var(--red)}
+.gset.done{opacity:.55}
+.gset .gn{font-size:.78rem;font-weight:900;color:var(--sub2);text-align:center}
+.gset input{width:100%;background:#fff;border:1.5px solid var(--line2);border-radius:11px;color:var(--txt);
+  font-size:1.15rem;font-weight:800;font-family:inherit;padding:12px 4px;text-align:center;-moz-appearance:textfield}
+.gset input.auto{color:var(--red);background:var(--redsoft);border-color:var(--line2)}
+.gset input::-webkit-outer-spin-button,.gset input::-webkit-inner-spin-button{-webkit-appearance:none}
+.gset input:focus{outline:none;border-color:var(--red)}
+.gchk{width:56px;height:50px;border-radius:12px;background:#fff;border:2px solid var(--line2);
+  color:var(--sub2);font-size:1.4rem;font-family:inherit;font-weight:900}
+.gchk.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.gset.next .gchk{border-color:var(--red);color:var(--red)}
+.grest{margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  background:var(--bg);border-radius:12px;padding:9px 11px}
+.grest span{font-size:.74rem;font-weight:800;color:var(--sub2)}
+.grest b{font-size:1.15rem;font-weight:900;min-width:56px;text-align:center}
+.grest button{background:var(--card);border:1.5px solid var(--line2);color:var(--txt);border-radius:9px;
+  padding:7px 11px;font-size:.78rem;font-weight:800;font-family:inherit}
+.grest i{flex:0 0 100%;font-size:.66rem;color:var(--sub2);font-style:normal}
+.gbig{display:block;width:100%;background:var(--red);border:none;color:#fff;border-radius:14px;
+  padding:17px;font-size:1.05rem;font-weight:900;font-family:inherit;margin-top:14px}
+.gbig.done{background:var(--ok)}
+.gbig.ghostbig{background:var(--card);border:1.5px solid var(--line2);color:var(--sub2)}
+body.dopa .gset input{background:#1c0d31;border-color:#4a2280;color:#fff}
+body.dopa .gset input.auto{color:#ffe27a;background:#33280a;border-color:#8a6d14}
+body.dopa .gchk{background:#1c0d31;border-color:#4a2280;color:#8f77b8}
+body.dopa .gchk.on{background:#16f2e6;border-color:#16f2e6;color:#04262b}
+body.dopa .gbig{background:#c8006a}
+body.dopa .gbig.ghostbig{background:#1c0d31;color:#b9a3dc}
+body.dopa .gtarget b{color:#ffcf3d}
+body.dopa .gtarget span{color:#ff9fd4}
+body.candy .gcard,body.candy .gbig{border-radius:22px}
+body.candy .gtarget span{color:#c2306f}
+body.candy .gtarget b{color:#d31f68}
+body.candy .gscheme b{color:#d31f68}
+
+/* ===== candy: ふわふわ演出 ===== */
+#cparts{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.cpart{position:absolute;font-weight:900;will-change:transform,opacity;line-height:1;
+  filter:drop-shadow(0 2px 4px rgba(244,95,154,.35))}
+#cribbon{position:fixed;left:50%;top:78px;transform:translate(-50%,-14px);z-index:61;pointer-events:none;
+  background:linear-gradient(90deg,#ff8ec2,#f45f9a);color:#fff;font-size:.86rem;font-weight:900;
+  padding:11px 22px;border-radius:22px;box-shadow:0 6px 20px rgba(244,95,154,.45);opacity:0;
+  transition:opacity .25s,transform .25s;white-space:nowrap}
+#cribbon.show{opacity:1;transform:translate(-50%,0)}
+#ccheer{background:linear-gradient(90deg,#fff0f6,#f6ecff);border:1.5px dashed #f9a8cd;border-radius:16px;
+  padding:11px 14px;margin-bottom:10px;font-size:.88rem;font-weight:900;color:#c2306f;text-align:center;
+  box-shadow:0 2px 8px rgba(244,95,154,.10)}
+body.candy .setrow .chk.on,body.candy .gchk.on{animation:cbounce .42s cubic-bezier(.2,1.6,.4,1)}
+@keyframes cbounce{0%{transform:scale(1)}35%{transform:scale(1.28)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+body.candy .ex.done{position:relative}
+body.candy .ex.done::after{content:'🎀';position:absolute;top:-7px;right:10px;font-size:1.15rem;
+  filter:drop-shadow(0 2px 3px rgba(244,95,154,.4))}
+@media(prefers-reduced-motion:reduce){.cpart{display:none}body.candy .setrow .chk.on{animation:none}}
+
+/* ===== インストール案内 ===== */
+#installBox{display:none;background:var(--card);border:2px solid var(--red);border-radius:16px;
+  padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+#installBox.show{display:block}
+#installBox h3{font-size:.92rem;font-weight:900;margin-bottom:4px}
+#installBox p{font-size:.76rem;color:var(--sub2);line-height:1.7}
+#installBox .ibtn{display:block;width:100%;background:var(--red);border:none;color:#fff;border-radius:12px;
+  padding:13px;font-size:.92rem;font-weight:900;font-family:inherit;margin-top:10px}
+#installBox .ilater{display:block;width:100%;background:none;border:none;color:var(--sub2);
+  font-size:.74rem;font-family:inherit;padding:9px;margin-top:2px}
+#installBox ol{padding-left:20px;margin-top:6px}
+#installBox li{font-size:.78rem;line-height:1.9}
+#installBox b{color:var(--red)}
+/* partner / sync */
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
+.sync .d{width:8px;height:8px;border-radius:50%}
+.sync.on{background:var(--oksoft);color:var(--ok)} .sync.on .d{background:var(--ok)}
+.sync.off{background:var(--bg);color:var(--sub)} .sync.off .d{background:var(--sub)}
+.sync.err{background:var(--redsoft);color:var(--reddeep)} .sync.err .d{background:var(--red)}
+.psess{border-top:1px dashed var(--line);padding:8px 0}
+.psess:first-of-type{border-top:none}
+.psess .pt{font-size:.8rem;font-weight:800}
+.psess .pl{font-size:.74rem;color:var(--sub);line-height:1.7}
+textarea.cfg{width:100%;min-height:96px;background:#fff;border:1.5px solid var(--line2);border-radius:10px;font-size:.72rem;font-family:ui-monospace,monospace;padding:9px;color:var(--txt)}
+textarea.cfg:focus{outline:none;border-color:var(--red)}
+.steps{font-size:.76rem;line-height:1.8;color:var(--txt);padding-left:18px;margin-top:6px}
+.steps li{margin-bottom:4px}
+details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:pointer;padding:4px 0}
+.vsrow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.vsrow:last-child{border:none}
+.vsrow .me{text-align:right;font-weight:800;font-size:1.05rem;color:var(--red)}
+.vsrow .yo{text-align:left;font-weight:800;font-size:1.05rem;color:#2f6fd6}
+.vsrow .lift{font-size:.66rem;color:var(--sub);font-weight:800;text-align:center;letter-spacing:.08em}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
+  <h1>SQUAT <span>MANIA</span> ログ</h1>
+  <button id="themeBtn" onclick="toggleTheme()">🍬</button>
+</header>
+
+<div id="installBox">
+  <h3>📲 アプリとしてインストール</h3>
+  <div id="installBody"></div>
+</div>
+<main id="view"></main>
+
+<div id="timerbar">
+  <div class="tdisp" id="tdisp">0:00</div>
+  <button id="tmode" onclick="toggleSound()">🎵</button>
+  <button onclick="setTimer(90)">1:30</button>
+  <button onclick="setTimer(180)">3:00</button>
+  <button onclick="setTimer(300)">5:00</button>
+  <button class="go" id="tgo" onclick="toggleTimer()">開始</button>
+</div>
+
+<nav class="tabs">
+  <button id="tab-train" class="on" onclick="go('train')"><span class="ic">🏋️</span>トレ</button>
+  <button id="tab-partner" onclick="go('partner')" style="font-size:.55rem;white-space:nowrap"><span class="ic">👥</span>やまねん&amp;おぎれん</button>
+  <button id="tab-progress" onclick="go('progress')"><span class="ic">📈</span>進捗</button>
+  <button id="tab-guide" onclick="go('guide')"><span class="ic">📖</span>ガイド</button>
+  <button id="tab-settings" onclick="go('settings')"><span class="ic">⚙️</span>設定</button>
+</nav>
+
+<div id="smodal" onclick="if(event.target===this)closeSummary()">
+  <div class="box">
+    <img id="simg" alt="今日のトレーニングまとめ">
+    <div class="row">
+      <a class="btn" id="sdl" download>画像を保存</a>
+      <button class="btn ghost" onclick="closeSummary()">閉じる</button>
+    </div>
+    <p class="note">保存できない場合は画像を長押し→「写真に保存」でもOKです。</p>
+  </div>
+</div>
+
+<div id="dopa">
+  <div id="dopaflash"></div>
+  <div class="dparts" id="dparts"></div>
+  <div id="dopabox">
+    <div class="dreels"><div class="dreel" id="dr0"><span>7</span></div><div class="dreel" id="dr1"><span>7</span></div><div class="dreel" id="dr2"><span>7</span></div></div>
+    <div id="dopamsg">HIT!</div>
+    <div id="dopapt">+0 PT</div>
+    <div id="dopasub"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {"program":[{"name":"w1","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w2","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w3","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w4 (deload)","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":6,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":2,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":1,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":1,"rpe":7,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":2,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":2,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":1,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":""},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":2,"rpe":7,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":null,"rpe":null,"memo":""}]}]},{"name":"w5","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w6","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w7","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w8 (deload)","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":2,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":1,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":null,"rpe":null,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":null,"rpe":null,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":1,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":2,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":2,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w9","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":8.5,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"テンポスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":"4秒かけておろして2秒止めて4秒かけてあげる"},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":2,"set":5,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":8,"memo":""}]}]},{"name":"w10","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":9,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"テンポスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":"4秒かけておろして2秒止めて4秒かけてあげる"},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":2,"set":5,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":null,"memo":""}]}]},{"name":"w11","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":1,"rpe":8,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":9,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":1,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":1,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"","rep":5,"set":3,"rpe":7,"memo":""}]}]},{"name":"MAX TEST","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":3,"rpe":8,"memo":""}]},{"day":"d2","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":1,"rpe":5,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":""}]},{"day":"d3","exercises":[{"name":"MAX TEST","cat":"","rep":null,"set":null,"rpe":"7-8.5-10","memo":"各種目RPE7-8.5-10で様子を見ながら挑戦する"}]}]}],"rpeChart":{"10.0":[1.0,0.95,0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599],"9.5":[0.978,0.939,0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.6395,0.6125,0.5855],"9.0":[0.955,0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572],"8.5":[0.939,0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.6125,0.5855,0.5585],"8.0":[0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572,0.545],"7.5":[0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.613,0.5855,0.5585,0.5315],"7.0":[0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572,0.545,0.518],"6.5":[0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.613,0.586,0.5585,0.5315,0.5045],"6.0":[0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.574,0.545,0.518,0.491]}};
+const PROGRAM = DATA.program;
+const CHART = DATA.rpeChart;
+
+/* ---------- state ---------- */
+const KEY='squatmania_v1';
+let S = load();
+function load(){
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, candyImg:'list', candyFx:true, candySound:true };
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
+
+/* ========== Firebase sync ========== */
+const FBKEY='squatmania_fb1';
+let FB = (()=>{ try{ return JSON.parse(localStorage.getItem(FBKEY))||{config:null,name:''}; }catch(e){ return {config:null,name:''}; } })();
+function saveFB(){ localStorage.setItem(FBKEY, JSON.stringify(FB)); }
+let FBSTATE='off'; // off | connecting | on | err
+let FBERR='';
+let REMOTE={};     // {userKey:{name,oneRM,logs,updatedAt}}
+let fbdb=null;
+let pushTimer=null;
+function myKey(){ return (FB.name||'').trim().replace(/[.#$\[\]\/\s]/g,'_'); }
+
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+
+async function connectFB(){
+  if(!FB.config || !myKey()){ FBSTATE='off'; syncUI(); return; }
+  FBSTATE='connecting'; FBERR=''; syncUI();
+  try{
+    if(!window.firebase){
+      const v='10.12.2';
+      await loadScript(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);
+      await loadScript(`https://www.gstatic.com/firebasejs/${v}/firebase-auth-compat.js`);
+      await loadScript(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
+    }
+    if(!firebase.apps.length) firebase.initializeApp(FB.config);
+    try{ await firebase.auth().signInAnonymously(); }catch(e){ /* 匿名認証が無効ならテストモードルールで続行 */ }
+    fbdb=firebase.database();
+    fbdb.ref('users').on('value', snap=>{
+      REMOTE = snap.val()||{};
+      FBSTATE='on'; syncUI();
+      // 初回：この端末が空でクラウドに自分のデータがあれば復元
+      const mine=REMOTE[myKey()];
+      if(mine && Object.keys(S.logs).length===0 && mine.logs && Object.keys(mine.logs).length>0){
+        S.logs=mine.logs; S.oneRM=mine.oneRM||S.oneRM; S.picks=mine.picks||S.picks;
+        localStorage.setItem(KEY, JSON.stringify(S));
+        toast('クラウドから記録を復元しました');
+      }
+      if(tab==='partner') render();
+    }, err=>{ FBSTATE='err'; FBERR=err.message||'接続エラー'; syncUI(); });
+    schedulePush(0);
+  }catch(e){
+    FBSTATE='err'; FBERR=e.message||'初期化エラー'; syncUI();
+  }
+}
+function schedulePush(delay=800){
+  if(!fbdb || !myKey()) return;
+  clearTimeout(pushTimer);
+  pushTimer=setTimeout(()=>{
+    fbdb.ref('users/'+myKey()).set({
+      name:FB.name.trim(), oneRM:S.oneRM, logs:S.logs, picks:S.picks||{}, updatedAt:Date.now()
+    }).catch(e=>{ FBSTATE='err'; FBERR=e.message||'書込エラー'; syncUI(); });
+  }, delay);
+}
+function partner(){
+  const me=myKey();
+  let best=null;
+  Object.entries(REMOTE).forEach(([k,v])=>{
+    if(k===me||!v) return;
+    if(!best || (v.updatedAt||0)>(best.updatedAt||0)) best=v;
+  });
+  return best;
+}
+function syncUI(){
+  const el=document.getElementById('syncchip');
+  if(el){
+    el.className='sync '+(FBSTATE==='on'?'on':FBSTATE==='err'?'err':'off');
+    el.innerHTML='<span class="d"></span>'+(FBSTATE==='on'?'同期中':FBSTATE==='connecting'?'接続中…':FBSTATE==='err'?'エラー':'未接続');
+  }
+}
+const CANDY7=['#e8434a','#3d6fd8','#f78bc0','#7fd8b4','#7cc7ee','#a678d8','#f7973f'];
+const THEMES=['std','candy','dopa'];
+const THEME_LABEL={std:'🏋️ 通常', candy:'🍬 candy', dopa:'🎰 ドパガキ'};
+function applyTheme(){
+  document.body.classList.toggle('candy', S.theme==='candy');
+  document.body.classList.toggle('dopa', S.theme==='dopa');
+  const b=document.getElementById('themeBtn');
+  if(b){ const nx=THEMES[(THEMES.indexOf(S.theme)+1)%3]; b.textContent=THEME_LABEL[nx].split(' ')[0]; }
+  if(typeof dopaHUD==='function') dopaHUD();
+  const mt=document.getElementById('themeColorMeta');
+  if(mt) mt.setAttribute('content', S.theme==='dopa'?'#07030f':S.theme==='candy'?'#f45f9a':'#d92b2b');
+}
+function toggleTheme(){
+  S.theme = THEMES[(THEMES.indexOf(S.theme)+1)%3];
+  save(); applyTheme(); render();
+  toast(S.theme==='dopa' ? '🎰 ドパガキモード 始動' : S.theme==='candy' ? '🍬 candytuneモード！' : '🏋️ 通常モード');
+  if(S.theme==='dopa'){ dopaSound('start'); if(navigator.vibrate) navigator.vibrate([40,60,40,60,120]); }
+}
+let tab='train';
+let recMap={}; // logKey -> recommended kg (runtime)
+
+/* ---------- helpers ---------- */
+const MAIN = {'スクワット':'sq','ベンチプレス':'bp','デッドリフト':'dl'};
+const CATRM = {sq:'sq',bp:'bp',dl:'dl'};
+const CATNAME = {sq:'SQUAT系',bp:'BENCH系',dl:'DEADLIFT系',leg:'脚',pull:'背中(プル)',row:'ロウ',shoulder:'肩',arm:'腕'};
+function isBW(name){ return String(name).includes('アブローラー'); } // 自重種目：kg欄なし
+function effName(w,d,i){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const p=S.picks&&S.picks[logKey(w,d,i)];
+  return (p && (!ex.opts || ex.opts.includes(p))) ? p : ex.name;
+}
+function pct(rpe,reps){
+  if(rpe==null||!reps||reps==='amrap') return null;
+  let r = Number(rpe); if(r<6) return null; if(r>10) r=10;
+  const key = (Math.round(r*2)/2).toFixed(1);
+  const row = CHART[key]; if(!row) return null;
+  const i = Math.min(Math.max(1,Math.round(reps)),15)-1;
+  return row[i]||null;
+}
+function e1rm(kg,reps,rpe){
+  const p = pct(rpe,reps);
+  if(!p||!kg) return null;
+  return kg/p;
+}
+function round25(v){ return Math.round(v/2.5)*2.5; }
+function logKey(w,d,i){ return w+'|'+d+'|'+i; }
+function getLog(w,d,i,ex){
+  const k = logKey(w,d,i);
+  if(!S.logs[k]){
+    const n = (typeof ex.set==='number'&&ex.set>0)?ex.set:1;
+    S.logs[k]={date:null,sets:Array.from({length:n},()=>({kg:'',reps:'',rpe:'',done:false}))};
+  }
+  return S.logs[k];
+}
+function fmtKg(v){ return (Math.round(v*2)/2).toLocaleString(); }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1700); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+/* 同じ種目名（選択後の名称）の直近セッションのベスト実績を取得 */
+function lastRecordFor(name, exceptKey){
+  let bestE1=null, lastKg=null, bestDate='';
+  PROGRAM.forEach((wk,w)=>wk.days.forEach((day,d)=>day.exercises.forEach((ex,i)=>{
+    const k=logKey(w,d,i);
+    if(k===exceptKey) return;
+    if(effName(w,d,i)!==name) return;
+    const L=S.logs[k]; if(!L||!L.date) return;
+    let sessE1=null, sessKg=null;
+    L.sets.forEach(s=>{
+      if(!s.done) return;
+      const kg=Number(s.kg);
+      if(kg && (!sessKg||kg>sessKg)) sessKg=kg;
+      const e=e1rm(kg,Number(s.reps),Number(s.rpe));
+      if(e&&(!sessE1||e>sessE1)) sessE1=e;
+    });
+    if((sessE1||sessKg) && L.date>=bestDate){ bestDate=L.date; bestE1=sessE1; lastKg=sessKg; }
+  })));
+  return (bestE1||lastKg)?{e1:bestE1,kg:lastKg,date:bestDate}:null;
+}
+/* 推奨重量：前回実績E1RM優先 → 前回重量 → BIG3は設定1RM */
+function recommendKg(name, ex, exceptKey){
+  if(isBW(name)) return null;
+  if(!(ex.rpe>0) || !ex.rep || ex.rep==='amrap') return null;
+  const p=pct(ex.rpe,ex.rep); if(!p) return null;
+  const hist=lastRecordFor(name, exceptKey);
+  if(hist && hist.e1) return {kg:round25(hist.e1*p), basis:'前回実績E1RM '+fmtKg(hist.e1)+'kg × '+(p*100).toFixed(1)+'%', src:'hist'};
+  if(hist && hist.kg) return {kg:round25(hist.kg), basis:'前回の重量 '+fmtKg(hist.kg)+'kg（RPE未記録のため据え置き）', src:'lastkg'};
+  const isSameAsProgram = (name===ex.name);
+  if(isSameAsProgram && CATRM[ex.cat] && S.oneRM[CATRM[ex.cat]]){
+    const rm=S.oneRM[CATRM[ex.cat]];
+    const isMainLift = MAIN[ex.name]===ex.cat;
+    return {kg:round25(rm*p), basis:'1RM '+fmtKg(rm)+'kg × '+(p*100).toFixed(1)+'%'+(isMainLift?'':'（バリエーション目安）'), src:isMainLift?'rm':'rmvar'};
+  }
+  return null;
+}
+
+/* ---------- navigation ---------- */
+function go(t){
+  tab=t;
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+t).classList.add('on');
+  render();
+  window.scrollTo(0,0);
+}
+
+/* ---------- render ---------- */
+function dopaHudHTML(){
+  if(S.theme!=='dopa') return '';
+  return `<div id="dopahud"><span>🎰 <span id="hudpt">0</span> PT</span><i id="hudcombo"></i><u>777×${S.dopa777||0}</u></div>`;
+}
+function render(){
+  const v=document.getElementById('view');
+  const hud=dopaHudHTML()+(tab==='train'?candyCheer():'');
+  if(tab==='train') v.innerHTML=hud+(S.gym?renderGym():renderTrain());
+  else if(tab==='partner'){ v.innerHTML=hud+renderPartner(); syncUI(); drawPartnerCharts(); }
+  else if(tab==='progress'){ v.innerHTML=hud+renderProgress(); drawCharts(); }
+  else if(tab==='guide') v.innerHTML=hud+renderGuide();
+  else v.innerHTML=hud+renderSettings();
+  dopaHUD();
+}
+
+/* ----- train ----- */
+function dayDone(w,d){
+  const day = PROGRAM[w].days[d]; if(!day) return false;
+  return day.exercises.length>0 && day.exercises.every((ex,i)=>{
+    const L=S.logs[logKey(w,d,i)];
+    return L && L.sets.every(s=>s.done);
+  });
+}
+function weekProgress(w){
+  const days=PROGRAM[w].days;
+  return days.filter((_,d)=>dayDone(w,d)).length/days.length;
+}
+function renderTrain(){
+  recMap={};
+  const w=S.wk, d=Math.min(S.dy, PROGRAM[w].days.length-1);
+  const week=PROGRAM[w];
+  let h='';
+  h+='<div class="pills">'+PROGRAM.map((wk,i)=>{
+    const dl=wk.name.includes('deload');
+    const full=weekProgress(i)>=1;
+    return `<button class="pill${i===w?' on':''}${dl?' deload':''}" onclick="pickWeek(${i})">${esc(wk.name)}${full?'<span class="dot"></span>':''}</button>`;
+  }).join('')+'</div>';
+  h+='<div class="daypills">'+week.days.map((dd,i)=>{
+    const full=dayDone(w,i);
+    return `<button class="pill${i===d?' on':''}" onclick="pickDay(${i})">${esc(dd.day)}${full?'<span class="dot"></span>':''}</button>`;
+  }).join('')+'</div>';
+  const wp=weekProgress(w);
+  h+=`<div class="prog"><i style="width:${Math.round(wp*100)}%"></i></div>`;
+  h+='<div class="card warm" style="margin-top:12px"><h2>ウォームアップ</h2><ul>'+
+    week.warmup.map(x=>`<li><span style="color:var(--txt);font-size:.82rem;text-align:left">${esc(x.name)}　<b>${x.sets}×${x.reps}</b></span><span>${esc(x.memo)}</span></li>`).join('')+
+    '</ul></div>';
+  const day=week.days[d];
+  day.exercises.forEach((ex,i)=>{ h+=renderEx(w,d,i,ex); });
+  // summary image button (any done set today)
+  const anyDone = day.exercises.some((ex,i)=>{ const L=S.logs[logKey(w,d,i)]; return L&&L.sets.some(s=>s.done); });
+  h+=`<button class="btn" ${anyDone?'':'disabled style="opacity:.4"'} onclick="makeSummary(${w},${d})">📸 今日のまとめ画像を作成</button>`;
+  return h;
+}
+
+/* ========== ジムモード（1種目フォーカス） ========== */
+const REST_DEFAULT={sq:180,bp:180,dl:180,leg:120,pull:90,row:90,shoulder:90,arm:60,'':90};
+function restSec(w,d,i){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const nm=effName(w,d,i);
+  if(S.rest[nm]!=null) return S.rest[nm];
+  const isMain = MAIN[ex.name]===ex.cat && nm===ex.name;
+  if(isMain) return 180;
+  return REST_DEFAULT[ex.cat] ?? 90;
+}
+function setRest(w,d,i,sec){
+  const nm=effName(w,d,i);
+  S.rest[nm]=Math.max(15,Math.min(600,Number(sec)||90));
+  save(); render();
+}
+/* フォーカス位置：未完了の先頭（ウォームアップ→種目） */
+let gymIdx=null;       // {type:'warm'|'ex', n}
+function gymSteps(w,d){
+  const steps=[];
+  PROGRAM[w].warmup.forEach((x,n)=>steps.push({type:'warm',n}));
+  PROGRAM[w].days[d].exercises.forEach((ex,n)=>steps.push({type:'ex',n}));
+  return steps;
+}
+function gymDoneStep(w,d,st){
+  if(st.type==='warm') return !!(S.warmDone && S.warmDone[w+'|'+d+'|'+st.n]);
+  const L=S.logs[logKey(w,d,st.n)];
+  return !!(L && L.sets.length && L.sets.every(s=>s.done));
+}
+function gymAutoIdx(w,d){
+  const steps=gymSteps(w,d);
+  const i=steps.findIndex(st=>!gymDoneStep(w,d,st));
+  return i<0 ? steps.length-1 : i;
+}
+function gymCur(w,d){
+  const steps=gymSteps(w,d);
+  if(gymIdx==null || gymIdx>=steps.length) gymIdx=gymAutoIdx(w,d);
+  return Math.max(0,Math.min(steps.length-1,gymIdx));
+}
+function gymGo(delta){
+  const w=S.wk,d=Math.min(S.dy,PROGRAM[S.wk].days.length-1);
+  const steps=gymSteps(w,d);
+  gymIdx=Math.max(0,Math.min(steps.length-1, gymCur(w,d)+delta));
+  gymUndo=null;
+  render(); window.scrollTo(0,0);
+}
+function gymJump(n){ gymIdx=n; gymUndo=null; render(); window.scrollTo(0,0); }
+function warmToggle(w,d,n){
+  if(!S.warmDone) S.warmDone={};
+  const k=w+'|'+d+'|'+n;
+  S.warmDone[k]=!S.warmDone[k];
+  save();
+  if(S.warmDone[k]) gymAdvance(w,d);
+  else render();
+}
+let gymUndo=null, gymUndoTimer=null;
+function gymAdvance(w,d){
+  const steps=gymSteps(w,d);
+  const cur=gymCur(w,d);
+  if(cur>=steps.length-1){ render(); return; }
+  gymUndo=cur;
+  gymIdx=cur+1;
+  render(); window.scrollTo(0,0);
+  clearTimeout(gymUndoTimer);
+  gymUndoTimer=setTimeout(()=>{ gymUndo=null; if(S.gym) render(); }, 8000);
+}
+function gymBack(){ if(gymUndo!=null){ gymIdx=gymUndo; gymUndo=null; clearTimeout(gymUndoTimer); render(); } }
+function renderGym(){
+  recMap={};
+  const w=S.wk, d=Math.min(S.dy, PROGRAM[w].days.length-1);
+  const week=PROGRAM[w], day=week.days[d];
+  const steps=gymSteps(w,d);
+  const cur=gymCur(w,d);
+  const st=steps[cur];
+  const doneCount=steps.filter(x=>gymDoneStep(w,d,x)).length;
+
+  let h=`<div class="gymtop">
+    <button class="gnav" ${cur<=0?'disabled':''} onclick="gymGo(-1)">‹</button>
+    <div class="gymhead">
+      <div class="gday">${esc(week.name)} ${esc(day.day.toUpperCase())}</div>
+      <div class="gcount">${cur+1} / ${steps.length}　<span>完了 ${doneCount}</span></div>
+    </div>
+    <button class="gnav" ${cur>=steps.length-1?'disabled':''} onclick="gymGo(1)">›</button>
+  </div>
+  <div class="gdots">${steps.map((x,n)=>`<button class="gdot${n===cur?' on':''}${gymDoneStep(w,d,x)?' fin':''}${x.type==='warm'?' warm':''}" onclick="gymJump(${n})"></button>`).join('')}</div>`;
+
+  if(gymUndo!=null) h+=`<button class="gundo" onclick="gymBack()">↩ 前の種目に戻る</button>`;
+
+  if(st.type==='warm'){
+    const x=week.warmup[st.n];
+    const fin=gymDoneStep(w,d,st);
+    h+=`<div class="gcard warmcard${fin?' fin':''}">
+      <div class="gtag">ウォームアップ ${st.n+1}/${week.warmup.length}</div>
+      <div class="gname">${esc(x.name)}</div>
+      <div class="gscheme">${x.sets} × ${x.reps}</div>
+      ${x.memo?`<div class="memo">${esc(x.memo)}</div>`:''}
+      <button class="gbig${fin?' done':''}" onclick="warmToggle(${w},${d},${st.n})">${fin?'✓ 完了（タップで戻す）':'完了して次へ'}</button>
+    </div>`;
+    return h;
+  }
+
+  const i=st.n, ex=day.exercises[i];
+  const L=getLog(w,d,i,ex), k=logKey(w,d,i);
+  const nm=effName(w,d,i), bw=isBW(nm);
+  const rec=recommendKg(nm,ex,k);
+  if(rec) recMap[k]=rec.kg;
+  const rsec=restSec(w,d,i);
+  const nextUndone=L.sets.findIndex(s=>!s.done);
+
+  h+=`<div class="gcard">
+    <div class="gtag">${CATNAME[ex.cat]||(bw?'自重':'補助')}${ex.opts?' ・種目を選択できます':''}</div>`;
+  h+= ex.opts
+    ? `<select class="pick gpick" onchange="pickEx(${w},${d},${i},this.value)">`+ex.opts.map(o=>`<option value="${esc(o)}"${o===nm?' selected':''}>${esc(o)}</option>`).join('')+`</select>`
+    : `<div class="gname">${esc(nm)}</div>`;
+  h+=`<div class="gscheme">${ex.rep==='amrap'?'AMRAP':ex.rep??'—'} reps × ${ex.set||1} set${ex.rpe>0?`　<b>RPE ${ex.rpe}</b>`:''}</div>`;
+  if(ex.memo) h+=`<div class="memo">${esc(ex.memo)}</div>`;
+  if(rec) h+=`<div class="gtarget"><span>推奨重量</span><b>${rec.src==='rmvar'?'~':''}${fmtKg(rec.kg)}<small>kg</small></b><i>${esc(rec.basis)}</i></div>`;
+
+  h+=`<div class="gsets">`;
+  L.sets.forEach((s,si)=>{
+    const isNext = si===nextUndone;
+    const autoKg=(!bw && s.kg==='' && rec)?rec.kg:null;
+    h+=`<div class="gset${s.done?' done':''}${isNext?' next':''}">
+      <span class="gn">${si+1}</span>
+      ${bw?'':`<input type="number" inputmode="decimal" step="0.5" class="${autoKg!=null?'auto':''}" placeholder="kg" value="${autoKg!=null?autoKg:s.kg}" onchange="upSet(${w},${d},${i},${si},'kg',this.value)">`}
+      <input type="number" inputmode="numeric" placeholder="${ex.rep==='amrap'?'max':ex.rep??''}" value="${s.reps}" onchange="upSet(${w},${d},${i},${si},'reps',this.value)">
+      <input type="number" inputmode="decimal" step="0.5" placeholder="${ex.rpe>0?ex.rpe:''}" value="${s.rpe}" onchange="upSet(${w},${d},${i},${si},'rpe',this.value)">
+      <button class="gchk${s.done?' on':''}" onclick="gymTick(${w},${d},${i},${si})">${s.done?'✓':''}</button>
+    </div>`;
+  });
+  h+=`</div>`;
+
+  let e1best=null;
+  L.sets.forEach(s=>{ const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe)); if(e&&(!e1best||e>e1best)) e1best=e; });
+  if(e1best) h+=`<div class="e1line"><span>このセッションのE1RM</span><b>${fmtKg(e1best)} kg</b></div>`;
+
+  h+=`<div class="grest">
+      <span>レスト</span>
+      <button onclick="setRest(${w},${d},${i},${Math.max(15,rsec-30)})">−30</button>
+      <b>${Math.floor(rsec/60)}:${String(rsec%60).padStart(2,'0')}</b>
+      <button onclick="setRest(${w},${d},${i},${rsec+30})">+30</button>
+      <i>✓で自動スタート</i>
+    </div>`;
+  h+=`</div>`;
+
+  const allDone=L.sets.every(s=>s.done);
+  h+=`<button class="gbig ${allDone?'':'ghostbig'}" onclick="gymAdvance(${w},${d})">${cur>=steps.length-1?'最後の種目です':'次の種目へ →'}</button>`;
+  const anyDone = day.exercises.some((e2,n)=>{ const LL=S.logs[logKey(w,d,n)]; return LL&&LL.sets.some(s=>s.done); });
+  if(anyDone) h+=`<button class="btn ghost" onclick="makeSummary(${w},${d})">📸 今日のまとめ画像を作成</button>`;
+  h+=`<button class="btn ghost" onclick="setGym(false)">📋 一覧表示に戻す</button>`;
+  return h;
+}
+function gymTick(w,d,i,si){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const L=getLog(w,d,i,ex);
+  const wasDone=L.sets[si].done;
+  tickSet(w,d,i,si);
+  if(!wasDone && L.sets[si].done){
+    // レストタイマー自動スタート
+    setTimer(restSec(w,d,i));
+    startTimer();
+    if(L.sets.every(s=>s.done)){
+      const delay = S.theme==='dopa' ? 2200 : 500;
+      setTimeout(()=>{ if(S.gym) gymAdvance(w,d); }, delay);
+    }
+  }
+}
+function setGym(on){
+  S.gym=!!on; gymIdx=null; gymUndo=null; save(); render(); window.scrollTo(0,0);
+  toast(on?'🏋️ ジムモード ON':'📋 一覧表示に戻しました');
+}
+function renderEx(w,d,i,ex){
+  const L=getLog(w,d,i,ex);
+  const k=logKey(w,d,i);
+  const nm=effName(w,d,i);
+  const bw=isBW(nm);
+  const isBig = !!CATRM[ex.cat];
+  const allDone=L.sets.length>0&&L.sets.every(s=>s.done);
+  const repTxt = ex.rep==='amrap' ? 'AMRAP' : ex.rep;
+  const scheme = (ex.rep!=null?repTxt:'—')+(ex.set?` × ${ex.set}set`:'');
+  const rec = recommendKg(nm, ex, k);
+  if(rec) recMap[k]=rec.kg;
+  let target='';
+  if(rec){
+    target=`<div class="target"><span class="lbl">推奨重量｜${esc(rec.basis)}</span><span class="kg">${rec.src==='rmvar'?'~':''}${fmtKg(rec.kg)}<small> kg</small></span></div>`;
+  }else if(!bw && isBig && ex.rpe>0 && ex.rep && ex.rep!=='amrap'){
+    target=`<div class="target"><span class="lbl">設定タブで1RMを入力すると推奨重量を自動計算します</span></div>`;
+  }else if(!bw && ex.rpe>0 && ex.rep && ex.rep!=='amrap'){
+    target=`<div class="target"><span class="lbl">初回のみ自分でkgを入力してください。次回から前回実績をもとに自動計算します</span></div>`;
+  }
+  let e1best=null;
+  L.sets.forEach(s=>{ const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe)); if(e&&(!e1best||e>e1best)) e1best=e; });
+  const nameCell = ex.opts
+    ? `<select class="pick" onchange="pickEx(${w},${d},${i},this.value)">`+ex.opts.map(o=>`<option value="${esc(o)}"${o===nm?' selected':''}>${esc(o)}</option>`).join('')+`</select>`
+    : `<div class="exname">${esc(nm)}</div>`;
+  let h=`<div class="ex c${i%7}${isBig?' big3':''}${allDone?' done':''}">
+    <div class="exhead">
+      <div style="min-width:0;flex:1">${nameCell}<div class="excat">${CATNAME[ex.cat]||(bw?'自重':'補助')}${ex.opts?'　･種目を選択できます':''}</div></div>
+      <div class="rx"><div class="scheme">${scheme}</div>${ex.rpe>0?`<div class="rpe">RPE ${ex.rpe}</div>`:''}</div>
+    </div>`;
+  if(ex.memo) h+=`<div class="memo">${esc(ex.memo)}</div>`;
+  h+=target;
+  h+=`<div class="sethead${bw?' bw':''}"><span></span>${bw?'':'<span>kg</span>'}<span>rep</span><span>RPE</span><span>✓</span></div><div class="sets">`;
+  L.sets.forEach((s,si)=>{
+    const autoKg = (!bw && s.kg==='' && rec) ? rec.kg : null;
+    h+=`<div class="setrow${bw?' bw':''}">
+      <span class="n">${si+1}</span>`;
+    if(!bw){
+      h+=`<input type="number" inputmode="decimal" step="0.5" class="${autoKg!=null?'auto':''}" placeholder="kg" value="${autoKg!=null?autoKg:s.kg}" onchange="upSet(${w},${d},${i},${si},'kg',this.value)">`;
+    }
+    h+=`<input type="number" inputmode="numeric" placeholder="${ex.rep==='amrap'?'max':ex.rep??''}" value="${s.reps}" onchange="upSet(${w},${d},${i},${si},'reps',this.value)">
+      <input type="number" inputmode="decimal" step="0.5" placeholder="${ex.rpe>0?ex.rpe:''}" value="${s.rpe}" onchange="upSet(${w},${d},${i},${si},'rpe',this.value)">
+      <button class="chk${s.done?' on':''}" onclick="tickSet(${w},${d},${i},${si})">${s.done?'✓':''}</button>
+    </div>`;
+  });
+  h+='</div>';
+  if(e1best) h+=`<div class="e1line"><span>このセッションのE1RM</span><b>${fmtKg(e1best)} kg</b></div>`;
+  h+='</div>';
+  return h;
+}
+function pickWeek(i){ S.wk=i; S.dy=0; save(); render(); }
+function pickDay(i){ S.dy=i; save(); render(); }
+function upSet(w,d,i,si,f,v){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const L=getLog(w,d,i,ex);
+  L.sets[si][f]=v;
+  L.date=L.date||todayStr();
+  save(); render();
+}
+function pickEx(w,d,i,name){
+  S.picks[logKey(w,d,i)]=name;
+  save(); render();
+}
+function tickSet(w,d,i,si){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const L=getLog(w,d,i,ex);
+  const k=logKey(w,d,i);
+  const s=L.sets[si];
+  s.done=!s.done;
+  if(s.done){
+    if(!isBW(effName(w,d,i)) && s.kg==='' && recMap[k]!=null) s.kg=recMap[k];
+    if(s.reps===''&&ex.rep&&ex.rep!=='amrap') s.reps=ex.rep;
+    if(s.rpe===''&&ex.rpe>0) s.rpe=ex.rpe;
+    L.date=todayStr();
+    if(navigator.vibrate) navigator.vibrate(30);
+  }
+  save(); render();
+  if(s.done && S.theme==='dopa') dopaFire(w,d,i);
+  if(s.done && S.theme==='candy' && S.candyFx) candyPop(w,d,i);
+}
+
+/* ----- summary image ----- */
+function makeSummary(w,d){
+  const day=PROGRAM[w].days[d];
+  const wkName=PROGRAM[w].name;
+  // collect done exercises
+  const items=[];
+  let totalVol=0;
+  day.exercises.forEach((ex,i)=>{
+    const L=S.logs[logKey(w,d,i)]; if(!L) return;
+    const done=L.sets.filter(s=>s.done);
+    if(!done.length) return;
+    const nm=effName(w,d,i);
+    const bw=isBW(nm);
+    let vol=0, topKg=0, reps=0;
+    const parts=done.map(s=>{
+      const kg=(!bw && s.kg!=='')?Number(s.kg):null, rp=s.reps!==''?s.reps:'';
+      if(kg&&rp){ totalVol+=kg*Number(rp); vol+=kg*Number(rp); }
+      if(kg&&kg>topKg) topKg=kg;
+      if(rp) reps+=Number(rp);
+      if(bw||!kg) return `×${rp||'—'}`;
+      return `${fmtKg(kg)}×${rp||'—'}`;
+    });
+    items.push({name:nm, parts, rpe:ex.rpe, vol, topKg, reps, sets:done.length});
+  });
+  if(!items.length){ toast('完了したセットがありません'); return; }
+
+  const cv=document.createElement('canvas'); cv.width=1080; cv.height=(S.imgRatio==='1:1'?1080:1350);
+  const now=new Date();
+  const youbi=['日','月','火','水','木','金','土'][now.getDay()];
+  const dateStr=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  if(S.theme==='candy') (S.candyImg==='cheki'?drawSummaryCheki:drawSummaryCandy)(cv,items,totalVol,dateStr,youbi,wkName,day.day);
+  else if(S.theme==='dopa') drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,day.day);
+  else drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,day.day);
+  const url=cv.toDataURL('image/png');
+  document.getElementById('simg').src=url;
+  const a=document.getElementById('sdl');
+  a.href=url;
+  a.download=`workout_${dateStr.replace(/\./g,'')}_${day.day}.png`;
+  document.getElementById('smodal').classList.add('open');
+}
+function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
+  const W=cv.width,H=cv.height;
+  const g=cv.getContext('2d');
+  const FONT='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif';
+  const SAFE=100;              // グリッドで3:4に切り抜かれても切れない安全域
+  const L=SAFE, R=W-SAFE;
+
+  g.fillStyle='#ffffff'; g.fillRect(0,0,W,H);
+  const bandH=Math.round(H*0.155);
+  g.fillStyle='#d92b2b'; g.fillRect(0,0,W,bandH);
+  g.fillStyle='#ffffff';
+  g.font='800 60px '+FONT;
+  g.fillText(dateStr, L, bandH*0.46);
+  const dateW=g.measureText(dateStr).width;
+  g.font='800 42px '+FONT;
+  g.fillText(`（${youbi}）`, L+dateW+14, bandH*0.45);
+  g.font='800 38px '+FONT;
+  const wd=`${wkName}  ${dayName.toUpperCase()}`;
+  g.fillText(wd, R-g.measureText(wd).width, bandH*0.45);
+  g.font='700 29px '+FONT;
+  g.fillStyle='rgba(255,255,255,.85)';
+  g.fillText('WORKOUT LOG', L, bandH*0.75);
+  g.font='800 29px '+FONT;
+  const brand='SQUAT MANIA';
+  g.fillText(brand, R-g.measureText(brand).width, bandH*0.75);
+
+  const footH=Math.round(H*0.085);
+  const top=bandH+60, bottom=H-footH-40, avail=bottom-top;
+  const n=items.length;
+  const rowH=Math.min(140, avail/n);
+  const nameSize=Math.min(42, rowH*0.34);
+  const setSize=Math.min(34, rowH*0.28);
+
+  items.forEach((it,idx)=>{
+    const y=top+rowH*idx;
+    if(idx%2===0){ g.fillStyle='#faf7f5'; g.fillRect(L-34,y,(R+34)-(L-34),rowH); }
+    g.fillStyle='#d92b2b'; g.fillRect(L-34,y+rowH*0.18,8,rowH*0.64);
+    g.fillStyle='#211f1e';
+    g.font=`800 ${nameSize}px ${FONT}`;
+    let nm=it.name, nmW=g.measureText(nm).width;
+    const nameMax=(R-L)*0.72;
+    if(nmW>nameMax){ let fs=nameSize; while(fs>22 && g.measureText(nm).width>nameMax){ fs-=2; g.font=`800 ${fs}px ${FONT}`; } nmW=g.measureText(nm).width; }
+    g.fillText(nm, L, y+rowH*0.44);
+    if(it.rpe>0){
+      const chip=`RPE${it.rpe}`;
+      g.font=`800 ${Math.round(nameSize*0.55)}px ${FONT}`;
+      const cw=g.measureText(chip).width+26;
+      g.fillStyle='#fdeeee';
+      roundRect(g,L+nmW+18,y+rowH*0.44-nameSize*0.62,cw,nameSize*0.78,10); g.fill();
+      g.fillStyle='#b81f1f';
+      g.fillText(chip,L+nmW+31,y+rowH*0.44-nameSize*0.05);
+    }
+    g.fillStyle='#6d6761';
+    g.font=`700 ${setSize}px ${FONT}`;
+    let line=it.parts.join('  /  ');
+    const maxW=R-L;
+    if(g.measureText(line).width>maxW){
+      let fs=setSize;
+      while(fs>18 && g.measureText(line).width>maxW){ fs-=2; g.font=`700 ${fs}px ${FONT}`; }
+    }
+    g.fillText(line, L, y+rowH*0.82);
+  });
+
+  g.fillStyle='#211f1e'; g.fillRect(0,H-footH,W,footH);
+  g.fillStyle='#ffffff';
+  g.font='800 36px '+FONT;
+  g.fillText(`TOTAL VOLUME  ${Math.round(totalVol).toLocaleString()} kg`, L, H-footH*0.4);
+  g.font='700 25px '+FONT;
+  g.fillStyle='#ff6b6b';
+  const foot='SHUT UP AND SQUAT';
+  g.fillText(foot, R-g.measureText(foot).width, H-footH*0.4);
+}
+function drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,dayName){
+  const W=cv.width,H=cv.height;
+  const g=cv.getContext('2d');
+  const FONT='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif';
+  const SAFE=100, L=SAFE, R=W-SAFE, CARD=64;
+
+  // 背景：黒＋ネオングリッド
+  g.fillStyle='#07030f'; g.fillRect(0,0,W,H);
+  g.strokeStyle='rgba(255,45,149,.10)'; g.lineWidth=2;
+  for(let x=0;x<W;x+=54){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
+  for(let y=0;y<H;y+=54){ g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+
+  const neon=(fn,color,blur)=>{ g.save(); g.shadowColor=color; g.shadowBlur=blur||18; fn(); g.restore(); };
+
+  // ヘッダー：マゼンタ枠
+  const bandTop=44, bandH=Math.round(H*0.135);
+  g.fillStyle='#150a24'; roundRect(g,CARD,bandTop,W-CARD*2,bandH,24); g.fill();
+  neon(()=>{ g.strokeStyle='#ff2d95'; g.lineWidth=4; roundRect(g,CARD,bandTop,W-CARD*2,bandH,24); g.stroke(); },'#ff2d95',26);
+  g.fillStyle='#ffffff'; g.font='900 58px '+FONT;
+  neon(()=>g.fillText(dateStr, L, bandTop+bandH*0.46),'#ff2d95',20);
+  const dw=g.measureText(dateStr).width;
+  g.font='900 40px '+FONT;
+  g.fillStyle='#16f2e6';
+  neon(()=>g.fillText(`（${youbi}）`, L+dw+14, bandTop+bandH*0.45),'#16f2e6',18);
+  g.font='900 36px '+FONT; g.fillStyle='#ffcf3d';
+  const wd=`${wkName}  ${dayName.toUpperCase()}`;
+  neon(()=>g.fillText(wd, R-g.measureText(wd).width, bandTop+bandH*0.45),'#ffcf3d',16);
+  g.font='800 27px '+FONT; g.fillStyle='#9b7fc4';
+  g.fillText('WORKOUT LOG', L, bandTop+bandH*0.76);
+  const brand='SQUAT MANIA';
+  g.fillText(brand, R-g.measureText(brand).width, bandTop+bandH*0.76);
+
+  const footH=Math.round(H*0.085), footTop=H-footH-44;
+  const top=bandTop+bandH+52, bottom=footTop-28, avail=bottom-top;
+  const n=items.length;
+  const gap=Math.min(14, avail*0.03);
+  const rowH=Math.min(136,(avail-gap*(n-1))/n);
+  const nameSize=Math.min(40, rowH*0.33);
+  const setSize=Math.min(32, rowH*0.27);
+  const NEON=['#ff2d95','#16f2e6','#ffcf3d','#a55cff','#ff7847','#4dff9e','#4aa8ff'];
+  const txtX=L+56;
+
+  items.forEach((it,idx)=>{
+    const y=top+(rowH+gap)*idx;
+    const col=NEON[idx%NEON.length];
+    g.fillStyle='#120725'; roundRect(g,CARD,y,W-CARD*2,rowH,18); g.fill();
+    g.strokeStyle=col+'66'; g.lineWidth=2; roundRect(g,CARD,y,W-CARD*2,rowH,18); g.stroke();
+    // 左のネオンバー
+    neon(()=>{ g.fillStyle=col; roundRect(g,CARD+18,y+rowH*0.2,7,rowH*0.6,4); g.fill(); },col,16);
+    g.fillStyle='#f2e9ff'; g.font=`900 ${nameSize}px ${FONT}`;
+    let nm=it.name; const nameMax=(R-txtX)*0.72;
+    if(g.measureText(nm).width>nameMax){ let fs=nameSize; while(fs>22&&g.measureText(nm).width>nameMax){ fs-=2; g.font=`900 ${fs}px ${FONT}`; } }
+    const nw=g.measureText(nm).width;
+    neon(()=>g.fillText(nm, txtX, y+rowH*0.44), col, 10);
+    if(it.rpe>0){
+      const chip=`RPE${it.rpe}`;
+      g.font=`900 ${Math.round(nameSize*0.55)}px ${FONT}`;
+      const cw=g.measureText(chip).width+26;
+      g.fillStyle=col+'2e'; roundRect(g,txtX+nw+16,y+rowH*0.44-nameSize*0.6,cw,nameSize*0.76,10); g.fill();
+      g.fillStyle=col; g.fillText(chip,txtX+nw+29,y+rowH*0.44-nameSize*0.06);
+    }
+    g.fillStyle='#9b7fc4'; g.font=`800 ${setSize}px ${FONT}`;
+    let line=it.parts.join('  /  ');
+    const maxW=R-txtX;
+    if(g.measureText(line).width>maxW){ let fs=setSize; while(fs>18&&g.measureText(line).width>maxW){ fs-=2; g.font=`800 ${fs}px ${FONT}`; } }
+    g.fillText(line, txtX, y+rowH*0.82);
+  });
+
+  // フッター：ネオンバー＋ドパPT
+  g.fillStyle='#150a24'; roundRect(g,CARD,footTop,W-CARD*2,footH,20); g.fill();
+  neon(()=>{ g.strokeStyle='#16f2e6'; g.lineWidth=4; roundRect(g,CARD,footTop,W-CARD*2,footH,20); g.stroke(); },'#16f2e6',22);
+  g.fillStyle='#ffffff'; g.font='900 34px '+FONT;
+  neon(()=>g.fillText(`TOTAL VOLUME  ${Math.round(totalVol).toLocaleString()} kg`, L, footTop+footH*0.44),'#16f2e6',14);
+  g.font='900 26px '+FONT; g.fillStyle='#ffcf3d';
+  const pts=`🎰 ${(S.dopaPT||0).toLocaleString()} PT`;
+  neon(()=>g.fillText(pts, R-g.measureText(pts).width, footTop+footH*0.44),'#ffcf3d',14);
+  g.font='800 23px '+FONT; g.fillStyle='#ff2d95';
+  const foot='SHUT UP AND SQUAT';
+  g.fillText(foot, L, footTop+footH*0.8);
+  g.fillStyle='#9b7fc4';
+  const cmb=`MAX ${S.dopaMaxCombo||0} COMBO ・ 777×${S.dopa777||0}`;
+  g.fillText(cmb, R-g.measureText(cmb).width, footTop+footH*0.8);
+}
+function candyGrad(g,x0,x1,y){
+  const gr=g.createLinearGradient(x0,y,x1,y);
+  CANDY7.forEach((c,i)=>gr.addColorStop(i/(CANDY7.length-1),c));
+  return gr;
+}
+function drawCandyShape(g,x,y,r,color){
+  // 包み紙キャンディ：丸＋左右のひらひら
+  g.fillStyle=color;
+  g.beginPath(); g.moveTo(x-r-2,y); g.lineTo(x-r*1.9,y-r*0.85); g.lineTo(x-r*1.75,y); g.lineTo(x-r*1.9,y+r*0.85); g.closePath(); g.fill();
+  g.beginPath(); g.moveTo(x+r+2,y); g.lineTo(x+r*1.9,y-r*0.85); g.lineTo(x+r*1.75,y); g.lineTo(x+r*1.9,y+r*0.85); g.closePath(); g.fill();
+  g.beginPath(); g.arc(x,y,r,0,7); g.fill();
+  g.fillStyle='rgba(255,255,255,.55)';
+  g.beginPath(); g.arc(x-r*0.35,y-r*0.35,r*0.3,0,7); g.fill();
+}
+/* ===== 重量のかわいい換算 ===== */
+const CUTE_UNITS=[
+  {e:'🍬',n:'キャンディ',u:'個',w:0.005},
+  {e:'🍩',n:'ドーナツ',u:'個',w:0.06},
+  {e:'🍰',n:'ショートケーキ',u:'切れ',w:0.13},
+  {e:'🧸',n:'テディベア',u:'体',w:0.6},
+  {e:'🎂',n:'ホールケーキ',u:'台',w:1.2},
+  {e:'🐰',n:'うさぎ',u:'羽',w:1.8},
+  {e:'🐱',n:'ねこ',u:'匹',w:4.2},
+  {e:'🐧',n:'ペンギン',u:'羽',w:12},
+  {e:'🐑',n:'ひつじ',u:'頭',w:60},
+  {e:'🐼',n:'パンダ',u:'頭',w:110},
+  {e:'🎹',n:'グランドピアノ',u:'台',w:320},
+  {e:'🐘',n:'ぞう',u:'頭',w:4000}
+];
+function cuteCount(kg,unit){
+  const c=kg/unit.w;
+  const v=c>=100?Math.round(c):Math.round(c*10)/10;
+  return v.toLocaleString();
+}
+function cuteText(kg,unit){ return `${unit.e} ${unit.n} ${cuteCount(kg,unit)}${unit.u}`; }
+/* 数が読みやすい単位を選ぶ（2〜200を優先、大きいものから） */
+function pickCute(kg){
+  for(let i=CUTE_UNITS.length-1;i>=0;i--){
+    const c=kg/CUTE_UNITS[i].w;
+    if(c>=2 && c<=200) return CUTE_UNITS[i];
+  }
+  for(let i=CUTE_UNITS.length-1;i>=0;i--){
+    if(kg/CUTE_UNITS[i].w>=1) return CUTE_UNITS[i];
+  }
+  return CUTE_UNITS[0];
+}
+function cuteLines(kg){
+  const candy=CUTE_UNITS[0];
+  const pick=pickCute(kg);
+  const out=[cuteText(kg,candy)];
+  if(pick!==candy) out.push(cuteText(kg,pick));
+  return out;
+}
+function drawHeart(g,x,y,s,color,rot){
+  g.save(); g.translate(x,y); if(rot) g.rotate(rot); g.scale(s,s);
+  g.fillStyle=color; g.beginPath();
+  g.moveTo(0,3); g.bezierCurveTo(-5,-3,-10,1,-10,-4);
+  g.bezierCurveTo(-10,-9,-5,-11,0,-6);
+  g.bezierCurveTo(5,-11,10,-9,10,-4);
+  g.bezierCurveTo(10,1,5,-3,0,3); g.closePath(); g.fill(); g.restore();
+}
+function drawRibbon(g,x,y,s,color,rot){
+  g.save(); g.translate(x,y); if(rot) g.rotate(rot); g.scale(s,s);
+  g.fillStyle=color;
+  g.beginPath(); g.moveTo(0,0); g.lineTo(-12,-7); g.lineTo(-12,7); g.closePath(); g.fill();
+  g.beginPath(); g.moveTo(0,0); g.lineTo(12,-7); g.lineTo(12,7); g.closePath(); g.fill();
+  g.beginPath(); g.arc(0,0,3.6,0,7); g.fill();
+  g.restore();
+}
+function drawSummaryCheki(cv,items,totalVol,dateStr,youbi,wkName,dayName){
+  const W=cv.width,H=cv.height;
+  const g=cv.getContext('2d');
+  const FONT='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif';
+  const SAFE=100;
+
+  // 背景：パステル＋水玉
+  const bgGrad=g.createLinearGradient(0,0,W,H);
+  bgGrad.addColorStop(0,'#fff2f7'); bgGrad.addColorStop(1,'#f4f0ff');
+  g.fillStyle=bgGrad; g.fillRect(0,0,W,H);
+  g.fillStyle='#ffe0ee';
+  for(let y=0;y<H+40;y+=66){ for(let x=((y/66)%2?33:0);x<W+40;x+=66){ g.beginPath(); g.arc(x,y,7,0,7); g.fill(); } }
+
+  // チェキ枠（白フチ）
+  const fx=SAFE-16, fy=64, fw=W-(SAFE-16)*2, fh=H-64-70;
+  g.save(); g.shadowColor='rgba(180,120,150,.28)'; g.shadowBlur=26; g.shadowOffsetY=8;
+  g.fillStyle='#ffffff'; roundRect(g,fx,fy,fw,fh,20); g.fill(); g.restore();
+
+  // 写真エリア
+  const pad=26, capH=176;
+  const px=fx+pad, py=fy+pad, pw=fw-pad*2, ph=fh-pad*2-capH;
+  const pg2=g.createLinearGradient(px,py,px,py+ph);
+  pg2.addColorStop(0,'#ffeaf3'); pg2.addColorStop(1,'#f6ecff');
+  g.fillStyle=pg2; roundRect(g,px,py,pw,ph,12); g.fill();
+
+  const L=px+30, R=px+pw-30;
+
+  // ヘッダー
+  g.fillStyle='#d3457f'; g.font='900 40px '+FONT;
+  g.fillText(`${wkName}  ${dayName.toUpperCase()}`, L, py+62);
+  g.font='800 26px '+FONT; g.fillStyle='#b07fa8';
+  const hd='WORKOUT DIARY';
+  g.fillText(hd, R-g.measureText(hd).width, py+58);
+  // 区切りリボン線
+  g.strokeStyle='#f9c3da'; g.lineWidth=3;
+  g.beginPath(); g.moveTo(L,py+84); g.lineTo(R,py+84); g.stroke();
+  drawRibbon(g,(L+R)/2,py+84,1.5,'#f45f9a',0);
+
+  // MVP種目（総ボリューム最大／なければ最初）
+  let mvp=items[0];
+  items.forEach(it=>{
+    const a=(it.vol||0), b=(mvp.vol||0);
+    if(a>b || (a===b && (it.reps||0)>(mvp.reps||0))) mvp=it;
+  });
+
+  // 種目リスト
+  const listTop=py+112, listBottom=py+ph-186;
+  const n=items.length;
+  const rowH=Math.min(134,(listBottom-listTop)/n);
+  const nameSize=Math.min(36, rowH*0.32);
+  const setSize=Math.min(28, rowH*0.25);
+  const HEARTS=['#f45f9a','#7fd8b4','#a678d8','#7cc7ee','#f7973f','#e8434a','#f78bc0'];
+  items.forEach((it,idx)=>{
+    const y=listTop+rowH*idx;
+    const col=HEARTS[idx%HEARTS.length];
+    drawHeart(g,L+12,y+rowH*0.42,1.5,col,0);
+    g.fillStyle='#5b3a4d'; g.font=`900 ${nameSize}px ${FONT}`;
+    let nm=it.name; const nameMax=(R-L-60)*0.72;
+    if(g.measureText(nm).width>nameMax){ let fs=nameSize; while(fs>20&&g.measureText(nm).width>nameMax){ fs-=2; g.font=`900 ${fs}px ${FONT}`; } }
+    g.fillText(nm, L+38, y+rowH*0.46);
+    g.fillStyle='#a3819a'; g.font=`800 ${setSize}px ${FONT}`;
+    let line=it.parts.join('  /  ');
+    const maxW=R-(L+38);
+    if(g.measureText(line).width>maxW){ let fs=setSize; while(fs>16&&g.measureText(line).width>maxW){ fs-=2; g.font=`800 ${fs}px ${FONT}`; } }
+    g.fillText(line, L+38, y+rowH*0.84);
+  });
+
+  // 本日のMVP
+  const my=py+ph-166;
+  g.fillStyle='#ffffff'; roundRect(g,L,my,R-L,132,20); g.fill();
+  g.strokeStyle='#f9c3da'; g.lineWidth=3; roundRect(g,L,my,R-L,132,20); g.stroke();
+  g.fillStyle='#f45f9a'; g.font='900 24px '+FONT;
+  g.fillText('★ 本日のMVP種目', L+26, my+40);
+  g.fillStyle='#5b3a4d'; g.font='900 40px '+FONT;
+  let mn=mvp.name; const mMax=R-L-52;
+  if(g.measureText(mn).width>mMax){ let fs=40; while(fs>24&&g.measureText(mn).width>mMax){ fs-=2; g.font=`900 ${fs}px ${FONT}`; } }
+  g.fillText(mn, L+26, my+86);
+  g.fillStyle='#a3819a'; g.font='800 23px '+FONT;
+  const detail = mvp.vol>0 ? `${mvp.sets}セット・${Math.round(mvp.vol).toLocaleString()}kg` : `${mvp.sets}セット・${mvp.reps}回`;
+  g.fillText(detail, L+26, my+117);
+  if(mvp.vol>0){
+    const dw2=g.measureText(detail).width;
+    g.fillStyle='#e0699f'; g.font='800 22px '+FONT;
+    g.fillText('= '+cuteText(mvp.vol,pickCute(mvp.vol)), L+26+dw2+16, my+117);
+  }
+  drawHeart(g,R-46,my+66,2.6,'#ffd1e4',0);
+  drawHeart(g,R-46,my+66,1.7,'#f45f9a',0);
+
+  // 手書き風キャプション
+  const cy=fy+fh-capH;
+  g.fillStyle='#5b3a4d'; g.font='italic 900 52px '+FONT;
+  g.fillText(dateStr, fx+pad+6, cy+66);
+  const dw=g.measureText(dateStr).width;
+  g.font='italic 900 36px '+FONT; g.fillStyle='#f45f9a';
+  g.fillText(`(${youbi})`, fx+pad+16+dw, cy+64);
+  g.font='800 27px '+FONT; g.fillStyle='#a3819a';
+  g.fillText(`TOTAL ${Math.round(totalVol).toLocaleString()} kg`, fx+pad+6, cy+104);
+  g.font='900 27px '+FONT; g.fillStyle='#f45f9a';
+  const sig='SQUAT MANIA ♡';
+  g.fillText(sig, fx+fw-pad-6-g.measureText(sig).width, cy+104);
+  // かわいい換算
+  const cl=cuteLines(totalVol);
+  g.font='800 24px '+FONT;
+  g.fillStyle='#d3457f';
+  let cxx=fx+pad+6;
+  cl.forEach((t,idx)=>{
+    if(idx>0){ g.fillStyle='#c9a7bd'; g.fillText('・',cxx,cy+142); cxx+=g.measureText('・').width+2; g.fillStyle='#d3457f'; }
+    g.fillText(t,cxx,cy+142); cxx+=g.measureText(t).width+6;
+  });
+  drawRibbon(g,fx+fw-pad-52,cy+52,2.1,'#f9c3da',-0.2);
+
+  // 枠の外側にシール
+  drawHeart(g,fx+26,fy+16,2.2,'#f45f9a',-0.3);
+  drawHeart(g,fx+fw-30,fy+fh-18,1.9,'#a678d8',0.35);
+  drawRibbon(g,fx+fw-26,fy+24,2.0,'#7cc7ee',0.4);
+  drawHeart(g,fx-6,fy+fh*0.55,1.6,'#7fd8b4',0.2);
+}
+function drawSummaryCandy(cv,items,totalVol,dateStr,youbi,wkName,dayName){
+  const W=cv.width,H=cv.height;
+  const g=cv.getContext('2d');
+  const FONT='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif';
+  const SAFE=100, L=SAFE, R=W-SAFE;
+  const CARD=64;               // カード外枠（切り抜かれても違和感が出ない位置）
+
+  g.fillStyle='#fff6f9'; g.fillRect(0,0,W,H);
+  g.fillStyle='#ffe3ee';
+  for(let y=0;y<H+40;y+=72){
+    for(let x=((y/72)%2?36:0);x<W+40;x+=72){
+      g.beginPath(); g.arc(x,y,10,0,7); g.fill();
+    }
+  }
+
+  const bandTop=44, bandH=Math.round(H*0.135);
+  g.fillStyle='#f45f9a';
+  roundRect(g,CARD,bandTop,W-CARD*2,bandH,34); g.fill();
+  g.fillStyle='#ffffff';
+  g.font='800 58px '+FONT;
+  g.fillText(dateStr, L, bandTop+bandH*0.46);
+  const dateW=g.measureText(dateStr).width;
+  g.font='800 40px '+FONT;
+  g.fillText(`（${youbi}）`, L+dateW+14, bandTop+bandH*0.45);
+  g.font='800 36px '+FONT;
+  const wd=`${wkName}  ${dayName.toUpperCase()}`;
+  g.fillText(wd, R-g.measureText(wd).width, bandTop+bandH*0.45);
+  g.font='700 27px '+FONT;
+  g.fillStyle='rgba(255,255,255,.9)';
+  g.fillText('WORKOUT LOG ♥', L, bandTop+bandH*0.76);
+  g.font='800 27px '+FONT;
+  const brand='SQUAT MANIA';
+  g.fillText(brand, R-g.measureText(brand).width, bandTop+bandH*0.76);
+  g.fillStyle=candyGrad(g,CARD,W-CARD,0);
+  roundRect(g,CARD,bandTop+bandH+14,W-CARD*2,14,7); g.fill();
+
+  const footH=Math.round(H*0.105), footTop=H-footH-44;
+  const top=bandTop+bandH+58, bottom=footTop-30, avail=bottom-top;
+  const n=items.length;
+  const gap=Math.min(18, avail*0.035);
+  const rowH=Math.min(140,(avail-gap*(n-1))/n);
+  const nameSize=Math.min(40, rowH*0.32);
+  const setSize=Math.min(32, rowH*0.26);
+  const icoX=L+8, txtX=L+66;
+
+  items.forEach((it,idx)=>{
+    const y=top+(rowH+gap)*idx;
+    const col=CANDY7[idx%7];
+    g.fillStyle='#ffffff';
+    roundRect(g,CARD,y,W-CARD*2,rowH,26); g.fill();
+    g.strokeStyle='#ffd9e6'; g.lineWidth=3;
+    roundRect(g,CARD,y,W-CARD*2,rowH,26); g.stroke();
+    drawCandyShape(g,icoX,y+rowH*0.5,Math.min(26,rowH*0.19),col);
+    g.fillStyle='#4a3540';
+    g.font=`800 ${nameSize}px ${FONT}`;
+    let nm=it.name;
+    const nameMax=(R-txtX)*0.74;
+    if(g.measureText(nm).width>nameMax){ let fs=nameSize; while(fs>22 && g.measureText(nm).width>nameMax){ fs-=2; g.font=`800 ${fs}px ${FONT}`; } }
+    const nw=g.measureText(nm).width;
+    g.fillText(nm, txtX, y+rowH*0.42);
+    if(it.rpe>0){
+      const chip=`RPE${it.rpe}`;
+      g.font=`800 ${Math.round(nameSize*0.55)}px ${FONT}`;
+      const cw=g.measureText(chip).width+26;
+      g.fillStyle=col+'22';
+      roundRect(g,txtX+nw+16,y+rowH*0.42-nameSize*0.6,cw,nameSize*0.76,12); g.fill();
+      g.fillStyle=col;
+      g.fillText(chip,txtX+nw+29,y+rowH*0.42-nameSize*0.05);
+    }
+    g.fillStyle='#9a7386';
+    g.font=`700 ${setSize}px ${FONT}`;
+    let line=it.parts.join('  /  ');
+    const maxW=R-txtX;
+    if(g.measureText(line).width>maxW){
+      let fs=setSize;
+      while(fs>18 && g.measureText(line).width>maxW){ fs-=2; g.font=`700 ${fs}px ${FONT}`; }
+    }
+    g.fillText(line, txtX, y+rowH*0.8);
+  });
+
+  g.fillStyle=candyGrad(g,CARD,W-CARD,0);
+  roundRect(g,CARD,footTop,W-CARD*2,footH,30); g.fill();
+  g.fillStyle='#ffffff';
+  g.font='800 34px '+FONT;
+  g.fillText(`TOTAL VOLUME  ${Math.round(totalVol).toLocaleString()} kg`, L, footTop+footH*0.42);
+  g.font='800 25px '+FONT;
+  const foot='SHUT UP AND SQUAT ♥';
+  g.fillText(foot, R-g.measureText(foot).width, footTop+footH*0.42);
+  // かわいい換算
+  g.font='800 25px '+FONT;
+  const cl=cuteLines(totalVol).join('　・　');
+  let fs2=25;
+  while(fs2>17 && g.measureText(cl).width>(R-L)){ fs2-=1; g.font=`800 ${fs2}px ${FONT}`; }
+  g.fillStyle='rgba(255,255,255,.95)';
+  g.fillText(cl, L, footTop+footH*0.78);
+}
+function roundRect(g,x,y,w,h,r){
+  g.beginPath();
+  g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r);
+  g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath();
+}
+function closeSummary(){ document.getElementById('smodal').classList.remove('open'); }
+
+/* ----- partner ----- */
+function sessionsOf(logs,picks){
+  // date -> [{week,day,items:[{name,parts,rpe}]}]
+  const byDate={};
+  PROGRAM.forEach((wk,w)=>wk.days.forEach((day,d)=>{
+    const items=[];
+    day.exercises.forEach((ex,i)=>{
+      const L=logs[logKey(w,d,i)]; if(!L||!L.date||!L.sets) return;
+      const done=L.sets.filter(s=>s.done);
+      if(!done.length) return;
+      const nm=(picks&&picks[logKey(w,d,i)]&&(!ex.opts||ex.opts.includes(picks[logKey(w,d,i)])))?picks[logKey(w,d,i)]:ex.name;
+      const bw=isBW(nm);
+      const parts=done.map(s=>{
+        const kg=s.kg!==''&&s.kg!=null?Number(s.kg):null, rp=(s.reps!==''&&s.reps!=null)?s.reps:'—';
+        return (bw||!kg)?`×${rp}`:`${fmtKg(kg)}×${rp}`;
+      });
+      items.push({name:nm,parts,rpe:ex.rpe,date:L.date});
+    });
+    if(items.length){
+      const dt=items[0].date;
+      (byDate[dt]=byDate[dt]||[]).push({week:wk.name,day:day.day,items});
+    }
+  }));
+  return byDate;
+}
+function renderPartner(){
+  let h=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">ふたりの同期</h2><span id="syncchip" class="sync off"><span class="d"></span>未接続</span></div>`;
+  if(!FB.config||!myKey()){
+    h+=`<p class="note" style="margin-top:10px">まだ同期設定がありません。<b>設定タブ →「ふたりで共有（Firebase同期）」</b>から初回セットアップをしてください。二人とも同じ設定を貼り付ければ、お互いの記録がリアルタイムで見られるようになります。</p></div>`;
+    return h;
+  }
+  h+=`<p class="note" style="margin-top:8px">あなた：<b>${esc(FB.name)}</b>${FBSTATE==='err'?`<br><span style="color:var(--reddeep)">エラー: ${esc(FBERR)}</span>`:''}</p></div>`;
+
+  const pt=partner();
+  if(!pt){
+    h+=`<div class="card"><div class="empty">相手のデータがまだありません。<br>相手側も同じ設定を貼って名前を登録すると、ここに表示されます。</div></div>`;
+    return h;
+  }
+  const pname=esc(pt.name||'相方');
+  const plogs=pt.logs||{};
+  const upd=pt.updatedAt?new Date(pt.updatedAt):null;
+  const updStr=upd?`${upd.getMonth()+1}/${upd.getDate()} ${String(upd.getHours()).padStart(2,'0')}:${String(upd.getMinutes()).padStart(2,'0')}`:'—';
+
+  // 相手の最新トレーニング
+  const byDate=sessionsOf(plogs, pt.picks||{});
+  const dates=Object.keys(byDate).sort().reverse();
+  h+=`<div class="card"><h2>${pname} の最近のトレーニング <span style="float:right;font-weight:400">更新 ${updStr}</span></h2>`;
+  if(!dates.length){ h+=`<div class="empty">まだ記録がありません</div>`; }
+  else{
+    dates.slice(0,3).forEach(dt=>{
+      byDate[dt].forEach(se=>{
+        h+=`<div class="psess"><div class="pt">${dt}　${esc(se.week)} ${esc(se.day)}</div><div class="pl">`+
+          se.items.map(it=>`<b>${esc(it.name)}</b>　${it.parts.join(' / ')}`).join('<br>')+
+          `</div></div>`;
+      });
+    });
+  }
+  h+='</div>';
+
+  // ベストE1RM比較
+  const meB={sq:bestE1('sq'),bp:bestE1('bp'),dl:bestE1('dl')};
+  const ptB={sq:bestE1From(plogs,'sq'),bp:bestE1From(plogs,'bp'),dl:bestE1From(plogs,'dl')};
+  h+=`<div class="card"><h2>ベストE1RM 対決</h2>
+    <div class="vsrow"><span class="me">${esc(FB.name)}</span><span class="lift"></span><span class="yo">${pname}</span></div>`+
+    ['sq','bp','dl'].map(k=>`<div class="vsrow"><span class="me">${meB[k]?fmtKg(meB[k]):'—'}</span><span class="lift">${k.toUpperCase()}</span><span class="yo">${ptB[k]?fmtKg(ptB[k]):'—'}</span></div>`).join('')+
+    `</div>`;
+
+  // グラフ比較
+  h+=`<div class="card"><h2>E1RM 推移くらべ（実線=あなた / 破線=${pname}）</h2><canvas id="pc1" width="640" height="360"></canvas>
+    <div class="legend"><span><i style="background:#d92b2b"></i>SQ</span><span><i style="background:#2f6fd6"></i>BP</span><span><i style="background:#1fa06a"></i>DL</span></div><div class="note">横軸はプログラムの週。同じ週どうしで進み具合をくらべられます。</div></div>`;
+  h+=`<div class="card"><h2>週別ボリュームくらべ</h2><canvas id="pc2" width="640" height="300"></canvas>
+    <div class="legend"><span><i style="background:var(--red)"></i>あなた</span><span><i style="background:#2f6fd6"></i>${pname}</span></div></div>`;
+  return h;
+}
+function drawPartnerCharts(){
+  const pt=partner(); if(!pt) return;
+  const plogs=pt.logs||{};
+  const me=collectE1RM(), yo=collectE1RMFrom(plogs);
+  const dates=weekLabels();
+  const c1=document.getElementById('pc1');
+  if(c1) drawLine(c1,dates,[
+    {color:'#d92b2b',pts:me.sq},
+    {color:'#2f6fd6',pts:me.bp},
+    {color:'#1fa06a',pts:me.dl},
+    {color:'#d92b2b',dash:true,pts:yo.sq},
+    {color:'#2f6fd6',dash:true,pts:yo.bp},
+    {color:'#1fa06a',dash:true,pts:yo.dl}
+  ]);
+  const c2=document.getElementById('pc2');
+  if(c2) drawBarsVS(c2,weekLabels(),collectVolume(),collectVolumeFrom(plogs));
+}
+function drawBarsVS(cv,labels,a1,a2){
+  const g=cv.getContext('2d'); g.clearRect(0,0,cv.width,cv.height);
+  const C=chartColors();
+  g.font='18px sans-serif';
+  const mx=Math.max(...a1,...a2,1);
+  const L=60,R=10,T=12,B=44,W=cv.width-L-R,H=cv.height-T-B;
+  for(let i=0;i<=3;i++){
+    const y=T+H*i/3, v=mx*(1-i/3);
+    g.strokeStyle=C.grid; g.beginPath(); g.moveTo(L,y); g.lineTo(L+W,y); g.stroke();
+    g.fillStyle=C.sub; g.fillText((v/1000).toFixed(1)+'t',6,y+6);
+  }
+  const bw=W/labels.length;
+  const myColor=getComputedStyle(document.body).getPropertyValue('--red').trim()||'#d92b2b';
+  labels.forEach((lb,i)=>{
+    const h1=H*a1[i]/mx, h2=H*a2[i]/mx;
+    if(a1[i]>0){ g.fillStyle=myColor; g.fillRect(L+bw*i+bw*0.12,T+H-h1,bw*0.34,h1); }
+    if(a2[i]>0){ g.fillStyle='#2f6fd6'; g.fillRect(L+bw*i+bw*0.52,T+H-h2,bw*0.34,h2); }
+    g.fillStyle=C.sub;
+    g.save(); g.translate(L+bw*i+bw*0.5,cv.height-6); g.rotate(-0.5); g.fillText(lb,-18,0); g.restore();
+  });
+}
+
+/* ----- progress ----- */
+/* 週ごとのベストE1RM（配列 index = 週）を返す */
+function collectE1RMFrom(logs){
+  const n=PROGRAM.length;
+  const out={sq:new Array(n).fill(null),bp:new Array(n).fill(null),dl:new Array(n).fill(null)};
+  PROGRAM.forEach((wk,w)=>wk.days.forEach((day,d)=>day.exercises.forEach((ex,i)=>{
+    const lift=MAIN[ex.name]; if(!lift) return;
+    const L=logs[logKey(w,d,i)]; if(!L||!L.sets) return;
+    L.sets.forEach(s=>{
+      if(!s.done) return;
+      const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe));
+      if(e && (out[lift][w]==null || e>out[lift][w])) out[lift][w]=e;
+    });
+  })));
+  return out;
+}
+function weekLabels(){
+  return PROGRAM.map(w=>w.name.replace(' (deload)','*').replace('MAX TEST','MAX'));
+}
+function collectE1RM(){ return collectE1RMFrom(S.logs); }
+function collectVolumeFrom(logs){
+  return PROGRAM.map((wk,w)=>{
+    let t=0;
+    wk.days.forEach((day,d)=>day.exercises.forEach((ex,i)=>{
+      const L=logs[logKey(w,d,i)]; if(!L||!L.sets) return;
+      L.sets.forEach(s=>{ if(s.done&&s.kg&&s.reps) t+=Number(s.kg)*Number(s.reps); });
+    }));
+    return t;
+  });
+}
+function collectVolume(){ return collectVolumeFrom(S.logs); }
+function bestE1From(logs,lift){
+  const m=collectE1RMFrom(logs)[lift]; let b=null;
+  m.forEach(v=>{ if(v!=null && (!b||v>b)) b=v; });
+  return b;
+}
+function bestE1(lift){ return bestE1From(S.logs,lift); }
+function renderProgress(){
+  const b={sq:bestE1('sq'),bp:bestE1('bp'),dl:bestE1('dl')};
+  let h='<div class="stat3">'+
+    ['sq','bp','dl'].map(k=>`<div class="stat"><div class="v">${b[k]?fmtKg(b[k]):'—'}</div><div class="l">${k.toUpperCase()} ベストE1RM(kg)</div></div>`).join('')+'</div>';
+  h+='<div class="card"><h2>E1RM 推移（BIG3）</h2><canvas id="c1" width="640" height="360"></canvas>'+
+     '<div class="legend"><span><i style="background:#d92b2b"></i>スクワット</span><span><i style="background:#2f6fd6"></i>ベンチプレス</span><span><i style="background:#1fa06a"></i>デッドリフト</span></div>'+
+     '<div class="note">完了チェック済みセットの kg・rep・RPE からRPEチャートで逆算した推定1RM。横軸はプログラムの週（w1〜MAX）で、その週のベスト値を表示します。</div></div>';
+  h+='<div class="card"><h2>週別トータルボリューム（トン数）</h2><canvas id="c2" width="640" height="300"></canvas>'+
+     '<div class="note">完了セットの kg × rep 合計。ディロード週（黄色）で落ちるのが正常です。</div></div>';
+  return h;
+}
+function drawCharts(){
+  const e=collectE1RM();
+  const dates=weekLabels();
+  drawLine(document.getElementById('c1'),dates,[
+    {color:'#d92b2b',pts:e.sq},
+    {color:'#2f6fd6',pts:e.bp},
+    {color:'#1fa06a',pts:e.dl}
+  ]);
+  drawBars(document.getElementById('c2'),weekLabels(),collectVolume());
+}
+function chartColors(){
+  const cs=getComputedStyle(document.body);
+  return {
+    sub:(cs.getPropertyValue('--sub2')||'#66605b').trim(),
+    grid:(cs.getPropertyValue('--line')||'#e9e5e0').trim()
+  };
+}
+function drawLine(cv,labels,series){
+  const g=cv.getContext('2d'); g.clearRect(0,0,cv.width,cv.height);
+  const C=chartColors();
+  g.font='20px sans-serif';
+  const vals=series.flatMap(s=>s.pts).filter(v=>v!=null);
+  if(!vals.length){ g.fillStyle=C.sub; g.fillText('記録がまだありません。セットを完了すると表示されます。',40,180); return; }
+  let mn=Math.min(...vals), mx=Math.max(...vals);
+  if(mn===mx){mn-=10;mx+=10;} const pad=(mx-mn)*0.12; mn-=pad; mx+=pad;
+  const L=70,R=15,T=15,B=50,W=cv.width-L-R,H=cv.height-T-B;
+  for(let i=0;i<=4;i++){
+    const y=T+H*i/4, v=mx-(mx-mn)*i/4;
+    g.strokeStyle=C.grid; g.beginPath(); g.moveTo(L,y); g.lineTo(L+W,y); g.stroke();
+    g.fillStyle=C.sub; g.fillText(Math.round(v),8,y+7);
+  }
+  const xp=i=>labels.length===1?L+W/2:L+W*i/(labels.length-1);
+  const yp=v=>T+H*(1-(v-mn)/(mx-mn));
+  g.fillStyle=C.sub;
+  g.font='17px sans-serif';
+  labels.forEach((lb,i)=>{
+    g.save(); g.translate(xp(i),cv.height-10); g.rotate(-0.42);
+    g.fillText(lb,-g.measureText(lb).width,0); g.restore();
+  });
+  series.forEach(s=>{
+    g.strokeStyle=s.color; g.fillStyle=s.color; g.lineWidth=3;
+    g.setLineDash(s.dash?[8,6]:[]);
+    let started=false; g.beginPath();
+    s.pts.forEach((v,i)=>{ if(v==null)return; const x=xp(i),y=yp(v); if(!started){g.moveTo(x,y);started=true;}else g.lineTo(x,y); });
+    g.stroke();
+    g.setLineDash([]);
+    s.pts.forEach((v,i)=>{ if(v==null)return; g.beginPath(); if(s.dash){g.lineWidth=2;g.strokeStyle=s.color;g.arc(xp(i),yp(v),5,0,7);g.stroke();}else{g.arc(xp(i),yp(v),5,0,7);g.fill();} });
+    g.lineWidth=3;
+  });
+}
+function drawBars(cv,labels,vals){
+  const g=cv.getContext('2d'); g.clearRect(0,0,cv.width,cv.height);
+  const C=chartColors();
+  g.font='18px sans-serif';
+  const mx=Math.max(...vals,1);
+  const L=60,R=10,T=12,B=44,W=cv.width-L-R,H=cv.height-T-B;
+  for(let i=0;i<=3;i++){
+    const y=T+H*i/3, v=mx*(1-i/3);
+    g.strokeStyle=C.grid; g.beginPath(); g.moveTo(L,y); g.lineTo(L+W,y); g.stroke();
+    g.fillStyle=C.sub; g.fillText((v/1000).toFixed(1)+'t',6,y+6);
+  }
+  const bw=W/labels.length;
+  labels.forEach((lb,i)=>{
+    const v=vals[i];
+    const h=H*v/mx;
+    g.fillStyle=lb.includes('*')?'#c98a12':(lb==='MAX'?'#1fa06a':'#d92b2b');
+    if(v>0) g.fillRect(L+bw*i+bw*0.18,T+H-h,bw*0.64,h);
+    g.fillStyle=C.sub;
+    g.save(); g.translate(L+bw*i+bw*0.5,cv.height-6); g.rotate(-0.5); g.fillText(lb,-18,0); g.restore();
+  });
+}
+
+/* ----- guide ----- */
+function renderGuide(){
+  let rows='';
+  const rpes=Object.keys(CHART);
+  rows+='<tr><th>RPE\\rep</th>'+Array.from({length:12},(_,i)=>'<th>'+(i+1)+'</th>').join('')+'</tr>';
+  rpes.forEach(r=>{
+    rows+='<tr><td class="hd">'+r+'</td>'+CHART[r].slice(0,12).map(p=>'<td>'+(p*100).toFixed(1)+'</td>').join('')+'</tr>';
+  });
+  return `<div class="card guide">
+  <h2>プログラムガイド要約</h2>
+  <h3>期分け（9〜13週間）</h3>
+  <p>プログラムは3つの期に分かれます。<b>ボリューム期</b>（w1〜4）で高レップ・高セットの土台を作り、<b>ストレングス期</b>（w5〜8）で体力を筋力に変換、<b>ピーク期</b>（w9〜MAX TEST）で高重量に慣れて1RM更新を狙います。%とRPEを守ることがプログラム成立の前提です。</p>
+  <h3>ディロード</h3>
+  <p>3〜4週頑張ったら最後の1週（w4・w8）はボリュームと強度を落として疲労を抜く週。この期間を挟むことで次の期に移行できます。手を抜く週ではなく、計画の一部です。</p>
+  <h3>RPEとは</h3>
+  <p>主観的な余力の指標。RPE7＝あと3回できる余裕、RPE8＝あと2回、RPE10＝限界。例えばRPE7で5repsなら「8reps挙がる重量」＝約80%1RMが目安になります。</p>
+  <h3>重くするタイミング</h3>
+  <p>軽く感じれば2.5〜5kg重くしてOK。逆に複数セットでRPEが上がりそうなら、2セット目以降は<b>5%減量</b>（×0.95）して維持するか判断します（RPE低減率）。</p>
+  <h3>E1RM</h3>
+  <p>estimated 1RM＝推定MAX。追い込まなくても kg・rep・RPE からRPEチャートで逆算でき、軽い重量でも成長を数値で追えます。このアプリの推奨重量・進捗グラフはこの方式です。</p>
+  <h3>MAX測定</h3>
+  <p>MAX WEEK最終日に実施。RPE7 → 8.5 → 10 と段階的に上げ、E1RMありきでなく<b>その日の調子</b>を見て挑戦します。</p>
+  <h3>食事と休養</h3>
+  <p>目安カロリー＝体重×22×1.3〜2 に <b>+200〜500kcal</b> のオーバーカロリーで進めるのが推奨。睡眠は7時間以上。取れない場合はボリューム・強度を10〜20%落として構いません。</p>
+  <h3>レストと日程</h3>
+  <p>レストは何分でもOK。RPEに従いつつ高重量をこなせるようしっかり休む。週4日の場合、日の間隔は厳密に指定なし。連続実施も可だが可能なら分けるのが推奨。</p>
+  <h3>よくある質問</h3>
+  <div class="qa"><b>Q. 風邪や仕事で休んだら？</b><p>数日〜1週間程度なら元のところから再開。体力が大きく落ちていれば最初からでもOK。</p></div>
+  <div class="qa"><b>Q. ハイバー/ワイドなどのフォームは？</b><p>指定がないものはお好みで。補助種目もダンベル/バーベル/マシンやりやすいやり方でOK。</p></div>
+  <div class="qa"><b>Q. マシンが混んでいる・無い場合は？</b><p>対象筋に効くものであれば好きな種目に置き換えてOK。</p></div>
+  <div class="qa"><b>Q. テンポベンチがつらい</b><p>止めなし・挙上は普通のテンポにしてもOK。フォーム練習の意図もあります。</p></div>
+  <h3>特殊種目メモ</h3>
+  <p><b>ラーセンテンポベンチプレス</b>：足を上げて（膝を伸ばして）行うベンチ。テンポは3秒かけて下ろすなど一定リズムで。</p>
+  <h3>RPEチャート（%1RM）</h3>
+  <div style="overflow-x:auto"><table class="rpet">${rows}</table></div>
+  <p class="note">出典：SQUAT MANIA PROGRAM GUIDE（要約）。詳細は元のガイドを参照してください。</p>
+  </div>`;
+}
+
+/* ----- settings ----- */
+function renderSettings(){
+  const r=S.oneRM;
+  return `<div class="card"><h2>ジムモード</h2>
+    <div class="field"><label>1種目フォーカス表示<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">今やる種目だけを大きく表示</span></label>
+      <input type="checkbox" style="width:26px;height:26px" ${S.gym?'checked':''} onchange="setGym(this.checked)"></div>
+    <p class="note">✓を押すとレストタイマーが自動スタートし、全セット終わると自動で次の種目へ進みます（8秒間は「↩戻る」で戻せます）。レスト時間は種目ごとに±30秒で調整でき、記憶されます。初期値はBIG3が3分、脚2分、背中・肩90秒、腕60秒です。全テーマで使えます。</p>
+  </div>
+  <div class="card"><h2>テーマ</h2>
+    <div class="thsel">
+      <button class="thbtn ${S.theme==='std'?'on':''}" onclick="setTheme('std')"><b>🏋️</b>通常</button>
+      <button class="thbtn ${S.theme==='candy'?'on':''}" onclick="setTheme('candy')"><b>🍬</b>candytune</button>
+      <button class="thbtn ${S.theme==='dopa'?'on':''}" onclick="setTheme('dopa')"><b>🎰</b>ドパガキ</button>
+    </div>
+    <p class="note">candytune＝メンバーカラー7色の可愛いテーマ。ドパガキ＝ネオン×スロット演出。セットを✓するたびにリールが回り、揃うとドパPTが荒稼ぎできます。全セット完了・自己ベスト更新で大当たり確定。まとめ画像もテーマごとに変わります。</p>
+    ${S.theme==='dopa'?`<div class="dopastat"><div><span>累計ドパPT</span><b>${(S.dopaPT||0).toLocaleString()}</b></div><div><span>最高コンボ</span><b>${S.dopaMaxCombo||0}</b></div><div><span>777回数</span><b>${S.dopa777||0}</b></div></div>`:''}
+  </div>
+  ${S.theme==='candy'?`<div class="card"><h2>candytune の設定</h2>
+    <div class="field"><label>ふわふわ演出<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">✓でハートとキャンディが弾ける</span></label>
+      <input type="checkbox" style="width:26px;height:26px" ${S.candyFx?'checked':''} onchange="setCandy('candyFx',this.checked)"></div>
+    <div class="field"><label>キラン音<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">控えめな効果音</span></label>
+      <input type="checkbox" style="width:26px;height:26px" ${S.candySound?'checked':''} onchange="setCandy('candySound',this.checked)"></div>
+    <div class="field"><label>まとめ画像のデザイン</label>
+      <select class="pick" style="width:150px" onchange="setCandy('candyImg',this.value)">
+        <option value="list"${S.candyImg!=='cheki'?' selected':''}>リスト型</option>
+        <option value="cheki"${S.candyImg==='cheki'?' selected':''}>チェキ風♡</option>
+      </select></div>
+    <p class="note">チェキ風は白フチのフレームに手書き風の日付とシールが付き、その日いちばん頑張った「MVP種目」が大きく載ります。応援メッセージはトレーニング画面の上部に自動で表示されます。</p>
+  </div>`:''}
+  <div class="card"><h2>まとめ画像のサイズ</h2>
+    <div class="field"><label>4:5 縦長<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">Instagram推奨・グリッドで切れない</span></label><input type="radio" name="ratio" style="width:24px" ${S.imgRatio!=='1:1'?'checked':''} onchange="setRatio('4:5')"></div>
+    <div class="field"><label>1:1 正方形<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">従来のサイズ</span></label><input type="radio" name="ratio" style="width:24px" ${S.imgRatio==='1:1'?'checked':''} onchange="setRatio('1:1')"></div>
+    <p class="note">Instagramのプロフィールグリッドは縦長（3:4）で切り抜かれるため、正方形だと日付やロゴの左右が見切れます。4:5にすると投稿でもグリッドでも文字が切れずに綺麗に並びます。</p>
+  </div>
+  <div class="card"><h2>レストタイマーの通知</h2>
+    <div class="field"><label>音楽を止めない<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽に重ねて鳴らす（推奨）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound!=='sure'?'checked':''} onchange="setSound('mix')"></div>
+    <div class="field"><label>確実に鳴らす<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">閉じていても必ず鳴る／音楽は停止</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='sure'?'checked':''} onchange="setSound('sure')"></div>
+    <p class="note">iPhoneでは音楽アプリとタイマーが同時に音を出せないため、どちらかを選ぶ形になります。「音楽を止めない」はアプリを開いている間だけ鳴り、閉じている間は鳴りません（戻った瞬間に「○分前に終了」と表示されます）。スマホを置いてレストする時は「確実に鳴らす」に切り替えてください。タイマーバーの 🎵 / 🔔 ボタンでワンタップ切替できます。</p>
+  </div>
+  <div class="card"><h2>現在の1RM（初回の推奨重量に使用）</h2>
+    <div class="field"><label>SQUAT</label><input type="number" inputmode="decimal" step="0.5" value="${r.sq??''}" placeholder="kg" onchange="setRM('sq',this.value)"></div>
+    <div class="field"><label>BENCH PRESS</label><input type="number" inputmode="decimal" step="0.5" value="${r.bp??''}" placeholder="kg" onchange="setRM('bp',this.value)"></div>
+    <div class="field"><label>DEAD LIFT</label><input type="number" inputmode="decimal" step="0.5" value="${r.dl??''}" placeholder="kg" onchange="setRM('dl',this.value)"></div>
+    <p class="note">推奨重量は<b>同じ種目の前回実績（E1RM）を最優先</b>で自動計算します。実績がまだない種目は、BIG3系ならこの1RMから計算します。赤字で自動入力された値は編集可能で、✓を押すと確定します。</p>
+  </div>
+  <div class="card"><h2>ふたりで共有（Firebase同期）</h2>
+    <div style="margin-bottom:8px"><span id="syncchip" class="sync off"><span class="d"></span>未接続</span></div>
+    <details class="setup"><summary>初回セットアップ手順（片方が1回だけ・約10分）</summary>
+      <ol class="steps">
+        <li><b>console.firebase.google.com</b> にGoogleアカウントでログイン →「プロジェクトを作成」（名前は自由、Analyticsは不要でOFF）</li>
+        <li>左メニュー「構築」→「<b>Realtime Database</b>」→「データベースを作成」→ ロケーションは <b>asia-southeast1</b> →「<b>テストモード</b>で開始」</li>
+        <li>「構築」→「<b>Authentication</b>」→「始める」→ ログイン方法で「<b>匿名</b>」を有効化</li>
+        <li>⚙️プロジェクトの設定 →「全般」→ 下の「アプリを追加」で <b>ウェブ（&lt;/&gt;）</b> を選択 → 表示される <b>firebaseConfig = { ... }</b> をコピー</li>
+        <li>下の欄に貼り付けて名前を入力 →「接続」。<b>相手にも同じconfigを送って</b>、相手の端末でも貼り付け＆自分の名前で接続すれば完了！</li>
+      </ol>
+      <p class="note">セキュリティ強化（推奨）：Realtime Databaseの「ルール」を<br><code>{"rules":{".read":"auth != null",".write":"auth != null"}}</code><br>に変更すると、匿名認証したこのアプリだけが読み書きできます。</p>
+    </details>
+    <textarea class="cfg" id="fbcfg" placeholder='firebaseConfig をここに貼り付け（const firebaseConfig = {...} のままでOK）'>${FB.config?esc(JSON.stringify(FB.config,null,1)):''}</textarea>
+    <div class="field" style="margin-top:4px"><label>自分の名前</label><input type="text" id="fbname" value="${esc(FB.name)}" placeholder="れんたろう"></div>
+    <button class="btn" onclick="applyFBSettings()">接続する</button>
+    ${FB.config?'<button class="btn danger" onclick="disconnectFB()">同期設定を削除</button>':''}
+    <p class="note">記録を保存するたびに自動でクラウドへ同期され、相手の画面の「👥やまねん&amp;おぎれん」タブにリアルタイムで反映されます。configに含まれるapiKeyは公開しても問題ない識別子です（アクセス制御はルール側で行われます）。</p>
+  </div>
+  <div class="card"><h2>アプリのインストール</h2>
+    <button class="btn ghost" onclick="resetInstallHint()">インストール方法を表示</button>
+    <p class="note">ホーム画面に追加すると、全画面で起動して電波がない場所でも使えます。iPhoneはSafariの共有ボタンから「ホーム画面に追加」、Androidはメニューから「アプリをインストール」で追加できます。</p>
+  </div>
+  <div class="card"><h2>データ管理</h2>
+    <button class="btn ghost" onclick="exportData()">記録をバックアップ（ファイル保存）</button>
+    <button class="btn ghost" onclick="document.getElementById('imp').click()">バックアップを読み込み</button>
+    <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
+    <button class="btn danger" onclick="resetData()">全記録をリセット</button>
+    <p class="note">記録はこの端末のブラウザ内（localStorage）に保存されます。機種変更前やブラウザ削除前にバックアップ推奨。ホーム画面に追加するとアプリのように使えます。</p>
+  </div>`;
+}
+function setCandy(k,v){ S[k]=v; save(); render(); toast(k==='candyImg'?(v==='cheki'?'チェキ風で生成します♡':'リスト型で生成します'):(v?'ON にしました♡':'OFF にしました')); }
+function setRatio(r){ S.imgRatio=r; save(); render(); toast(r==='1:1'?'正方形で生成します':'4:5 縦長で生成します'); }
+function toggleSound(){
+  setSound(S.sound==='sure'?'mix':'sure');
+}
+function setSound(m){
+  S.sound=m; save();
+  if(tRun){ // 稼働中なら即座に方式を切り替える
+    const left=tLeftNow();
+    if(tAudio){ try{ tAudio.pause(); }catch(e){} }
+    clearScheduled();
+    if(m==='sure'){
+      setAudioSession('playback');
+      try{
+        if(tAudioURL) URL.revokeObjectURL(tAudioURL);
+        tAudioURL=URL.createObjectURL(buildTimerWav(left));
+        tAudio=new Audio(tAudioURL); tAudio.play().catch(()=>{});
+      }catch(e){}
+    }else{
+      setAudioSession('ambient');
+      scheduleMixBeeps(left);
+    }
+  }
+  render(); paintT();
+  toast(m==='sure'?'🔔 確実に鳴らす（音楽は停止します）':'🎵 音楽優先（閉じると鳴りません）');
+}
+function setRM(k,v){ S.oneRM[k]=v?Number(v):null; save(); toast('1RMを保存しました'); }
+function extractConfigObject(raw){
+  // コメント除去（// と /* */）
+  let t=raw.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/gm,'');
+  // apiKey を含むオブジェクトを探して、対応する } までを切り出す
+  const anchor=t.search(/firebaseConfig\s*=\s*\{/);
+  let start;
+  if(anchor>=0){ start=t.indexOf('{',anchor); }
+  else{
+    const ak=t.indexOf('apiKey');
+    if(ak<0) return null;
+    start=t.lastIndexOf('{',ak);
+  }
+  if(start<0) return null;
+  let depth=0;
+  for(let i=start;i<t.length;i++){
+    const c=t[i];
+    if(c==='{') depth++;
+    else if(c==='}'){ depth--; if(depth===0) return t.slice(start,i+1); }
+  }
+  return null;
+}
+function applyFBSettings(){
+  const raw=document.getElementById('fbcfg').value;
+  const name=document.getElementById('fbname').value.trim();
+  if(!raw.trim()||!name){ toast('configと名前を入力してください'); return; }
+  const objText=extractConfigObject(raw);
+  if(!objText){ toast('configが見つかりません（apiKeyの行を含めて貼り付け）'); return; }
+  let cfg;
+  try{ cfg=(new Function('return '+objText))(); }catch(e){ toast('configの解析に失敗しました'); return; }
+  if(!cfg||!cfg.apiKey||!cfg.projectId){ toast('apiKey/projectIdが見つかりません'); return; }
+  if(!cfg.databaseURL) cfg.databaseURL=`https://${cfg.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app`;
+  FB.config=cfg; FB.name=name; saveFB();
+  toast('接続します…');
+  connectFB();
+}
+function disconnectFB(){
+  if(!confirm('この端末の同期設定を削除します（クラウド上の記録は残ります）。よろしいですか？')) return;
+  FB={config:null,name:''}; saveFB();
+  FBSTATE='off'; REMOTE={}; fbdb=null;
+  render(); toast('同期設定を削除しました');
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(S)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='squatmania_backup_'+todayStr()+'.json';
+  a.click();
+}
+function importData(inp){
+  const f=inp.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ try{ const s=JSON.parse(fr.result); if(s.logs&&s.oneRM){ S=s; save(); render(); toast('読み込みました'); } else toast('形式が違います'); }catch(e){ toast('読み込み失敗'); } };
+  fr.readAsText(f);
+}
+function resetData(){
+  if(confirm('全ての記録と1RMを削除します。よろしいですか？')){
+    localStorage.removeItem(KEY); S=load(); render(); toast('リセットしました');
+  }
+}
+
+/* ========== ドパガキモード 演出エンジン ========== */
+const DSYM=['7','🔔','🍒','⭐','🍉','💎','BAR'];
+let dCombo=0, dLastTick=0, dBusy=false;
+function dopaHUD(){
+  const pt=document.getElementById('hudpt'), cb=document.getElementById('hudcombo');
+  if(pt) pt.textContent=(S.dopaPT||0).toLocaleString();
+  if(cb) cb.textContent=dCombo>1?`${dCombo} COMBO`:'';
+}
+function dopaSound(kind){
+  const ac=ensureAC(); if(!ac) return;
+  const now=ac.currentTime;
+  const tone=(f,t,dur,vol,type)=>{
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type=type||'square'; o.frequency.setValueAtTime(f,now+t);
+    o.connect(g); g.connect(ac.destination);
+    g.gain.setValueAtTime(0.0001,now+t);
+    g.gain.exponentialRampToValueAtTime(vol||0.22,now+t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,now+t+dur);
+    o.start(now+t); o.stop(now+t+dur+0.02);
+  };
+  if(kind==='reel'){ tone(1400,0,0.06,0.16); }
+  else if(kind==='stop'){ tone(760,0,0.09,0.2); tone(1140,0.02,0.09,0.14); }
+  else if(kind==='small'){ [660,880].forEach((f,i)=>tone(f,i*0.09,0.13,0.2)); }
+  else if(kind==='mid'){ [523,659,784,1047].forEach((f,i)=>tone(f,i*0.085,0.16,0.24)); }
+  else if(kind==='big'){
+    [523,659,784,1047,1319,1568].forEach((f,i)=>tone(f,i*0.075,0.2,0.26));
+    for(let i=0;i<8;i++) tone(1760+i*90,0.5+i*0.05,0.1,0.16,'sawtooth');
+    tone(196,0.5,0.9,0.2,'triangle');
+  }
+  else if(kind==='start'){ [392,523,659].forEach((f,i)=>tone(f,i*0.08,0.14,0.2)); }
+}
+function dopaParticles(n,colors){
+  const box=document.getElementById('dparts'); if(!box) return;
+  box.innerHTML='';
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');
+    el.className='dpart';
+    el.style.background=colors[i%colors.length];
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    const ang=Math.random()*Math.PI*2, dist=90+Math.random()*230;
+    const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist-60;
+    el.animate([
+      {transform:'translate(0,0) rotate(0deg)',opacity:1},
+      {transform:`translate(${dx}px,${dy+180}px) rotate(${360+Math.random()*540}deg)`,opacity:0}
+    ],{duration:900+Math.random()*700,easing:'cubic-bezier(.15,.7,.5,1)',fill:'forwards'});
+    box.appendChild(el);
+  }
+  setTimeout(()=>{ box.innerHTML=''; },1900);
+}
+function dopaFlash(color,dur){
+  const f=document.getElementById('dopaflash');
+  f.style.background=color;
+  f.animate([{opacity:0},{opacity:.85},{opacity:0}],{duration:dur||260,easing:'ease-out'});
+}
+/* 抽選：small(通常) / mid(揃い) / big(777確定) */
+function dopaFire(w,d,i){
+  if(dBusy) return;
+  const now=Date.now();
+  dCombo = (now-dLastTick < 6*60*1000) ? dCombo+1 : 1;
+  dLastTick=now;
+  if(dCombo>(S.dopaMaxCombo||0)){ S.dopaMaxCombo=dCombo; }
+
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const nm=effName(w,d,i);
+  const L=getLog(w,d,i,ex);
+  const allDone=L.sets.length>0 && L.sets.every(s=>s.done);
+  // 自己ベスト判定
+  let cur=null;
+  L.sets.forEach(s=>{ if(!s.done) return; const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe)); if(e&&(!cur||e>cur)) cur=e; });
+  const hist=lastRecordFor(nm, logKey(w,d,i));
+  const isPR = !!(cur && hist && hist.e1 && cur > hist.e1*1.002);
+
+  let level='small', reason='';
+  if(isPR){ level='big'; reason=`${nm} 自己ベスト更新！`; }
+  else if(allDone){ level='mid'; reason=`${nm} 全セット完了`; }
+  else if(Math.random()<0.16){ level='mid'; reason='ボーナス揃い'; }
+  else if(Math.random()<0.035){ level='big'; reason='🎰 プレミア当選'; }
+
+  const base = level==='big'?77777 : level==='mid'? (2000+Math.floor(Math.random()*3000)) : (100+Math.floor(Math.random()*400));
+  const pt = base * Math.min(5, Math.max(1, Math.round(dCombo/3)||1));
+  S.dopaPT=(S.dopaPT||0)+pt;
+  if(level==='big') S.dopa777=(S.dopa777||0)+1;
+  save();
+  dopaShow(level, pt, reason);
+}
+function dopaShow(level, pt, reason){
+  dBusy=true;
+  const wrap=document.getElementById('dopa'), box=document.getElementById('dopabox');
+  const reels=[0,1,2].map(n=>document.getElementById('dr'+n));
+  const msg=document.getElementById('dopamsg'), ptEl=document.getElementById('dopapt'), sub=document.getElementById('dopasub');
+  if(!wrap) { dBusy=false; return; }
+
+  // 当たり図柄
+  let target;
+  if(level==='big') target=['7','7','7'];
+  else if(level==='mid'){ const s=DSYM[1+Math.floor(Math.random()*(DSYM.length-1))]; target=[s,s,s]; }
+  else{
+    target=[0,1,2].map(()=>DSYM[Math.floor(Math.random()*DSYM.length)]);
+    if(target[0]===target[1]&&target[1]===target[2]) target[2]=DSYM[(DSYM.indexOf(target[2])+1)%DSYM.length];
+  }
+
+  wrap.classList.add('on');
+  box.classList.remove('in'); void box.offsetWidth; box.classList.add('in');
+  msg.textContent='';
+  ptEl.textContent='';
+  sub.textContent='';
+  reels.forEach(r=>{ r.classList.add('spin'); r.classList.remove('stop'); });
+
+  // リール回転
+  const spinner=setInterval(()=>{
+    reels.forEach(r=>{ if(r.classList.contains('spin')) r.firstElementChild.textContent=DSYM[Math.floor(Math.random()*DSYM.length)]; });
+  },70);
+  dopaSound('reel');
+  if(navigator.vibrate) navigator.vibrate(20);
+
+  const stopAt=[level==='small'?260:340, level==='small'?480:640, level==='big'?1500:(level==='mid'?1000:700)];
+  reels.forEach((r,idx)=>{
+    setTimeout(()=>{
+      r.classList.remove('spin'); r.classList.add('stop');
+      r.firstElementChild.textContent=target[idx];
+      dopaSound('stop');
+      if(navigator.vibrate) navigator.vibrate(28);
+      if(idx===1 && (level!=='small')){ dopaFlash('rgba(255,207,61,.5)',300); }
+      if(idx===2) finish();
+    }, stopAt[idx]);
+  });
+
+  function finish(){
+    clearInterval(spinner);
+    const colors=level==='big'?['#ff2d95','#ffcf3d','#16f2e6','#a55cff','#fff']:
+                 level==='mid'?['#ffcf3d','#ff2d95','#fff']:['#16f2e6','#ff2d95'];
+    if(level==='big'){
+      msg.textContent='777 大当たり';
+      dopaFlash('rgba(255,255,255,.95)',420);
+      setTimeout(()=>dopaFlash('rgba(255,45,149,.6)',500),260);
+      dopaParticles(70,colors);
+      if(navigator.vibrate) navigator.vibrate([60,50,60,50,60,50,300]);
+    }else if(level==='mid'){
+      msg.textContent='揃った！';
+      dopaFlash('rgba(255,207,61,.6)',300);
+      dopaParticles(34,colors);
+      if(navigator.vibrate) navigator.vibrate([40,60,140]);
+    }else{
+      msg.textContent='NICE SET';
+      dopaParticles(12,colors);
+      if(navigator.vibrate) navigator.vibrate(45);
+    }
+    dopaSound(level);
+    // PTカウントアップ
+    let shown=0;
+    const step=Math.max(1,Math.ceil(pt/18));
+    const cnt=setInterval(()=>{
+      shown=Math.min(pt,shown+step);
+      ptEl.textContent='+'+shown.toLocaleString()+' PT';
+      if(shown>=pt) clearInterval(cnt);
+    },28);
+    sub.textContent = reason || (dCombo>1?`${dCombo} COMBO`:'');
+    dopaHUD();
+    const hold = level==='big'?2600:level==='mid'?1700:1100;
+    setTimeout(()=>{ wrap.classList.remove('on'); dBusy=false; }, hold);
+  }
+}
+function setTheme(t){
+  S.theme=t; save(); applyTheme(); render();
+  if(t==='dopa'){ dopaSound('start'); dopaHUD(); if(navigator.vibrate) navigator.vibrate([40,60,40,60,120]); }
+  toast(t==='dopa'?'🎰 ドパガキモード 始動':t==='candy'?'🍬 candytuneモード！':'🏋️ 通常モード');
+}
+
+/* ========== candytune：ふわふわ演出＆応援メッセージ ========== */
+function candySound(kind){
+  if(!S.candySound) return;
+  const ac=ensureAC(); if(!ac) return;
+  const now=ac.currentTime;
+  const tone=(f,t,dur,vol)=>{
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(f,now+t);
+    o.connect(g); g.connect(ac.destination);
+    g.gain.setValueAtTime(0.0001,now+t);
+    g.gain.exponentialRampToValueAtTime(vol,now+t+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,now+t+dur);
+    o.start(now+t); o.stop(now+t+dur+0.02);
+  };
+  if(kind==='pop'){ tone(1046,0,0.14,0.13); tone(1568,0.05,0.16,0.10); }
+  else if(kind==='finish'){ [1046,1318,1568,2093].forEach((f,i)=>tone(f,i*0.07,0.24,0.12)); }
+}
+function candyPop(w,d,i){
+  const ex=PROGRAM[w].days[d].exercises[i];
+  const L=getLog(w,d,i,ex);
+  const allDone=L.sets.length>0 && L.sets.every(s=>s.done);
+  candyBurst(allDone?18:9, allDone);
+  candySound(allDone?'finish':'pop');
+  if(navigator.vibrate) navigator.vibrate(allDone?[25,50,25]:18);
+  if(allDone) candyRibbon(effName(w,d,i));
+}
+function candyBurst(n, big){
+  let box=document.getElementById('cparts');
+  if(!box){ box=document.createElement('div'); box.id='cparts'; document.body.appendChild(box); }
+  const marks=['♡','🍬','🎀','✨','♥'];
+  const cols=['#f45f9a','#ffb3d1','#7fd8b4','#a678d8','#7cc7ee','#f7973f'];
+  // 直前に押したチェックの位置から出す
+  const btn=document.activeElement && document.activeElement.classList &&
+    (document.activeElement.classList.contains('chk')||document.activeElement.classList.contains('gchk'))
+      ? document.activeElement : null;
+  const r=btn?btn.getBoundingClientRect():{left:window.innerWidth/2-20,top:window.innerHeight/2-20,width:40,height:40};
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  for(let k=0;k<n;k++){
+    const el=document.createElement('div');
+    el.className='cpart';
+    el.textContent=marks[Math.floor(Math.random()*marks.length)];
+    el.style.color=cols[k%cols.length];
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    el.style.fontSize=(big?20:15)+Math.random()*12+'px';
+    const ang=-Math.PI/2 + (Math.random()-0.5)*(big?2.6:1.8);
+    const dist=(big?110:70)+Math.random()*(big?150:90);
+    const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist;
+    el.animate([
+      {transform:'translate(-50%,-50%) scale(.4)',opacity:0},
+      {transform:`translate(calc(-50% + ${dx*0.6}px),calc(-50% + ${dy}px)) scale(1.15)`,opacity:1,offset:.35},
+      {transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy+70}px)) scale(.85) rotate(${(Math.random()-.5)*120}deg)`,opacity:0}
+    ],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.8,.3,1)',fill:'forwards'});
+    box.appendChild(el);
+  }
+  setTimeout(()=>{ if(box) box.innerHTML=''; },1700);
+}
+function candyRibbon(name){
+  let el=document.getElementById('cribbon');
+  if(!el){ el=document.createElement('div'); el.id='cribbon'; document.body.appendChild(el); }
+  el.innerHTML=`🎀 ${esc(name)} おつかれさま♡`;
+  el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2200);
+}
+/* 応援メッセージ */
+function candyCheer(){
+  if(S.theme!=='candy') return '';
+  const w=S.wk, d=Math.min(S.dy,PROGRAM[w].days.length-1);
+  const day=PROGRAM[w].days[d];
+  let total=0, done=0, prName=null, nextName=null, leftSets=0;
+  day.exercises.forEach((ex,i)=>{
+    const L=S.logs[logKey(w,d,i)];
+    const n=L?L.sets.length:(ex.set||1);
+    total+=n;
+    if(L){
+      done+=L.sets.filter(s=>s.done).length;
+      leftSets+=L.sets.filter(s=>!s.done).length;
+      // 自己ベスト判定
+      let cur=null;
+      L.sets.forEach(s=>{ if(!s.done) return; const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe)); if(e&&(!cur||e>cur)) cur=e; });
+      const hist=lastRecordFor(effName(w,d,i), logKey(w,d,i));
+      if(cur && hist && hist.e1 && cur>hist.e1*1.002) prName=effName(w,d,i);
+      if(!nextName && L.sets.some(s=>!s.done)) nextName=effName(w,d,i);
+    }else{ leftSets+=n; if(!nextName) nextName=effName(w,d,i); }
+  });
+  let msg;
+  if(done===0) msg=`きょうも えらい！ ${esc(day.day.toUpperCase())} はじめよう♡`;
+  else if(done>=total) msg=prName?`ぜんぶ完了！ ${esc(prName)}も自己ベスト🎀`:'ぜんぶ完了！ 今日もおつかれさま🎀';
+  else if(leftSets===1) msg='ラスト1セット、ファイト！♡';
+  else if(prName) msg=`${esc(prName)} 自己ベスト更新おめでとう🎀`;
+  else if(leftSets<=3) msg=`のこり${leftSets}セット、あとちょっと！`;
+  else if(tRun) msg='レスト中♡ しっかり休んでね';
+  else if(done/total>=0.5) msg='はんぶん超えた！ その調子♡';
+  else msg=`${esc(nextName||'つぎ')} がんばろ〜♡`;
+  return `<div id="ccheer">${msg}</div>`;
+}
+
+/* ----- rest timer (バックグラウンド対応) ----- */
+const TKEY='squatmania_timer';
+let tBase=90, tEnd=0, tRun=false, tInt=null, tAudio=null, tAudioURL=null, tAC=null, tScheduled=[];
+function fmtT(s){ s=Math.max(0,s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+function tLeftNow(){ return tRun ? Math.max(0, Math.ceil((tEnd-Date.now())/1000)) : tBase; }
+function paintT(){
+  const el=document.getElementById('tdisp'); if(!el) return;
+  el.textContent=fmtT(tLeftNow());
+  document.getElementById('tgo').textContent=tRun?'停止':'開始';
+  document.getElementById('timerbar').classList.toggle('running',tRun);
+  const mb=document.getElementById('tmode');
+  if(mb){
+    const sure=S.sound==='sure';
+    mb.textContent=sure?'🔔':'🎵';
+    mb.title=sure?'確実に鳴らす（音楽は停止）':'音楽優先（閉じると鳴りません）';
+    mb.classList.toggle('sure',sure);
+  }
+}
+function saveTimer(){
+  if(tRun) localStorage.setItem(TKEY, JSON.stringify({base:tBase,end:tEnd}));
+  else localStorage.removeItem(TKEY);
+}
+function setTimer(s){
+  if(tRun) stopTimer(false);
+  tBase=s; paintT();
+}
+function toggleTimer(){ tRun ? stopTimer(false) : startTimer(); }
+
+/* 無音＋最後にビープが入ったWAVを生成し、鳴らし続けることで
+   画面を閉じてもバックグラウンドで音が鳴るようにする */
+function buildTimerWav(sec){
+  const SR=8000, beepSec=2.2, total=sec+beepSec;
+  const n=Math.floor(SR*total);
+  const buf=new ArrayBuffer(44+n*2), view=new DataView(buf);
+  const wr=(o,s)=>{ for(let i=0;i<s.length;i++) view.setUint8(o+i,s.charCodeAt(i)); };
+  wr(0,'RIFF'); view.setUint32(4,36+n*2,true); wr(8,'WAVE'); wr(12,'fmt ');
+  view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,1,true);
+  view.setUint32(24,SR,true); view.setUint32(28,SR*2,true);
+  view.setUint16(32,2,true); view.setUint16(34,16,true); wr(36,'data'); view.setUint32(40,n*2,true);
+  const silentN=Math.floor(SR*sec);
+  for(let i=0;i<n;i++){
+    let v=0;
+    if(i<silentN){
+      v=(i%1600===0)?24:0; // 極小パルス：iOSの再生セッション維持用（ほぼ無音）
+    }else{
+      const t=(i-silentN)/SR;
+      const seg=Math.floor(t/0.55);            // 0.55秒ごとに4回鳴らす
+      const ph=t-seg*0.55;
+      if(seg<4 && ph<0.28){
+        const env=Math.sin(Math.PI*Math.min(1,ph/0.28));
+        v=Math.sin(2*Math.PI*880*t)*22000*env;
+      }
+    }
+    view.setInt16(44+i*2, v, true);
+  }
+  return new Blob([buf],{type:'audio/wav'});
+}
+function setAudioSession(type){
+  try{ if(navigator.audioSession) navigator.audioSession.type=type; }catch(e){}
+}
+function ensureAC(){
+  if(!tAC){ try{ tAC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  if(tAC && tAC.state==='suspended') tAC.resume().catch(()=>{});
+  return tAC;
+}
+/* 音楽優先モード：音楽に重ねて鳴らす（AudioContextに先の時刻で予約） */
+function scheduleMixBeeps(afterSec){
+  const ac=ensureAC(); if(!ac) return;
+  clearScheduled();
+  const t0=ac.currentTime+Math.max(0,afterSec);
+  for(let n=0;n<4;n++){
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.connect(g); g.connect(ac.destination);
+    o.frequency.value=880;
+    const st=t0+n*0.55;
+    g.gain.setValueAtTime(0.0001,st);
+    g.gain.exponentialRampToValueAtTime(0.35,st+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,st+0.28);
+    o.start(st); o.stop(st+0.3);
+    tScheduled.push(o);
+  }
+}
+function clearScheduled(){
+  tScheduled.forEach(o=>{ try{ o.stop(); }catch(e){} });
+  tScheduled=[];
+}
+function startTimer(){
+  tRun=true; tEnd=Date.now()+tBase*1000; saveTimer();
+  if(S.sound==='sure'){
+    // 確実に鳴らすモード：無音WAVで再生を維持（他アプリの音楽は停止します）
+    setAudioSession('playback');
+    try{
+      if(tAudioURL) URL.revokeObjectURL(tAudioURL);
+      tAudioURL=URL.createObjectURL(buildTimerWav(tBase));
+      tAudio=new Audio(tAudioURL);
+      tAudio.preload='auto';
+      tAudio.play().catch(()=>{});
+    }catch(e){}
+  }else{
+    // 音楽優先モード：音楽を止めずに重ねて鳴らす
+    setAudioSession('ambient');
+    scheduleMixBeeps(tBase);
+  }
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission().catch(()=>{});
+  }
+  clearInterval(tInt);
+  tInt=setInterval(()=>{
+    if(tLeftNow()<=0) fireTimer();
+    paintT();
+  },250);
+  paintT();
+}
+function stopTimer(fired){
+  tRun=false; clearInterval(tInt); tInt=null; saveTimer();
+  if(!fired){
+    if(tAudio){ try{ tAudio.pause(); }catch(e){} }
+    clearScheduled();
+  }
+  paintT();
+}
+function fireTimer(lateSec){
+  stopTimer(true);
+  if(navigator.vibrate) navigator.vibrate([300,120,300,120,500]);
+  try{
+    if('Notification' in window && Notification.permission==='granted'){
+      new Notification('レスト終了！', {body:'次のセットへ 💪', tag:'rest', renotify:true});
+    }
+  }catch(e){}
+  if(document.visibilityState==='visible'){
+    if(S.sound!=='sure') scheduleMixBeeps(0); else beep();
+    toast(lateSec>2 ? `レスト終了（${fmtT(lateSec)}前に完了）` : 'レスト終了！次のセットへ');
+  }
+}
+/* 復帰時／再訪問時にタイマー状態を復元 */
+function restoreTimer(){
+  try{
+    const t=JSON.parse(localStorage.getItem(TKEY));
+    if(!t) return;
+    tBase=t.base;
+    if(t.end>Date.now()){
+      tEnd=t.end; tRun=true;
+      clearInterval(tInt);
+      tInt=setInterval(()=>{ if(tLeftNow()<=0) fireTimer(); paintT(); },250);
+    }else{
+      // 離れている間に終了していた場合は復帰時に知らせる
+      localStorage.removeItem(TKEY);
+      const late=Math.round((Date.now()-t.end)/1000);
+      if(late<600) setTimeout(()=>fireTimer(late),300);
+    }
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    if(tRun && tLeftNow()<=0) fireTimer(Math.round((Date.now()-tEnd)/1000)); else paintT();
+  }
+});
+
+/* ---- PWA: Service Worker ---- */
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(reg=>{
+      reg.addEventListener('updatefound',()=>{
+        const nw=reg.installing;
+        if(!nw) return;
+        nw.addEventListener('statechange',()=>{
+          if(nw.state==='installed' && navigator.serviceWorker.controller){
+            toast('新しいバージョンがあります。開き直すと更新されます');
+          }
+        });
+      });
+    }).catch(()=>{});
+  });
+}
+
+
+/* ========== インストール案内 ========== */
+let deferredPrompt=null;
+const INSTKEY='sus_install_hide';
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+}
+function isIOS(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+}
+function showInstall(){
+  const box=document.getElementById('installBox'), body=document.getElementById('installBody');
+  if(!box||!body) return;
+  if(isStandalone() || localStorage.getItem(INSTKEY)==='1'){ box.classList.remove('show'); return; }
+  if(deferredPrompt){
+    body.innerHTML=`<p>ホーム画面に追加すると全画面で開き、電波がなくても使えます。</p>
+      <button class="ibtn" onclick="doInstall()">インストールする</button>
+      <button class="ilater" onclick="hideInstall()">あとで</button>`;
+    box.classList.add('show');
+  }else if(isIOS() && !isStandalone()){
+    body.innerHTML=`<p>ホーム画面に追加すると全画面で開き、電波がなくても使えます。</p>
+      <ol><li>下の<b>共有ボタン</b>（□に↑）をタップ</li>
+      <li><b>「ホーム画面に追加」</b>を選ぶ</li>
+      <li>右上の<b>「追加」</b>をタップ</li></ol>
+      <button class="ilater" onclick="hideInstall()">この案内を閉じる</button>`;
+    box.classList.add('show');
+  }else{
+    box.classList.remove('show');
+  }
+}
+function hideInstall(){
+  localStorage.setItem(INSTKEY,'1');
+  document.getElementById('installBox').classList.remove('show');
+  toast('設定タブからいつでも表示できます');
+}
+async function doInstall(){
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const r=await deferredPrompt.userChoice.catch(()=>null);
+  deferredPrompt=null;
+  document.getElementById('installBox').classList.remove('show');
+  if(r && r.outcome==='accepted') toast('インストールしました！');
+}
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault(); deferredPrompt=e; showInstall();
+});
+window.addEventListener('appinstalled', ()=>{
+  deferredPrompt=null;
+  localStorage.setItem(INSTKEY,'1');
+  document.getElementById('installBox').classList.remove('show');
+  toast('インストール完了！ホーム画面から開けます');
+});
+function resetInstallHint(){
+  localStorage.removeItem(INSTKEY); showInstall();
+  toast(isStandalone()?'すでにインストール済みです':'インストール案内を表示しました');
+}
+
+/* init */
+applyTheme();
+restoreTimer();
+paintT();
+render();
+connectFB();
+showInstall();
+</script>
+</body>
+</html>
