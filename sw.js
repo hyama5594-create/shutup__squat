@@ -1,7 +1,7 @@
 /* SHUT UP SQUAT!!! - service worker
    アプリを更新したら CACHE の数字を +1 してください（例 v1 → v2）。
    それだけで全端末に新しいバージョンが配られます。 */
-const CACHE = 'sus-v1';
+const CACHE = 'sus-v2';
 
 const ASSETS = [
   './',
