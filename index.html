@@ -446,6 +446,21 @@ ol.msteps li span b{display:inline;font-size:.79rem;color:var(--red)}
   padding:12px 4px;font-size:.72rem;font-weight:800;font-family:inherit;line-height:1.4}
 body.dopa .manrow button{background:#1c0d31;border-color:#4a2280;color:#f4ecff}
 body.dopa .mtips li,body.dopa .mlead{color:#e6dbf7}
+
+/* ===== プリセット編集 ===== */
+.presetrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.presetcell{background:var(--bg);border:1.5px solid var(--line2);border-radius:14px;padding:8px 6px}
+.presetcell input{display:block;width:100%;min-width:0;background:none;border:none;color:var(--txt);
+  text-align:center;font-size:1.28rem;font-weight:900;font-family:inherit;padding:2px 0 6px;
+  font-variant-numeric:tabular-nums}
+.presetcell input:focus{outline:none;color:var(--red)}
+.pbtns{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pbtns button{height:36px;border:1.5px solid var(--line2);background:var(--card);color:var(--red);
+  border-radius:9px;font-size:1.1rem;font-weight:900;font-family:inherit;padding:0}
+body.dopa .presetcell{background:#1c0d31;border-color:#4a2280}
+body.dopa .presetcell input{color:#fff}
+body.dopa .pbtns button{background:#150a24;border-color:#4a2280;color:#ff9fd4}
+body.candy .presetcell{border-radius:16px}
 /* partner / sync */
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
 .sync .d{width:8px;height:8px;border-radius:50%}
@@ -474,7 +489,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
-  <button id="verBtn" onclick="showChangelog()">v1.6</button>
+  <button id="verBtn" onclick="showChangelog()">v1.7</button>
 </header>
 
 <div id="installBox">
@@ -505,15 +520,11 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
     <button class="thandle" onclick="event.stopPropagation();toggleTimerPanel()" aria-label="タイマーを開く"><span id="thchev">⌃</span></button>
   </div>
   <div class="tpanel">
-    <div class="tpresets">
-      <button onclick="pickPreset(90)">1:30</button>
-      <button onclick="pickPreset(180)">3:00</button>
-      <button onclick="pickPreset(300)">5:00</button>
-    </div>
+    <div class="tpresets" id="tpresets"></div>
     <div class="tadjust">
-      <button onclick="adjustTimer(-30)">−30秒</button>
+      <button id="tminus" onclick="adjustTimer(-S.step)">−30秒</button>
       <div class="tset" id="tset">1:30</div>
-      <button onclick="adjustTimer(30)">＋30秒</button>
+      <button id="tplus" onclick="adjustTimer(S.step)">＋30秒</button>
     </div>
     <div class="tactions">
       <button id="tmode" onclick="toggleSound()">🎵</button>
@@ -555,8 +566,9 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION='1.6';
+const APP_VERSION='1.7';
 const CHANGELOG=[
+  {v:'1.7', d:'9/9', items:['タイマーのプリセット3つを自由に設定できるように','±の刻みを5〜60秒から選べるように','標準タイマー実行後に時計アプリが開くように（ショートカット画面を経由しない）']},
   {v:'1.6', d:'9/9', items:['音楽を止めずに鳴らせる「iPhone標準タイマー」モードを追加','アプリ内マニュアルを追加（ガイドタブ）','鳴らし方を3つから選べるように']},
   {v:'1.5', d:'9/9', items:['アラーム音を3種類から選べるように（切迫感のある音に変更）','タイマーを開閉式にして操作ボタンを大型化','音量を設定で調整できるように','バージョン表示を追加']},
   {v:'1.4', d:'9/9', items:['同期で記録が消える不具合を修正','週1回の自動バックアップを追加','クラウドから記録を取り込むボタンを追加']},
@@ -580,8 +592,8 @@ const CHART = DATA.rpeChart;
 const KEY='squatmania_v1';
 let S = load();
 function load(){
-  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
-  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', candyImg:'list', candyFx:true, candySound:true };
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.presets||s.presets.length!==3) s.presets=[90,180,300]; if(!s.step) s.step=30; if(!s.scAfter) s.scAfter='clock'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', presets:[90,180,300], step:30, scAfter:'clock', candyImg:'list', candyFx:true, candySound:true };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
 
@@ -1922,6 +1934,23 @@ function renderSettings(){
     <div class="field"><label>1:1 正方形<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">従来のサイズ</span></label><input type="radio" name="ratio" style="width:24px" ${S.imgRatio==='1:1'?'checked':''} onchange="setRatio('1:1')"></div>
     <p class="note">Instagramのプロフィールグリッドは縦長（3:4）で切り抜かれるため、正方形だと日付やロゴの左右が見切れます。4:5にすると投稿でもグリッドでも文字が切れずに綺麗に並びます。</p>
   </div>
+  <div class="card"><h2>タイマーの時間設定</h2>
+    <p class="note" style="margin-top:0">プリセットボタン3つの時間（タップして直接入力できます）</p>
+    <div class="presetrow">
+      ${[0,1,2].map(i=>`<div class="presetcell">
+        <input type="text" inputmode="numeric" value="${fmtT((S.presets||[90,180,300])[i])}" onchange="setPresetText(${i},this.value)">
+        <div class="pbtns">
+          <button onclick="bumpPreset(${i},-S.step)">−</button>
+          <button onclick="bumpPreset(${i},S.step)">＋</button>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="field" style="margin-top:10px"><label>調節の刻み<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">パネルの−／＋ボタンの単位</span></label>
+      <select class="pick" style="width:110px" onchange="setStep(this.value)">
+        ${[5,10,15,30,60].map(v=>`<option value="${v}"${S.step==v?' selected':''}>${v}秒</option>`).join('')}
+      </select></div>
+    <button class="btn ghost" onclick="resetPresets()">初期値（1:30 / 3:00 / 5:00）に戻す</button>
+  </div>
   <div class="card"><h2>レストタイマーの通知</h2>
     <div class="field"><label>音量<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">ジムの騒音に合わせて調整</span></label>
       <span style="font-size:1rem;font-weight:900;min-width:52px;text-align:right">${Math.round((S.vol??0.85)*100)}%</span></div>
@@ -1937,6 +1966,12 @@ function renderSettings(){
     <div class="field"><label>⏱ iPhone標準タイマー<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽を止めずに鳴らせる（要・初回設定）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='shortcut'?'checked':''} onchange="setSound('shortcut')"></div>
     ${S.sound==='shortcut'?`<div class="field"><label>ショートカット名</label>
       <input type="text" value="${esc(S.scName||'レストタイマー')}" style="width:150px" onchange="setScName(this.value)"></div>
+    <div class="field"><label>実行したあと</label>
+      <select class="pick" style="width:170px" onchange="setScAfter(this.value)">
+        <option value="clock"${S.scAfter==='clock'?' selected':''}>時計アプリを開く</option>
+        <option value="back"${S.scAfter==='back'?' selected':''}>このアプリに戻る</option>
+        <option value="none"${S.scAfter==='none'?' selected':''}>何もしない</option>
+      </select></div>
     <button class="btn ghost" onclick="testShortcut()">⏱ ショートカットを試す</button>`:''}
     <button class="btn" onclick="openManual('shortcut')">📖 標準タイマーの設定方法を見る</button>
     <p class="note">iPhoneでは音楽アプリとタイマーが同時に音を出せないため、どちらかを選ぶ形になります。「音楽を止めない」はアプリを開いている間だけ鳴り、閉じている間は鳴りません（戻った瞬間に「○分前に終了」と表示されます）。スマホを置いてレストする時は「確実に鳴らす」に切り替えてください。タイマーバーの 🎵 / 🔔 ボタンでワンタップ切替できます。</p>
@@ -2033,6 +2068,26 @@ function setVol(v,save_){
   else { const el=document.querySelector('.card input[type=range]'); if(el&&el.previousElementSibling)
     el.previousElementSibling.querySelector('span:last-child').textContent=Math.round(S.vol*100)+'%'; }
 }
+function setScAfter(v){ S.scAfter=v; save(); render(); toast(v==='clock'?'実行後に時計アプリを開きます':v==='back'?'実行後にこのアプリへ戻ります':'実行後は何もしません'); }
+function parseTimeText(t){
+  t=String(t).trim().replace(/[０-９：]/g,c=>'0123456789:'['０１２３４５６７８９：'.indexOf(c)]);
+  let sec;
+  if(t.includes(':')){ const [m,s]=t.split(':'); sec=(parseInt(m,10)||0)*60+(parseInt(s,10)||0); }
+  else { const n=parseInt(t,10)||0; sec = n>=15 ? n : n*60; }
+  return Math.max(5, Math.min(1800, sec));
+}
+function setPresetText(i,v){
+  const list=(S.presets&&S.presets.length===3)?S.presets.slice():[90,180,300];
+  list[i]=parseTimeText(v); S.presets=list; save(); render(); paintT();
+}
+function bumpPreset(i,d){
+  const list=(S.presets&&S.presets.length===3)?S.presets.slice():[90,180,300];
+  list[i]=Math.max(5, Math.min(1800, list[i]+Number(d)));
+  S.presets=list; save(); render(); paintT();
+  if(navigator.vibrate) navigator.vibrate(10);
+}
+function setStep(v){ S.step=Number(v)||30; save(); render(); paintT(); }
+function resetPresets(){ S.presets=[90,180,300]; save(); render(); paintT(); toast('初期値に戻しました'); }
 function setScName(v){ S.scName=(v||'レストタイマー').trim(); save(); render(); toast('ショートカット名を保存しました'); }
 function testShortcut(){ runShortcutTimer(10); toast('10秒のタイマーを起動します'); }
 function setAlarm(k){ S.alarm=k; save(); render(); ensureAC(); scheduleMixBeeps(0); }
@@ -2404,10 +2459,15 @@ function paintT(){
   document.getElementById('timerbar').classList.toggle('running',tRun);
   const ts=document.getElementById('tset'); if(ts) ts.textContent=fmtT(tBase);
   const tst=document.getElementById('tstart'); if(tst) tst.textContent=tRun?'停止':'開始';
-  document.querySelectorAll('.tpresets button').forEach(b=>{
-    const v=Number((b.getAttribute('onclick')||'').replace(/\D/g,''));
-    b.classList.toggle('on', v===tBase);
-  });
+  const tp=document.getElementById('tpresets');
+  if(tp){
+    const list=(S.presets&&S.presets.length===3)?S.presets:[90,180,300];
+    tp.innerHTML=list.map(v=>`<button data-v="${v}" onclick="pickPreset(${v})">${fmtT(v)}</button>`).join('');
+    tp.querySelectorAll('button').forEach(b=>b.classList.toggle('on', Number(b.dataset.v)===tBase));
+  }
+  const mi=document.getElementById('tminus'), pl=document.getElementById('tplus');
+  if(mi) mi.textContent='−'+S.step+'秒';
+  if(pl) pl.textContent='＋'+S.step+'秒';
   const mb=document.getElementById('tmode');
   if(mb){
     mb.textContent=SOUND_ICON[S.sound]||'🎵';
@@ -2474,14 +2534,17 @@ const MANUALS={
        d:'画面上部のショートカット名（「新規ショートカット」など）をタップして、<b>レストタイマー</b> と入力します。<b>この名前とアプリ側の設定は完全に一致させてください。</b>スペースや全角半角の違いでも動きません。'},
       {t:'右上の「完了」をタップ',
        d:'これで作成完了です。ショートカット一覧に「レストタイマー」が並んでいれば成功です。'},
+      {t:'ショートカットの画面を出さないようにする',
+       d:'ここが「アプリが開いてしまう」対策です。ショートカット一覧で「レストタイマー」を<b>長押し</b>→<b>「詳細」</b>（またはⓘマーク）→ <b>「実行時に表示」をオフ</b>にしてください。これでショートカットの画面が出なくなり、一瞬で通り過ぎるようになります。'},
       {t:'このアプリに戻って動作確認',
        d:'設定タブで「⏱ iPhone標準タイマー」を選び、<b>「⏱ ショートカットを試す」</b>を押してください。10秒のタイマーが動き出せば成功です。<br>初回は「”ショートカット”を開きますか？」と確認が出るので<b>「開く」</b>を、ショートカット側でも許可を求められたら<b>「許可」</b>をタップしてください。'}
     ],
     tips:[
       '音楽を流したまま鳴らしたいのが目的なので、レスト中に音楽アプリを止める必要はありません。',
-      'タイマー開始のたびに一瞬ショートカットアプリの画面が出てから戻ります。これは仕様です。',
-      'アプリ側のタイマー表示も同時に動くので、残り時間はアプリでも確認できます。',
-      '止めたいときは、時計アプリのタイマーを止めてください。',
+      'iPhoneの仕組み上、アプリの切り替わりを完全になくすことはできません。手順10の「実行時に表示」をオフにすると、ほぼ一瞬で通り過ぎるようになります。',
+      '実行したあとは自動で時計アプリが開き、残り時間が見られます。設定タブの「実行したあと」で、このアプリに戻る／何もしない、に変更もできます。',
+      'アプリ側のタイマー表示も同時に動いています。',
+      '止めたいときは時計アプリのタイマーを止めてください。',
       'うまく動かないときは、ショートカットの名前が設定と1文字も違わないか確認してください。'
     ]
   },
@@ -2628,7 +2691,10 @@ function clearScheduled(){
 }
 function runShortcutTimer(sec){
   const name=(S.scName||'レストタイマー').trim();
-  const url='shortcuts://run-shortcut?name='+encodeURIComponent(name)+'&input=text&text='+sec;
+  let url='shortcuts://x-callback-url/run-shortcut?name='+encodeURIComponent(name)
+        +'&input=text&text='+sec;
+  if(S.scAfter==='clock')      url+='&x-success='+encodeURIComponent('clock-timer://');
+  else if(S.scAfter==='back')  url+='&x-success='+encodeURIComponent(location.href);
   try{ window.location.href=url; }catch(e){ toast('ショートカットを起動できませんでした'); }
 }
 function startTimer(){
