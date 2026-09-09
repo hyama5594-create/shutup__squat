@@ -82,13 +82,40 @@ nav.tabs button.on{color:var(--red);font-weight:700}
 .warm li:last-child{border:none}
 .warm li span{color:var(--sub);font-size:.7rem;text-align:right}
 /* timer */
-#timerbar{position:fixed;bottom:calc(53px + env(safe-area-inset-bottom));left:0;right:0;z-index:29;background:var(--card);border-top:1px solid var(--line);padding:7px 12px;display:flex;align-items:center;gap:8px}
-#timerbar .tdisp{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:74px}
+#tscrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:28;opacity:0;pointer-events:none;transition:opacity .2s}
+#tscrim.on{opacity:1;pointer-events:auto}
+#timerbar{position:fixed;bottom:calc(53px + env(safe-area-inset-bottom));left:0;right:0;z-index:29;
+  background:var(--card);border-top:1px solid var(--line);padding:6px 10px 8px}
+#timerbar .trow{display:flex;align-items:center;gap:10px}
+#timerbar .tdisp{flex:1;font-size:1.7rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 #timerbar.running .tdisp{color:var(--red)}
-#timerbar button{background:var(--bg);border:1.5px solid var(--line2);color:var(--txt);border-radius:9px;padding:7px 10px;font-size:.75rem;font-weight:700;font-family:inherit}
-#timerbar button.go{background:var(--red);border-color:var(--red);color:#fff}
-#timerbar #tmode{padding:7px 9px;font-size:.95rem;line-height:1}
-#timerbar #tmode.sure{background:var(--redsoft);border-color:var(--red)}
+#timerbar .tgobig{background:var(--red);border:none;color:#fff;border-radius:14px;
+  padding:14px 30px;font-size:1.05rem;font-weight:900;font-family:inherit;min-width:118px}
+#timerbar .thandle{background:var(--bg);border:1.5px solid var(--line2);color:var(--sub2);
+  border-radius:14px;width:56px;height:52px;font-size:1.1rem;font-family:inherit;font-weight:900}
+#timerbar .thandle #thchev{display:inline-block;transition:transform .2s}
+#timerbar.open .thandle #thchev{transform:rotate(180deg)}
+.tpanel{max-height:0;overflow:hidden;transition:max-height .24s ease}
+#timerbar.open .tpanel{max-height:320px}
+.tpresets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.tpresets button{background:var(--bg);border:2px solid var(--line2);color:var(--txt);border-radius:16px;
+  padding:20px 0;font-size:1.3rem;font-weight:900;font-family:inherit}
+.tpresets button.on{background:var(--redsoft);border-color:var(--red);color:var(--red)}
+.tadjust{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:10px}
+.tadjust button{background:var(--bg);border:2px solid var(--line2);color:var(--txt);border-radius:16px;
+  padding:18px 0;font-size:1rem;font-weight:900;font-family:inherit}
+.tset{font-size:1.9rem;font-weight:900;min-width:104px;text-align:center;font-variant-numeric:tabular-nums}
+.tactions{display:grid;grid-template-columns:64px 1fr 96px;gap:10px;margin-top:10px}
+.tactions button{border-radius:16px;font-family:inherit;font-weight:900;border:2px solid var(--line2);
+  background:var(--bg);color:var(--txt);padding:20px 0;font-size:1rem}
+.tactions .tstart{background:var(--red);border-color:var(--red);color:#fff;font-size:1.15rem}
+.tactions #tmode{font-size:1.3rem;padding:20px 0}
+.tactions #tmode.sure{background:var(--redsoft);border-color:var(--red)}
+.tactions .tclose{color:var(--sub2);font-size:.86rem}
+body.candy #timerbar .tgobig,body.candy .tpresets button,body.candy .tadjust button,body.candy .tactions button{border-radius:20px}
+body.dopa #timerbar .tgobig,body.dopa .tactions .tstart{background:#c8006a;border-color:#ff2d95}
+body.dopa .tpresets button,body.dopa .tadjust button,body.dopa .tactions button,body.dopa #timerbar .thandle{background:#1c0d31;border-color:#4a2280;color:#f4ecff}
+body.dopa .tpresets button.on{background:#3d1230;border-color:#ff2d95;color:#ff9fd4}
 /* settings/buttons */
 .field{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
 .field:last-child{border:none}
@@ -374,6 +401,22 @@ body.candy .ex.done::after{content:'🎀';position:absolute;top:-7px;right:10px;
 #installBox ol{padding-left:20px;margin-top:6px}
 #installBox li{font-size:.78rem;line-height:1.9}
 #installBox b{color:var(--red)}
+
+/* ===== バージョン表示 ===== */
+#verBtn{position:absolute;top:14px;right:82px;background:var(--bg);border:1.5px solid var(--line2);
+  border-radius:14px;padding:6px 10px;font-size:.66rem;font-weight:800;color:var(--sub2);font-family:inherit}
+#verModal{position:fixed;inset:0;z-index:65;background:rgba(20,18,17,.6);display:none;
+  align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 14px 40px}
+#verModal.open{display:flex}
+#verModal .vbox{background:var(--card);border-radius:18px;padding:18px;max-width:440px;width:100%}
+#verModal h3{font-size:1rem;font-weight:900;margin-bottom:12px}
+.clog{border-top:1px solid var(--line);padding:11px 0}
+.clog:first-child{border-top:none;padding-top:0}
+.clog b{display:block;font-size:.9rem;font-weight:900;color:var(--red);margin-bottom:4px}
+.clog b span{font-size:.68rem;color:var(--sub2);font-weight:700;margin-left:8px}
+.clog ul{padding-left:18px}
+.clog li{font-size:.78rem;line-height:1.8;color:var(--txt)}
+body.dopa #verBtn{background:#1c0d31;border-color:#4a2280;color:#b9a3dc}
 /* partner / sync */
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
 .sync .d{width:8px;height:8px;border-radius:50%}
@@ -402,6 +445,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
+  <button id="verBtn" onclick="showChangelog()">v1.5</button>
 </header>
 
 <div id="installBox">
@@ -410,13 +454,37 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 </div>
 <main id="view"></main>
 
+<div id="verModal" onclick="if(event.target===this)closeChangelog()">
+  <div class="vbox">
+    <h3>更新履歴</h3>
+    <div id="verBody"></div>
+    <button class="btn ghost" onclick="closeChangelog()">閉じる</button>
+  </div>
+</div>
+<div id="tscrim" onclick="closeTimer()"></div>
 <div id="timerbar">
-  <div class="tdisp" id="tdisp">0:00</div>
-  <button id="tmode" onclick="toggleSound()">🎵</button>
-  <button onclick="setTimer(90)">1:30</button>
-  <button onclick="setTimer(180)">3:00</button>
-  <button onclick="setTimer(300)">5:00</button>
-  <button class="go" id="tgo" onclick="toggleTimer()">開始</button>
+  <div class="trow" onclick="openTimer(event)">
+    <div class="tdisp" id="tdisp">0:00</div>
+    <button class="tgobig" id="tgo" onclick="event.stopPropagation();toggleTimer()">開始</button>
+    <button class="thandle" onclick="event.stopPropagation();toggleTimerPanel()" aria-label="タイマーを開く"><span id="thchev">⌃</span></button>
+  </div>
+  <div class="tpanel">
+    <div class="tpresets">
+      <button onclick="pickPreset(90)">1:30</button>
+      <button onclick="pickPreset(180)">3:00</button>
+      <button onclick="pickPreset(300)">5:00</button>
+    </div>
+    <div class="tadjust">
+      <button onclick="adjustTimer(-30)">−30秒</button>
+      <div class="tset" id="tset">1:30</div>
+      <button onclick="adjustTimer(30)">＋30秒</button>
+    </div>
+    <div class="tactions">
+      <button id="tmode" onclick="toggleSound()">🎵</button>
+      <button class="tstart" id="tstart" onclick="startFromPanel()">開始</button>
+      <button class="tclose" onclick="closeTimer()">閉じる</button>
+    </div>
+  </div>
 </div>
 
 <nav class="tabs">
@@ -451,6 +519,22 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
+const APP_VERSION='1.5';
+const CHANGELOG=[
+  {v:'1.5', d:'9/9', items:['アラーム音を3種類から選べるように（切迫感のある音に変更）','タイマーを開閉式にして操作ボタンを大型化','音量を設定で調整できるように','バージョン表示を追加']},
+  {v:'1.4', d:'9/9', items:['同期で記録が消える不具合を修正','週1回の自動バックアップを追加','クラウドから記録を取り込むボタンを追加']},
+  {v:'1.3', d:'8/11', items:['ホーム画面へのインストール案内を追加','アイコンを刷新']},
+  {v:'1.2', d:'8/11', items:['E1RM推移グラフの横軸を「週」に変更','まとめ画像を4:5に変更（Instagramで切れないように）']},
+  {v:'1.1', d:'8/6', items:['ジムモード（1種目フォーカス表示）を追加','ドパガキモード・candytuneモードを追加','キャンディ換算表示を追加']},
+  {v:'1.0', d:'7/18', items:['SQUAT MANIA プログラムの記録アプリを公開']}
+];
+function showChangelog(){
+  const html=CHANGELOG.map(c=>`<div class="clog"><b>v${c.v}<span>${c.d}</span></b><ul>${c.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`).join('');
+  const box=document.getElementById('verModal');
+  document.getElementById('verBody').innerHTML=html;
+  box.classList.add('open');
+}
+function closeChangelog(){ document.getElementById('verModal').classList.remove('open'); }
 const DATA = {"program":[{"name":"w1","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w2","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w3","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":5,"rpe":7,"memo":"３秒かけておろして普通にあげる、足上げベンチ(膝伸ばす)"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":"しっかり肘を伸ばしきり、あごを出す"},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":3,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":"2秒止める"},{"name":"ルーマニアンデッド","cat":"leg","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":5,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":3,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"8レップ懸垂できない場合バンドアシストなど利用"},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":3,"rpe":8,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":9,"memo":""}]}]},{"name":"w4 (deload)","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":5,"set":2,"rpe":6,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":2,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"アブローラー","cat":"","rep":12,"set":2,"rpe":7,"memo":""}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":1,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":1,"rpe":7,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","プルアップ"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":15,"set":2,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":15,"set":2,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":1,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":5,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":12,"set":2,"rpe":7,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ラットプルダウン","cat":"pull","rep":12,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","プルアップ"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":""},{"name":"アップライトロウ","cat":"shoulder","rep":10,"set":2,"rpe":7,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":null,"rpe":null,"memo":""}]}]},{"name":"w5","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w6","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w7","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ポーズスクワット","cat":"sq","rep":5,"set":4,"rpe":8,"memo":"スティッキングポイント(詰まるところ)で2秒止める"},{"name":"ベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":3,"rpe":7,"memo":"３秒かけておろして普通にあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":3,"rpe":8,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":3,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":3,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":3,"rpe":8,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":4,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w8 (deload)","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":5,"set":2,"rpe":7,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":"","opts":["ブルガリアンスクワット","ヒップスラスト","バックエクステンション"]},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":5,"set":1,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":8,"set":3,"rpe":7,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":15,"set":2,"rpe":7,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]},{"name":"アームカール","cat":"arm","rep":10,"set":null,"rpe":null,"memo":""},{"name":"スカルクラッシャー","cat":"arm","rep":10,"set":null,"rpe":null,"memo":""}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":1,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":2,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"ポーズベンチ","cat":"bp","rep":3,"set":2,"rpe":7,"memo":"2秒止める"},{"name":"スミススクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]},{"name":"アップライトロウ","cat":"shoulder","rep":8,"set":2,"rpe":7,"memo":""}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":3,"set":1,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":8,"set":2,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""}]}]},{"name":"w9","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":8.5,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"テンポスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":"4秒かけておろして2秒止めて4秒かけてあげる"},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":2,"set":5,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":8,"memo":""}]}]},{"name":"w10","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":9,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":3,"rpe":0,"memo":"練習で疲労がたまらない程度、maxの50％以下"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":3,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":2,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"シーテッドロウ","cat":"row","rep":8,"set":2,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"テンポスクワット","cat":"sq","rep":3,"set":3,"rpe":7,"memo":"4秒かけておろして2秒止めて4秒かけてあげる"},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":2,"set":5,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":4,"rpe":7,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"シーテッドロウ","cat":"row","rep":8,"set":4,"rpe":7,"memo":"","opts":["ベントオーバーロウ","シーテッドロウ","チェストサポートロウ","シールロウ"]},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":null,"memo":""}]}]},{"name":"w11","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":1,"rpe":8,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":1,"rpe":9,"memo":""},{"name":"テンポベンチプレス","cat":"bp","rep":8,"set":3,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"ブルガリアンスクワット","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"ルーマニアンデッド","cat":"leg","rep":10,"set":2,"rpe":6,"memo":""},{"name":"アブローラー","cat":"","rep":10,"set":2,"rpe":6,"memo":"膝つきでも良い"}]},{"day":"d2","exercises":[{"name":"ラーセンテンポベンチプレス","cat":"bp","rep":3,"set":2,"rpe":7,"memo":"３秒かけておろして１秒止めて３秒かけてあげる"},{"name":"オーバーヘッドプレス","cat":"shoulder","rep":6,"set":1,"rpe":8,"memo":""},{"name":"ラットプルダウン","cat":"pull","rep":8,"set":2,"rpe":8,"memo":"","opts":["ラットプルダウン","懸垂","アシスト懸垂"]},{"name":"リアレイズ","cat":"shoulder","rep":12,"set":1,"rpe":8,"memo":"","opts":["リアレイズ","リアデルトフライ","フェイスプル"]}]},{"day":"d3","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":3,"rpe":6,"memo":""},{"name":"ポーズデッドリフト","cat":"dl","rep":3,"set":4,"rpe":6,"memo":""},{"name":"スミススクワット","cat":"leg","rep":8,"set":2,"rpe":7,"memo":"","opts":["スミススクワット","レッグプレス","ベルトスクワット","ペンデュラムスクワット","テンポスクワット　3-1-3"]}]},{"day":"d4","exercises":[{"name":"フロントスクワット","cat":"sq","rep":1,"set":3,"rpe":7,"memo":""},{"name":"アブローラー","cat":"","rep":"amrap","set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"","rep":5,"set":3,"rpe":7,"memo":""}]}]},{"name":"MAX TEST","warmup":[{"name":"ルーマニアンデッド","sets":2,"reps":10,"memo":"バーもしくはごく軽いダンベル"},{"name":"ラットプルもしくはアシスト懸垂","sets":2,"reps":10,"memo":"肩甲骨意識のため軽いので"},{"name":"ブルガリアンスクワット","sets":2,"reps":10,"memo":"自重"}],"days":[{"day":"d1","exercises":[{"name":"スクワット","cat":"sq","rep":1,"set":2,"rpe":7,"memo":""},{"name":"ベンチプレス","cat":"bp","rep":1,"set":3,"rpe":8,"memo":""}]},{"day":"d2","exercises":[{"name":"デッドリフト","cat":"dl","rep":1,"set":1,"rpe":5,"memo":""},{"name":"スクワット","cat":"sq","rep":3,"set":3,"rpe":6,"memo":""},{"name":"ポーズベンチプレス","cat":"bp","rep":3,"set":3,"rpe":7,"memo":""}]},{"day":"d3","exercises":[{"name":"MAX TEST","cat":"","rep":null,"set":null,"rpe":"7-8.5-10","memo":"各種目RPE7-8.5-10で様子を見ながら挑戦する"}]}]}],"rpeChart":{"10.0":[1.0,0.95,0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599],"9.5":[0.978,0.939,0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.6395,0.6125,0.5855],"9.0":[0.955,0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572],"8.5":[0.939,0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.6125,0.5855,0.5585],"8.0":[0.922,0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572,0.545],"7.5":[0.907,0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.613,0.5855,0.5585,0.5315],"7.0":[0.892,0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.572,0.545,0.518],"6.5":[0.878,0.85,0.824,0.799,0.774,0.751,0.723,0.694,0.667,0.64,0.613,0.586,0.5585,0.5315,0.5045],"6.0":[0.863,0.837,0.811,0.786,0.762,0.739,0.707,0.68,0.653,0.626,0.599,0.574,0.545,0.518,0.491]}};
 const PROGRAM = DATA.program;
 const CHART = DATA.rpeChart;
@@ -459,8 +543,8 @@ const CHART = DATA.rpeChart;
 const KEY='squatmania_v1';
 let S = load();
 function load(){
-  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
-  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, candyImg:'list', candyFx:true, candySound:true };
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', candyImg:'list', candyFx:true, candySound:true };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
 
@@ -473,6 +557,7 @@ let FBERR='';
 let REMOTE={};     // {userKey:{name,oneRM,logs,updatedAt}}
 let fbdb=null;
 let pushTimer=null;
+let fbReady=false;
 function myKey(){ return (FB.name||'').trim().replace(/[.#$\[\]\/\s]/g,'_'); }
 
 function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
@@ -493,28 +578,89 @@ async function connectFB(){
     fbdb.ref('users').on('value', snap=>{
       REMOTE = snap.val()||{};
       FBSTATE='on'; syncUI();
-      // 初回：この端末が空でクラウドに自分のデータがあれば復元
       const mine=REMOTE[myKey()];
-      if(mine && Object.keys(S.logs).length===0 && mine.logs && Object.keys(mine.logs).length>0){
+      const cloudN = realCount(mine&&mine.logs);
+      const localN = realCount(S.logs);
+      // 端末が空でクラウドに自分のデータがあれば自動復元
+      if(cloudN>0 && localN===0){
         S.logs=mine.logs; S.oneRM=mine.oneRM||S.oneRM; S.picks=mine.picks||S.picks;
         localStorage.setItem(KEY, JSON.stringify(S));
         toast('クラウドから記録を復元しました');
+        render();
       }
-      if(tab==='partner') render();
+      fbReady=true;                 // ここまで来て初めて送信を許可する
+      if(tab==='partner'||tab==='settings') render();
     }, err=>{ FBSTATE='err'; FBERR=err.message||'接続エラー'; syncUI(); });
-    schedulePush(0);
   }catch(e){
     FBSTATE='err'; FBERR=e.message||'初期化エラー'; syncUI();
   }
 }
+function realCount(logs){
+  if(!logs) return 0;
+  let n=0;
+  Object.values(logs).forEach(L=>{
+    if(!L||!L.sets) return;
+    if(L.sets.some(s=>s && (s.done || (s.kg!==''&&s.kg!=null) || (s.reps!==''&&s.reps!=null)))) n++;
+  });
+  return n;
+}
 function schedulePush(delay=800){
   if(!fbdb || !myKey()) return;
+  if(!fbReady) return;                       // クラウドを読む前に書き込まない
+  const mine=REMOTE[myKey()];
+  const cloudN=realCount(mine&&mine.logs);
+  const localN=realCount(S.logs);
+  if(localN===0 && cloudN>0) return;         // 空で上書きしない
   clearTimeout(pushTimer);
   pushTimer=setTimeout(()=>{
     fbdb.ref('users/'+myKey()).set({
       name:FB.name.trim(), oneRM:S.oneRM, logs:S.logs, picks:S.picks||{}, updatedAt:Date.now()
     }).catch(e=>{ FBSTATE='err'; FBERR=e.message||'書込エラー'; syncUI(); });
   }, delay);
+}
+/* クラウドの自分のデータを手動で取り込む */
+function restoreFromCloud(){
+  const mine=REMOTE[myKey()];
+  const n=realCount(mine&&mine.logs);
+  if(!n){ toast('クラウドに記録が見つかりません'); return; }
+  if(!confirm(`クラウドの記録（${n}件）をこの端末に取り込みます。今の記録は置き換わります。よろしいですか？`)) return;
+  S.logs=mine.logs; S.oneRM=mine.oneRM||S.oneRM; S.picks=mine.picks||S.picks;
+  localStorage.setItem(KEY, JSON.stringify(S));
+  render(); toast(`${n}件を復元しました`);
+}
+function restoreFromKey(key){
+  const node=REMOTE[key]; const n=realCount(node&&node.logs);
+  if(!n){ toast('記録が見つかりません'); return; }
+  if(!confirm(`「${node.name||key}」の記録（${n}件）をこの端末に取り込みます。よろしいですか？`)){ render(); return; }
+  S.logs=node.logs; S.oneRM=node.oneRM||S.oneRM; S.picks=node.picks||S.picks;
+  localStorage.setItem(KEY, JSON.stringify(S));
+  render(); toast(`${n}件を復元しました`);
+}
+/* Firebaseコンソールから書き出したJSONを取り込む */
+function importCloudJSON(inp){
+  const f=inp.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    try{
+      let j=JSON.parse(fr.result);
+      if(j.users) j=j.users;
+      let node=null;
+      if(j.logs) node=j;
+      else {
+        const keys=Object.keys(j);
+        node = j[myKey()] || j[keys.find(k=>j[k]&&j[k].logs)] || null;
+      }
+      if(!node||!node.logs){ toast('記録が見つかりませんでした'); return; }
+      const n=realCount(node.logs);
+      if(!n){ toast('記録が入っていないファイルです'); return; }
+      if(!confirm(`${n}件の記録を取り込みます。よろしいですか？`)) return;
+      S.logs=node.logs; S.oneRM=node.oneRM||S.oneRM; S.picks=node.picks||S.picks;
+      localStorage.setItem(KEY, JSON.stringify(S));
+      render(); toast(`${n}件を復元しました`);
+    }catch(e){ toast('ファイルを読めませんでした'); }
+  };
+  fr.readAsText(f);
+  inp.value='';
 }
 function partner(){
   const me=myKey();
@@ -1733,6 +1879,15 @@ function renderSettings(){
     <p class="note">Instagramのプロフィールグリッドは縦長（3:4）で切り抜かれるため、正方形だと日付やロゴの左右が見切れます。4:5にすると投稿でもグリッドでも文字が切れずに綺麗に並びます。</p>
   </div>
   <div class="card"><h2>レストタイマーの通知</h2>
+    <div class="field"><label>音量<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">ジムの騒音に合わせて調整</span></label>
+      <span style="font-size:1rem;font-weight:900;min-width:52px;text-align:right">${Math.round((S.vol??0.85)*100)}%</span></div>
+    <input type="range" min="10" max="100" step="5" value="${Math.round((S.vol??0.85)*100)}"
+      style="width:100%;height:34px" oninput="setVol(this.value)" onchange="setVol(this.value,true)">
+    <div class="field"><label>音の種類</label>
+      <select class="pick" style="width:190px" onchange="setAlarm(this.value)">
+        ${Object.entries(ALARMS).map(([k,v])=>`<option value="${k}"${S.alarm===k?' selected':''}>${esc(v.name)}</option>`).join('')}
+      </select></div>
+    <button class="btn ghost" onclick="testBeep()">🔊 音を試す</button>
     <div class="field"><label>音楽を止めない<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽に重ねて鳴らす（推奨）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound!=='sure'?'checked':''} onchange="setSound('mix')"></div>
     <div class="field"><label>確実に鳴らす<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">閉じていても必ず鳴る／音楽は停止</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='sure'?'checked':''} onchange="setSound('sure')"></div>
     <p class="note">iPhoneでは音楽アプリとタイマーが同時に音を出せないため、どちらかを選ぶ形になります。「音楽を止めない」はアプリを開いている間だけ鳴り、閉じている間は鳴りません（戻った瞬間に「○分前に終了」と表示されます）。スマホを置いてレストする時は「確実に鳴らす」に切り替えてください。タイマーバーの 🎵 / 🔔 ボタンでワンタップ切替できます。</p>
@@ -1765,7 +1920,22 @@ function renderSettings(){
     <button class="btn ghost" onclick="resetInstallHint()">インストール方法を表示</button>
     <p class="note">ホーム画面に追加すると、全画面で起動して電波がない場所でも使えます。iPhoneはSafariの共有ボタンから「ホーム画面に追加」、Androidはメニューから「アプリをインストール」で追加できます。</p>
   </div>
+  ${FB.config&&myKey()?`<div class="card"><h2>記録の復元</h2>
+    <p class="note" style="margin-top:0">クラウドにある自分の記録：<b>${(()=>{const m=REMOTE[myKey()];const n=realCount(m&&m.logs);return n?n+'件':'なし';})()}</b></p>
+    <button class="btn ghost" onclick="restoreFromCloud()">クラウドから記録を取り込む</button>
+    ${(()=>{const others=Object.entries(REMOTE).filter(([k,v])=>k!==myKey()&&realCount(v&&v.logs)>0);
+      return others.length?`<select class="pick" style="width:100%;margin-top:8px" onchange="if(this.value)restoreFromKey(this.value)">
+        <option value="">別の名前で保存された記録から選ぶ…</option>
+        ${others.map(([k,v])=>`<option value="${esc(k)}">${esc(v.name||k)}（${realCount(v.logs)}件）</option>`).join('')}
+      </select>`:'';})()}
+    <button class="btn ghost" onclick="document.getElementById('cloudjson').click()">Firebaseから書き出したJSONを取り込む</button>
+    <input type="file" id="cloudjson" accept=".json" style="display:none" onchange="importCloudJSON(this)">
+    <p class="note">Firebaseコンソール → Realtime Database → 「⋮」→「JSONをエクスポート」で保存したファイルも取り込めます。</p>
+  </div>`:''}
   <div class="card"><h2>データ管理</h2>
+    ${(()=>{const l=backupList();return l.length?`<p class="note" style="margin-top:0">自動バックアップ（週1で自動保存）</p>`+
+      l.map((b,i)=>{const d=new Date(b.ts);return `<button class="btn ghost" onclick="restoreBackup(${i})">${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} の記録に戻す（${b.n}件）</button>`;}).join('')
+      :'<p class="note" style="margin-top:0">自動バックアップは週に1回、自動で保存されます。</p>';})()}
     <button class="btn ghost" onclick="exportData()">記録をバックアップ（ファイル保存）</button>
     <button class="btn ghost" onclick="document.getElementById('imp').click()">バックアップを読み込み</button>
     <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
@@ -1778,6 +1948,45 @@ function setRatio(r){ S.imgRatio=r; save(); render(); toast(r==='1:1'?'正方形
 function toggleSound(){
   setSound(S.sound==='sure'?'mix':'sure');
 }
+/* ===== 自動バックアップ（週1・直近3つ保持） ===== */
+const BAKKEY='squatmania_bak';
+function autoBackup(){
+  try{
+    if(realCount(S.logs)===0) return;
+    let list=JSON.parse(localStorage.getItem(BAKKEY)||'[]');
+    const now=Date.now();
+    if(list.length && now-list[0].ts < 7*24*60*60*1000) return;
+    list.unshift({ts:now, n:realCount(S.logs), data:JSON.stringify(S)});
+    list=list.slice(0,3);
+    localStorage.setItem(BAKKEY, JSON.stringify(list));
+  }catch(e){}
+}
+function backupList(){
+  try{ return JSON.parse(localStorage.getItem(BAKKEY)||'[]'); }catch(e){ return []; }
+}
+function restoreBackup(i){
+  const list=backupList(); const b=list[i]; if(!b) return;
+  const d=new Date(b.ts);
+  if(!confirm(`${d.getMonth()+1}/${d.getDate()} 時点の記録（${b.n}件）に戻します。よろしいですか？`)) return;
+  try{
+    const s=JSON.parse(b.data);
+    if(s.logs){ S=s; localStorage.setItem(KEY, JSON.stringify(S)); render(); toast(`${b.n}件を復元しました`); }
+  }catch(e){ toast('復元に失敗しました'); }
+}
+function setVol(v,save_){
+  S.vol=Math.max(0.1,Math.min(1,Number(v)/100));
+  if(save_){ save(); render(); }
+  else { const el=document.querySelector('.card input[type=range]'); if(el&&el.previousElementSibling)
+    el.previousElementSibling.querySelector('span:last-child').textContent=Math.round(S.vol*100)+'%'; }
+}
+function setAlarm(k){ S.alarm=k; save(); render(); ensureAC(); scheduleMixBeeps(0); }
+function testBeep(){
+  ensureAC();
+  if(S.sound!=='sure') scheduleMixBeeps(0); else beep();
+  toast('この音量で鳴ります');
+}
+function setVol2(v){ setVol(v,true); }
+/* ===== 自動バックアップ ここまで ===== */
 function setSound(m){
   S.sound=m; save();
   if(tRun){ // 稼働中なら即座に方式を切り替える
@@ -1838,7 +2047,7 @@ function applyFBSettings(){
 function disconnectFB(){
   if(!confirm('この端末の同期設定を削除します（クラウド上の記録は残ります）。よろしいですか？')) return;
   FB={config:null,name:''}; saveFB();
-  FBSTATE='off'; REMOTE={}; fbdb=null;
+  FBSTATE='off'; REMOTE={}; fbdb=null; fbReady=false;
   render(); toast('同期設定を削除しました');
 }
 function exportData(){
@@ -2135,6 +2344,12 @@ function paintT(){
   el.textContent=fmtT(tLeftNow());
   document.getElementById('tgo').textContent=tRun?'停止':'開始';
   document.getElementById('timerbar').classList.toggle('running',tRun);
+  const ts=document.getElementById('tset'); if(ts) ts.textContent=fmtT(tBase);
+  const tst=document.getElementById('tstart'); if(tst) tst.textContent=tRun?'停止':'開始';
+  document.querySelectorAll('.tpresets button').forEach(b=>{
+    const v=Number((b.getAttribute('onclick')||'').replace(/\D/g,''));
+    b.classList.toggle('on', v===tBase);
+  });
   const mb=document.getElementById('tmode');
   if(mb){
     const sure=S.sound==='sure';
@@ -2142,6 +2357,29 @@ function paintT(){
     mb.title=sure?'確実に鳴らす（音楽は停止）':'音楽優先（閉じると鳴りません）';
     mb.classList.toggle('sure',sure);
   }
+}
+/* ---- 開閉 ---- */
+function openTimer(ev){
+  if(ev && ev.target.closest('button')) return;
+  document.getElementById('timerbar').classList.add('open');
+  document.getElementById('tscrim').classList.add('on');
+  paintT();
+}
+function closeTimer(){
+  document.getElementById('timerbar').classList.remove('open');
+  document.getElementById('tscrim').classList.remove('on');
+}
+function toggleTimerPanel(){
+  document.getElementById('timerbar').classList.contains('open') ? closeTimer() : openTimer();
+}
+function pickPreset(sec){ setTimer(sec); if(navigator.vibrate) navigator.vibrate(12); }
+function adjustTimer(delta){
+  setTimer(Math.max(15, Math.min(900, tBase+delta)));
+  if(navigator.vibrate) navigator.vibrate(12);
+}
+function startFromPanel(){
+  if(tRun) stopTimer(false); else startTimer();
+  closeTimer();
 }
 function saveTimer(){
   if(tRun) localStorage.setItem(TKEY, JSON.stringify({base:tBase,end:tEnd}));
@@ -2155,8 +2393,34 @@ function toggleTimer(){ tRun ? stopTimer(false) : startTimer(); }
 
 /* 無音＋最後にビープが入ったWAVを生成し、鳴らし続けることで
    画面を閉じてもバックグラウンドで音が鳴るようにする */
+/* ===== アラーム音のパターン ===== */
+const ALARMS={
+  beep:{ name:'ピピピッ（目覚まし風）', dur:3.2, seq:(()=>{
+    const a=[]; let t=0;
+    for(let g=0; g<4; g++){
+      for(let i=0;i<4;i++){ a.push([t,0.075,2200,'square']); t+=0.115; }
+      t+=0.22;
+    }
+    return a;
+  })()},
+  siren:{ name:'ピーポー（サイレン風）', dur:3.4, seq:(()=>{
+    const a=[]; let t=0;
+    for(let i=0;i<5;i++){
+      a.push([t,0.26,1560,'sawtooth']); t+=0.28;
+      a.push([t,0.26,1040,'sawtooth']); t+=0.30;
+    }
+    return a;
+  })()},
+  buzzer:{ name:'ブーッ（競技の合図風）', dur:3.0, seq:[
+    [0,0.55,180,'sawtooth'],[0,0.55,242,'sawtooth'],
+    [0.75,0.55,180,'sawtooth'],[0.75,0.55,242,'sawtooth'],
+    [1.5,1.2,180,'sawtooth'],[1.5,1.2,242,'sawtooth'],[1.5,1.2,363,'sawtooth']
+  ]}
+};
+function alarmSeq(){ return (ALARMS[S.alarm]||ALARMS.beep).seq; }
+function alarmDur(){ return (ALARMS[S.alarm]||ALARMS.beep).dur; }
 function buildTimerWav(sec){
-  const SR=8000, beepSec=2.2, total=sec+beepSec;
+  const SR=11025, beepSec=alarmDur()+0.3, total=sec+beepSec;
   const n=Math.floor(SR*total);
   const buf=new ArrayBuffer(44+n*2), view=new DataView(buf);
   const wr=(o,s)=>{ for(let i=0;i<s.length;i++) view.setUint8(o+i,s.charCodeAt(i)); };
@@ -2165,18 +2429,24 @@ function buildTimerWav(sec){
   view.setUint32(24,SR,true); view.setUint32(28,SR*2,true);
   view.setUint16(32,2,true); view.setUint16(34,16,true); wr(36,'data'); view.setUint32(40,n*2,true);
   const silentN=Math.floor(SR*sec);
+  const SEQ=alarmSeq();
   for(let i=0;i<n;i++){
     let v=0;
     if(i<silentN){
       v=(i%1600===0)?24:0; // 極小パルス：iOSの再生セッション維持用（ほぼ無音）
     }else{
       const t=(i-silentN)/SR;
-      const seg=Math.floor(t/0.55);            // 0.55秒ごとに4回鳴らす
-      const ph=t-seg*0.55;
-      if(seg<4 && ph<0.28){
-        const env=Math.sin(Math.PI*Math.min(1,ph/0.28));
-        v=Math.sin(2*Math.PI*880*t)*22000*env;
-      }
+      let sum=0, act=0;
+      SEQ.forEach(([st,dur,f,wave])=>{
+        if(t<st || t>st+dur) return;
+        const ph=t-st;
+        const env=Math.min(1, ph/0.008) * Math.min(1,(dur-ph)/0.02);
+        let w;
+        if(wave==='sawtooth'){ const p=(f*ph)%1; w=2*p-1; }
+        else { w=Math.sin(2*Math.PI*f*ph)>=0?1:-1; }
+        sum+=w*env; act++;
+      });
+      if(act) v=Math.max(-1,Math.min(1,sum/Math.min(act,2)))*30000*(S.vol??0.85);
     }
     view.setInt16(44+i*2, v, true);
   }
@@ -2195,18 +2465,21 @@ function scheduleMixBeeps(afterSec){
   const ac=ensureAC(); if(!ac) return;
   clearScheduled();
   const t0=ac.currentTime+Math.max(0,afterSec);
-  for(let n=0;n<4;n++){
+  const vol=Math.max(0.02, 1.0*(S.vol??0.85));
+  alarmSeq().forEach(([st,dur,f,wave])=>{
     const o=ac.createOscillator(), g=ac.createGain();
+    o.type=wave||'square';
+    o.frequency.setValueAtTime(f,t0+st);
     o.connect(g); g.connect(ac.destination);
-    o.frequency.value=880;
-    const st=t0+n*0.55;
-    g.gain.setValueAtTime(0.0001,st);
-    g.gain.exponentialRampToValueAtTime(0.35,st+0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001,st+0.28);
-    o.start(st); o.stop(st+0.3);
+    g.gain.setValueAtTime(0.0001,t0+st);
+    g.gain.exponentialRampToValueAtTime(vol,t0+st+0.008);
+    g.gain.setValueAtTime(vol,t0+st+dur*0.8);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+st+dur);
+    o.start(t0+st); o.stop(t0+st+dur+0.02);
     tScheduled.push(o);
-  }
+  });
 }
+function beep(){ scheduleMixBeeps(0); }   /* 前面での再生（以前の実装が失われていたため復旧） */
 function clearScheduled(){
   tScheduled.forEach(o=>{ try{ o.stop(); }catch(e){} });
   tScheduled=[];
@@ -2365,6 +2638,7 @@ paintT();
 render();
 connectFB();
 showInstall();
+autoBackup();
 </script>
 </body>
 </html>
