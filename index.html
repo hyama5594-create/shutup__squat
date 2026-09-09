@@ -417,6 +417,35 @@ body.candy .ex.done::after{content:'🎀';position:absolute;top:-7px;right:10px;
 .clog ul{padding-left:18px}
 .clog li{font-size:.78rem;line-height:1.8;color:var(--txt)}
 body.dopa #verBtn{background:#1c0d31;border-color:#4a2280;color:#b9a3dc}
+
+/* ===== アプリ内マニュアル ===== */
+#manModal{position:fixed;inset:0;z-index:66;background:rgba(20,18,17,.62);display:none;
+  align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 12px 40px}
+#manModal.open{display:flex}
+#manModal .mbox{background:var(--card);border-radius:20px;padding:20px 16px;max-width:460px;width:100%}
+#manModal h3{font-size:1.05rem;font-weight:900;margin-bottom:10px;color:var(--red)}
+.mlead{font-size:.82rem;line-height:1.85;color:var(--txt);background:var(--bg);
+  border-radius:12px;padding:11px 13px;margin-bottom:14px}
+ol.msteps{list-style:none;counter-reset:mstep;padding:0}
+ol.msteps li{counter-increment:mstep;position:relative;padding:0 0 16px 44px;margin-bottom:2px}
+ol.msteps li::before{content:counter(mstep);position:absolute;left:0;top:0;width:30px;height:30px;
+  border-radius:50%;background:var(--red);color:#fff;font-size:.86rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center}
+ol.msteps li::after{content:'';position:absolute;left:15px;top:34px;bottom:2px;width:2px;background:var(--line)}
+ol.msteps li:last-child::after{display:none}
+ol.msteps li b{display:block;font-size:.92rem;font-weight:900;margin-bottom:4px;line-height:1.5}
+ol.msteps li span{display:block;font-size:.79rem;line-height:1.85;color:var(--sub2)}
+ol.msteps li span b{display:inline;font-size:.79rem;color:var(--red)}
+.mtips{background:var(--ambersoft);border-left:4px solid var(--amber);border-radius:0 12px 12px 0;
+  padding:11px 13px;margin-top:6px}
+.mtips b{display:block;font-size:.8rem;font-weight:900;color:var(--amber);margin-bottom:5px}
+.mtips ul{padding-left:17px}
+.mtips li{font-size:.76rem;line-height:1.85;color:var(--txt)}
+.manrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}
+.manrow button{background:var(--bg);border:1.5px solid var(--line2);color:var(--txt);border-radius:12px;
+  padding:12px 4px;font-size:.72rem;font-weight:800;font-family:inherit;line-height:1.4}
+body.dopa .manrow button{background:#1c0d31;border-color:#4a2280;color:#f4ecff}
+body.dopa .mtips li,body.dopa .mlead{color:#e6dbf7}
 /* partner / sync */
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
 .sync .d{width:8px;height:8px;border-radius:50%}
@@ -445,7 +474,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
-  <button id="verBtn" onclick="showChangelog()">v1.5</button>
+  <button id="verBtn" onclick="showChangelog()">v1.6</button>
 </header>
 
 <div id="installBox">
@@ -454,6 +483,13 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 </div>
 <main id="view"></main>
 
+<div id="manModal" onclick="if(event.target===this)closeManual()">
+  <div class="mbox">
+    <h3 id="manTitle"></h3>
+    <div id="manBody"></div>
+    <button class="btn" onclick="closeManual()">閉じる</button>
+  </div>
+</div>
 <div id="verModal" onclick="if(event.target===this)closeChangelog()">
   <div class="vbox">
     <h3>更新履歴</h3>
@@ -519,8 +555,9 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION='1.5';
+const APP_VERSION='1.6';
 const CHANGELOG=[
+  {v:'1.6', d:'9/9', items:['音楽を止めずに鳴らせる「iPhone標準タイマー」モードを追加','アプリ内マニュアルを追加（ガイドタブ）','鳴らし方を3つから選べるように']},
   {v:'1.5', d:'9/9', items:['アラーム音を3種類から選べるように（切迫感のある音に変更）','タイマーを開閉式にして操作ボタンを大型化','音量を設定で調整できるように','バージョン表示を追加']},
   {v:'1.4', d:'9/9', items:['同期で記録が消える不具合を修正','週1回の自動バックアップを追加','クラウドから記録を取り込むボタンを追加']},
   {v:'1.3', d:'8/11', items:['ホーム画面へのインストール案内を追加','アイコンを刷新']},
@@ -543,8 +580,8 @@ const CHART = DATA.rpeChart;
 const KEY='squatmania_v1';
 let S = load();
 function load(){
-  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
-  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', candyImg:'list', candyFx:true, candySound:true };
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', candyImg:'list', candyFx:true, candySound:true };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
 
@@ -1813,7 +1850,14 @@ function renderGuide(){
   rpes.forEach(r=>{
     rows+='<tr><td class="hd">'+r+'</td>'+CHART[r].slice(0,12).map(p=>'<td>'+(p*100).toFixed(1)+'</td>').join('')+'</tr>';
   });
-  return `<div class="card guide">
+  return `<div class="card"><h2>アプリの使い方</h2>
+    <div class="manrow">
+      <button onclick="openManual('start')">🏁<br>はじめての<br>使い方</button>
+      <button onclick="openManual('sound')">🔊<br>音の<br>使い分け</button>
+      <button onclick="openManual('shortcut')">⏱<br>音楽を止めず<br>に鳴らす</button>
+    </div>
+  </div>
+  <div class="card guide">
   <h2>プログラムガイド要約</h2>
   <h3>期分け（9〜13週間）</h3>
   <p>プログラムは3つの期に分かれます。<b>ボリューム期</b>（w1〜4）で高レップ・高セットの土台を作り、<b>ストレングス期</b>（w5〜8）で体力を筋力に変換、<b>ピーク期</b>（w9〜MAX TEST）で高重量に慣れて1RM更新を狙います。%とRPEを守ることがプログラム成立の前提です。</p>
@@ -1888,8 +1932,13 @@ function renderSettings(){
         ${Object.entries(ALARMS).map(([k,v])=>`<option value="${k}"${S.alarm===k?' selected':''}>${esc(v.name)}</option>`).join('')}
       </select></div>
     <button class="btn ghost" onclick="testBeep()">🔊 音を試す</button>
-    <div class="field"><label>音楽を止めない<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽に重ねて鳴らす（推奨）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound!=='sure'?'checked':''} onchange="setSound('mix')"></div>
-    <div class="field"><label>確実に鳴らす<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">閉じていても必ず鳴る／音楽は停止</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='sure'?'checked':''} onchange="setSound('sure')"></div>
+    <div class="field"><label>🎵 音楽を止めない<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">アプリを開いている間だけ鳴る</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='mix'?'checked':''} onchange="setSound('mix')"></div>
+    <div class="field"><label>🔔 確実に鳴らす<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">閉じていても鳴る／音楽は停止</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='sure'?'checked':''} onchange="setSound('sure')"></div>
+    <div class="field"><label>⏱ iPhone標準タイマー<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽を止めずに鳴らせる（要・初回設定）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='shortcut'?'checked':''} onchange="setSound('shortcut')"></div>
+    ${S.sound==='shortcut'?`<div class="field"><label>ショートカット名</label>
+      <input type="text" value="${esc(S.scName||'レストタイマー')}" style="width:150px" onchange="setScName(this.value)"></div>
+    <button class="btn ghost" onclick="testShortcut()">⏱ ショートカットを試す</button>`:''}
+    <button class="btn" onclick="openManual('shortcut')">📖 標準タイマーの設定方法を見る</button>
     <p class="note">iPhoneでは音楽アプリとタイマーが同時に音を出せないため、どちらかを選ぶ形になります。「音楽を止めない」はアプリを開いている間だけ鳴り、閉じている間は鳴りません（戻った瞬間に「○分前に終了」と表示されます）。スマホを置いてレストする時は「確実に鳴らす」に切り替えてください。タイマーバーの 🎵 / 🔔 ボタンでワンタップ切替できます。</p>
   </div>
   <div class="card"><h2>現在の1RM（初回の推奨重量に使用）</h2>
@@ -1945,8 +1994,13 @@ function renderSettings(){
 }
 function setCandy(k,v){ S[k]=v; save(); render(); toast(k==='candyImg'?(v==='cheki'?'チェキ風で生成します♡':'リスト型で生成します'):(v?'ON にしました♡':'OFF にしました')); }
 function setRatio(r){ S.imgRatio=r; save(); render(); toast(r==='1:1'?'正方形で生成します':'4:5 縦長で生成します'); }
+const SOUND_MODES=['mix','sure','shortcut'];
+const SOUND_ICON={mix:'🎵',sure:'🔔',shortcut:'⏱'};
+const SOUND_LABEL={mix:'音楽優先（アプリを開いている間だけ鳴ります）',
+  sure:'確実に鳴らす（閉じていても鳴る／音楽は停止）',
+  shortcut:'iPhone標準タイマー（音楽を止めずに鳴らせます）'};
 function toggleSound(){
-  setSound(S.sound==='sure'?'mix':'sure');
+  setSound(SOUND_MODES[(SOUND_MODES.indexOf(S.sound)+1)%3]);
 }
 /* ===== 自動バックアップ（週1・直近3つ保持） ===== */
 const BAKKEY='squatmania_bak';
@@ -1979,6 +2033,8 @@ function setVol(v,save_){
   else { const el=document.querySelector('.card input[type=range]'); if(el&&el.previousElementSibling)
     el.previousElementSibling.querySelector('span:last-child').textContent=Math.round(S.vol*100)+'%'; }
 }
+function setScName(v){ S.scName=(v||'レストタイマー').trim(); save(); render(); toast('ショートカット名を保存しました'); }
+function testShortcut(){ runShortcutTimer(10); toast('10秒のタイマーを起動します'); }
 function setAlarm(k){ S.alarm=k; save(); render(); ensureAC(); scheduleMixBeeps(0); }
 function testBeep(){
   ensureAC();
@@ -1993,7 +2049,9 @@ function setSound(m){
     const left=tLeftNow();
     if(tAudio){ try{ tAudio.pause(); }catch(e){} }
     clearScheduled();
-    if(m==='sure'){
+    if(m==='shortcut'){
+      runShortcutTimer(left);
+    }else if(m==='sure'){
       setAudioSession('playback');
       try{
         if(tAudioURL) URL.revokeObjectURL(tAudioURL);
@@ -2006,7 +2064,7 @@ function setSound(m){
     }
   }
   render(); paintT();
-  toast(m==='sure'?'🔔 確実に鳴らす（音楽は停止します）':'🎵 音楽優先（閉じると鳴りません）');
+  toast(SOUND_ICON[m]+' '+SOUND_LABEL[m]);
 }
 function setRM(k,v){ S.oneRM[k]=v?Number(v):null; save(); toast('1RMを保存しました'); }
 function extractConfigObject(raw){
@@ -2352,10 +2410,9 @@ function paintT(){
   });
   const mb=document.getElementById('tmode');
   if(mb){
-    const sure=S.sound==='sure';
-    mb.textContent=sure?'🔔':'🎵';
-    mb.title=sure?'確実に鳴らす（音楽は停止）':'音楽優先（閉じると鳴りません）';
-    mb.classList.toggle('sure',sure);
+    mb.textContent=SOUND_ICON[S.sound]||'🎵';
+    mb.title=SOUND_LABEL[S.sound]||'';
+    mb.classList.toggle('sure',S.sound!=='mix');
   }
 }
 /* ---- 開閉 ---- */
@@ -2393,6 +2450,91 @@ function toggleTimer(){ tRun ? stopTimer(false) : startTimer(); }
 
 /* 無音＋最後にビープが入ったWAVを生成し、鳴らし続けることで
    画面を閉じてもバックグラウンドで音が鳴るようにする */
+/* ===== アプリ内マニュアル ===== */
+const MANUALS={
+  shortcut:{
+    title:'⏱ 音楽を止めずにタイマーを鳴らす設定',
+    lead:'iPhone標準の「時計」タイマーだけは、音楽の上に重ねて音を鳴らせます。この設定をすると、アプリの✓を押したときに標準タイマーが自動で走ります。初回だけ5分ほどかかりますが、一度作れば以降はずっと使えます。',
+    steps:[
+      {t:'「ショートカット」アプリを開く',
+       d:'iPhoneに最初から入っている、青と紫のアイコンのアプリです。見つからないときはホーム画面を下にスワイプして「ショートカット」と検索してください。'},
+      {t:'右上の「＋」をタップ',
+       d:'新しいショートカットの作成画面が開きます。'},
+      {t:'「アクションを追加」をタップ',
+       d:'検索欄が出てきます。'},
+      {t:'検索欄に「タイマー」と入力',
+       d:'候補の中から <b>「タイマーを開始」</b> を選んでタップします。似た名前で「タイマーを一時停止」などもあるので、必ず<b>「タイマーを開始」</b>を選んでください。'},
+      {t:'時間の数字の部分をタップ',
+       d:'「タイマーを ◯分 開始」と表示されているはずです。その<b>数字の部分</b>をタップすると、下から候補が出てきます。'},
+      {t:'「ショートカットの入力」を選ぶ',
+       d:'キーボードの上あたりに変数の候補が並びます。その中の <b>「ショートカットの入力」</b> をタップしてください。これで、アプリから送った秒数がそのまま使われるようになります。'},
+      {t:'単位を「秒」に変える',
+       d:'「分」と表示されている部分をタップして <b>「秒」</b> に変更します。ここを分のままにすると90分のタイマーになってしまうので必ず変えてください。'},
+      {t:'名前を「レストタイマー」にする',
+       d:'画面上部のショートカット名（「新規ショートカット」など）をタップして、<b>レストタイマー</b> と入力します。<b>この名前とアプリ側の設定は完全に一致させてください。</b>スペースや全角半角の違いでも動きません。'},
+      {t:'右上の「完了」をタップ',
+       d:'これで作成完了です。ショートカット一覧に「レストタイマー」が並んでいれば成功です。'},
+      {t:'このアプリに戻って動作確認',
+       d:'設定タブで「⏱ iPhone標準タイマー」を選び、<b>「⏱ ショートカットを試す」</b>を押してください。10秒のタイマーが動き出せば成功です。<br>初回は「”ショートカット”を開きますか？」と確認が出るので<b>「開く」</b>を、ショートカット側でも許可を求められたら<b>「許可」</b>をタップしてください。'}
+    ],
+    tips:[
+      '音楽を流したまま鳴らしたいのが目的なので、レスト中に音楽アプリを止める必要はありません。',
+      'タイマー開始のたびに一瞬ショートカットアプリの画面が出てから戻ります。これは仕様です。',
+      'アプリ側のタイマー表示も同時に動くので、残り時間はアプリでも確認できます。',
+      '止めたいときは、時計アプリのタイマーを止めてください。',
+      'うまく動かないときは、ショートカットの名前が設定と1文字も違わないか確認してください。'
+    ]
+  },
+  sound:{
+    title:'🔊 3つの鳴らし方の使い分け',
+    lead:'iPhoneは原則として、音楽アプリとこのアプリが同時に音を出せません。そのため状況に応じて3つから選べるようにしてあります。タイマーバーの 🎵 / 🔔 / ⏱ ボタンでワンタップ切替できます。',
+    steps:[
+      {t:'🎵 音楽を止めない',
+       d:'アプリを開いたままレストするとき用。音楽は流れ続け、その上に重ねてアラームが鳴ります。ただしアプリを閉じたり画面を消したりすると鳴りません（戻った瞬間に「◯分前に終了」と表示されます）。'},
+      {t:'🔔 確実に鳴らす',
+       d:'スマホを置いてレストするとき用。アプリを閉じても画面を消しても必ず鳴ります。そのかわり音楽は停止します。'},
+      {t:'⏱ iPhone標準タイマー',
+       d:'音楽を聴きながら、かつ閉じていても鳴らしたいとき用。iPhone標準のタイマーを呼び出すので、音楽の上に重ねて鳴らせます。初回だけショートカットの作成が必要です（設定タブの「標準タイマーの設定方法を見る」から）。'}
+    ],
+    tips:[
+      'イヤホンをしているなら、🔔でも音楽が止まるだけでアラームはイヤホンから聞こえます。',
+      '音の種類は「ピピピッ」「ピーポー」「ブーッ」の3つから選べます。',
+      '音量は設定タブのスライダーで調整できます。「🔊 音を試す」でその場で確認できます。'
+    ]
+  },
+  start:{
+    title:'🏁 はじめての使い方',
+    lead:'このアプリは SQUAT MANIA の11週間プログラム専用です。最初にこれだけやっておけば、あとは毎回✓を押すだけになります。',
+    steps:[
+      {t:'BIG3の1RMを入力する',
+       d:'設定タブの「現在の1RM」にスクワット・ベンチプレス・デッドリフトの最大重量を入れてください。測ったことがなければ、5レップ以下の記録から逆算したおおよその値でかまいません。初回の推奨重量を出すためだけに使われます。'},
+      {t:'週と日を選ぶ',
+       d:'トレーニングタブの上にある w1〜MAX が週、d1〜d4 が日です。完了した週と日には緑の点が付きます。'},
+      {t:'推奨重量どおりにセットを組む',
+       d:'RPE指定のある種目は、赤い文字で推奨重量が自動入力されています。その重さでやって、終わったら右端の✓を押してください。レップとRPEは指定値が自動で入るので、違ったときだけ書き換えます。'},
+      {t:'2回目以降は自動で伸びる',
+       d:'次からは前回の実績（E1RM）をもとに推奨重量が計算されます。強くなればその分だけ重くなります。補助種目も同じです。'},
+      {t:'終わったらまとめ画像',
+       d:'一番下の「📸 今日のまとめ画像を作成」で、その日の記録が1枚の画像になります。Instagramにそのまま投稿できるサイズです。'}
+    ],
+    tips:[
+      '設定タブの「ジムモード」をオンにすると、1種目ずつ大きく表示され、✓と同時にレストタイマーが自動で始まります。',
+      'マシンが混んでいるときは、プルダウンの付いた種目を別の種目に変えられます。',
+      '二人で記録を共有したいときは、設定タブの「ふたりで共有」から設定してください。'
+    ]
+  }
+};
+function openManual(k){
+  const m=MANUALS[k]; if(!m) return;
+  document.getElementById('manTitle').textContent=m.title;
+  document.getElementById('manBody').innerHTML=
+    `<p class="mlead">${m.lead}</p>`+
+    `<ol class="msteps">`+m.steps.map(s=>`<li><b>${s.t}</b><span>${s.d}</span></li>`).join('')+`</ol>`+
+    (m.tips?`<div class="mtips"><b>ポイント</b><ul>${m.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:'');
+  document.getElementById('manModal').classList.add('open');
+  document.getElementById('manModal').scrollTop=0;
+}
+function closeManual(){ document.getElementById('manModal').classList.remove('open'); }
 /* ===== アラーム音のパターン ===== */
 const ALARMS={
   beep:{ name:'ピピピッ（目覚まし風）', dur:3.2, seq:(()=>{
@@ -2484,9 +2626,17 @@ function clearScheduled(){
   tScheduled.forEach(o=>{ try{ o.stop(); }catch(e){} });
   tScheduled=[];
 }
+function runShortcutTimer(sec){
+  const name=(S.scName||'レストタイマー').trim();
+  const url='shortcuts://run-shortcut?name='+encodeURIComponent(name)+'&input=text&text='+sec;
+  try{ window.location.href=url; }catch(e){ toast('ショートカットを起動できませんでした'); }
+}
 function startTimer(){
   tRun=true; tEnd=Date.now()+tBase*1000; saveTimer();
-  if(S.sound==='sure'){
+  if(S.sound==='shortcut'){
+    // iPhone標準タイマーを呼び出す（音楽を止めずに鳴らせる）
+    runShortcutTimer(tBase);
+  }else if(S.sound==='sure'){
     // 確実に鳴らすモード：無音WAVで再生を維持（他アプリの音楽は停止します）
     setAudioSession('playback');
     try{
