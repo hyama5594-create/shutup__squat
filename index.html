@@ -38,12 +38,12 @@ nav.tabs button.on{color:var(--red);font-weight:700}
 /* week/day pickers */
 .pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
 .pills::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;background:var(--card);border:1.5px solid var(--line2);color:var(--txt);border-radius:20px;padding:7px 13px;font-size:.8rem;font-family:inherit;white-space:nowrap;position:relative;font-weight:600}
+.pill{flex:0 0 auto;background:var(--card);border:1.5px solid var(--line2);color:var(--txt);border-radius:20px;padding:6px 12px;font-size:.78rem;font-family:inherit;white-space:nowrap;position:relative;font-weight:600}
 .pill.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
 .pill.deload{border-style:dashed}
 .pill .dot{position:absolute;top:1px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--ok);border:1.5px solid #fff}
 .daypills{display:flex;gap:8px;margin:10px 0 2px}
-.daypills .pill{flex:1;text-align:center;padding:9px 0}
+.daypills .pill{flex:1;text-align:center;padding:8px 0;font-size:.82rem}
 /* exercise cards */
 .ex{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line2);border-radius:14px;padding:12px 12px 11px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .ex.big3{border-left-color:var(--red)}
@@ -461,6 +461,69 @@ body.dopa .presetcell{background:#1c0d31;border-color:#4a2280}
 body.dopa .presetcell input{color:#fff}
 body.dopa .pbtns button{background:#150a24;border-color:#4a2280;color:#ff9fd4}
 body.candy .presetcell{border-radius:16px}
+
+/* ===== 設定画面（整理版） ===== */
+.quick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.qtile{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 4px 11px;
+  font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--txt)}
+.qtile b{font-size:1.5rem;line-height:1}
+.qtile span{font-size:.66rem;font-weight:800;color:var(--sub2)}
+.qtile i{font-size:.74rem;font-weight:900;font-style:normal;color:var(--red)}
+.qtile.on{border-color:var(--red);background:var(--redsoft)}
+.rmrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.rmcell{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:9px 6px;text-align:center}
+.rmcell span{display:block;font-size:.6rem;font-weight:800;color:var(--sub2);letter-spacing:.06em}
+.rmcell input{width:100%;background:none;border:none;color:var(--txt);text-align:center;
+  font-size:1.2rem;font-weight:900;font-family:inherit;padding:3px 0 1px}
+.rmcell input:focus{outline:none;color:var(--red)}
+.qnote{font-size:.7rem;color:var(--sub2);margin:8px 2px 14px;line-height:1.6}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:8px;overflow:hidden}
+.sechead{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;
+  padding:15px 14px;font-family:inherit;color:var(--txt);text-align:left}
+.secic{font-size:1.25rem;line-height:1;flex:0 0 auto}
+.sectxt{flex:1;min-width:0}
+.sectxt b{display:block;font-size:.94rem;font-weight:800}
+.sectxt i{display:block;font-size:.68rem;font-style:normal;color:var(--sub2);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.secchev{color:var(--sub2);font-size:1rem;transition:transform .2s;flex:0 0 auto}
+.sec.open .secchev{transform:rotate(180deg)}
+.secbody{max-height:0;overflow:hidden;transition:max-height .26s ease;padding:0 14px}
+.sec.open .secbody{max-height:1400px;padding-bottom:16px}
+.sublabel{font-size:.66rem;font-weight:800;color:var(--sub2);letter-spacing:.08em;margin:12px 0 7px}
+.segrow{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:7px}
+.seg{background:var(--bg);border:1.5px solid var(--line2);border-radius:12px;padding:11px 2px;
+  font-size:.7rem;font-weight:800;font-family:inherit;color:var(--txt);
+  display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.3}
+.seg b{font-size:1.1rem;line-height:1}
+.seg.on{background:var(--redsoft);border-color:var(--red);color:var(--red)}
+.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btnrow .btn{margin-top:10px}
+.sec .btn{margin-top:8px}
+.sec .field{padding:8px 0}
+.sec .note,.sec .steps{font-size:.72rem}
+body.dopa .qtile,body.dopa .rmcell,body.dopa .sec{background:#150a24}
+body.dopa .seg,body.dopa .rmcell input{color:#f4ecff}
+body.candy .sec,body.candy .qtile,body.candy .rmcell{border-radius:20px}
+
+/* ===== ウォームアップ（折りたたみ） ===== */
+.warmbox{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--amber);
+  border-radius:14px;margin:10px 0 12px;overflow:hidden}
+.warmhead{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;
+  padding:12px 13px;font-family:inherit;color:var(--txt);text-align:left}
+.warmhead span{flex:1;font-size:.86rem;font-weight:800}
+.warmhead i{font-size:.7rem;font-style:normal;color:var(--sub2);font-weight:700}
+.warmhead em{font-style:normal;color:var(--sub2);font-size:.95rem;transition:transform .2s}
+.warmbox.open .warmhead em{transform:rotate(180deg)}
+.warmbox ul{list-style:none;max-height:0;overflow:hidden;transition:max-height .24s ease;padding:0 13px}
+.warmbox.open ul{max-height:320px;padding-bottom:11px}
+.warmbox li{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:6px 0;border-top:1px dashed var(--line)}
+.warmbox li b{font-size:.82rem;font-weight:800}
+.warmbox li span{font-size:.82rem;font-weight:800;color:var(--red)}
+.warmbox li i{flex:0 0 100%;font-size:.68rem;font-style:normal;color:var(--sub2)}
+/* 種目カードの余白調整 */
+.ex{padding:12px 12px 10px}
+.excat{margin-top:1px}
+.target{padding:6px 10px}
 /* partner / sync */
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
 .sync .d{width:8px;height:8px;border-radius:50%}
@@ -489,7 +552,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
-  <button id="verBtn" onclick="showChangelog()">v1.8</button>
+  <button id="verBtn" onclick="showChangelog()">v1.9</button>
 </header>
 
 <div id="installBox">
@@ -566,8 +629,9 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION='1.8';
+const APP_VERSION='1.9';
 const CHANGELOG=[
+  {v:'1.9', d:'9/9', items:['設定画面を整理（よく使う項目＋折りたたみ式に）','ウォームアップを折りたたみ表示に','重複していた説明文とヘッダーを削減']},
   {v:'1.8', d:'9/9', items:['標準タイマーの設定手順を修正（現在のiOSに存在しない項目の案内を削除）']},
   {v:'1.7', d:'9/9', items:['タイマーのプリセット3つを自由に設定できるように','±の刻みを5〜60秒から選べるように','標準タイマー実行後に時計アプリが開くように（ショートカット画面を経由しない）']},
   {v:'1.6', d:'9/9', items:['音楽を止めずに鳴らせる「iPhone標準タイマー」モードを追加','アプリ内マニュアルを追加（ガイドタブ）','鳴らし方を3つから選べるように']},
@@ -593,8 +657,8 @@ const CHART = DATA.rpeChart;
 const KEY='squatmania_v1';
 let S = load();
 function load(){
-  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.presets||s.presets.length!==3) s.presets=[90,180,300]; if(!s.step) s.step=30; if(!s.scAfter) s.scAfter='clock'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
-  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', presets:[90,180,300], step:30, scAfter:'clock', candyImg:'list', candyFx:true, candySound:true };
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.presets||s.presets.length!==3) s.presets=[90,180,300]; if(!s.step) s.step=30; if(!s.scAfter) s.scAfter='clock'; if(!s.setOpen) s.setOpen={}; if(s.warmOpen==null) s.warmOpen=false; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', presets:[90,180,300], step:30, scAfter:'clock', setOpen:{}, warmOpen:false, candyImg:'list', candyFx:true, candySound:true };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
 
@@ -747,7 +811,9 @@ function toggleTheme(){
   if(S.theme==='dopa'){ dopaSound('start'); if(navigator.vibrate) navigator.vibrate([40,60,40,60,120]); }
 }
 let tab='train';
-let recMap={}; // logKey -> recommended kg (runtime)
+let recMap={};
+let hintShown=false;
+let headShown=false; // logKey -> recommended kg (runtime)
 
 /* ---------- helpers ---------- */
 const MAIN = {'スクワット':'sq','ベンチプレス':'bp','デッドリフト':'dl'};
@@ -862,7 +928,7 @@ function weekProgress(w){
   return days.filter((_,d)=>dayDone(w,d)).length/days.length;
 }
 function renderTrain(){
-  recMap={};
+  recMap={}; hintShown=false; headShown=false;
   const w=S.wk, d=Math.min(S.dy, PROGRAM[w].days.length-1);
   const week=PROGRAM[w];
   let h='';
@@ -877,8 +943,10 @@ function renderTrain(){
   }).join('')+'</div>';
   const wp=weekProgress(w);
   h+=`<div class="prog"><i style="width:${Math.round(wp*100)}%"></i></div>`;
-  h+='<div class="card warm" style="margin-top:12px"><h2>ウォームアップ</h2><ul>'+
-    week.warmup.map(x=>`<li><span style="color:var(--txt);font-size:.82rem;text-align:left">${esc(x.name)}　<b>${x.sets}×${x.reps}</b></span><span>${esc(x.memo)}</span></li>`).join('')+
+  h+=`<div class="warmbox${S.warmOpen?' open':''}">
+    <button class="warmhead" onclick="toggleWarm()"><span>ウォームアップ</span><i>${week.warmup.length}種目</i><em>⌄</em></button>
+    <ul>`+
+    week.warmup.map(x=>`<li><b>${esc(x.name)}</b><span>${x.sets}×${x.reps}</span>${x.memo?`<i>${esc(x.memo)}</i>`:''}</li>`).join('')+
     '</ul></div>';
   const day=week.days[d];
   day.exercises.forEach((ex,i)=>{ h+=renderEx(w,d,i,ex); });
@@ -955,7 +1023,7 @@ function gymAdvance(w,d){
 }
 function gymBack(){ if(gymUndo!=null){ gymIdx=gymUndo; gymUndo=null; clearTimeout(gymUndoTimer); render(); } }
 function renderGym(){
-  recMap={};
+  recMap={}; hintShown=false; headShown=false;
   const w=S.wk, d=Math.min(S.dy, PROGRAM[w].days.length-1);
   const week=PROGRAM[w], day=week.days[d];
   const steps=gymSteps(w,d);
@@ -1072,10 +1140,9 @@ function renderEx(w,d,i,ex){
   let target='';
   if(rec){
     target=`<div class="target"><span class="lbl">推奨重量｜${esc(rec.basis)}</span><span class="kg">${rec.src==='rmvar'?'~':''}${fmtKg(rec.kg)}<small> kg</small></span></div>`;
-  }else if(!bw && isBig && ex.rpe>0 && ex.rep && ex.rep!=='amrap'){
-    target=`<div class="target"><span class="lbl">設定タブで1RMを入力すると推奨重量を自動計算します</span></div>`;
-  }else if(!bw && ex.rpe>0 && ex.rep && ex.rep!=='amrap'){
-    target=`<div class="target"><span class="lbl">初回のみ自分でkgを入力してください。次回から前回実績をもとに自動計算します</span></div>`;
+  }else if(!bw && ex.rpe>0 && ex.rep && ex.rep!=='amrap' && !hintShown){
+    hintShown=true;
+    target=`<div class="target"><span class="lbl">${isBig&&!S.oneRM[CATRM[ex.cat]]?'設定タブで1RMを入れると推奨重量が出ます':'初回だけ自分でkgを入力してください。次回から自動で出ます'}</span></div>`;
   }
   let e1best=null;
   L.sets.forEach(s=>{ const e=e1rm(Number(s.kg),Number(s.reps),Number(s.rpe)); if(e&&(!e1best||e>e1best)) e1best=e; });
@@ -1089,7 +1156,8 @@ function renderEx(w,d,i,ex){
     </div>`;
   if(ex.memo) h+=`<div class="memo">${esc(ex.memo)}</div>`;
   h+=target;
-  h+=`<div class="sethead${bw?' bw':''}"><span></span>${bw?'':'<span>kg</span>'}<span>rep</span><span>RPE</span><span>✓</span></div><div class="sets">`;
+  h+=(headShown&&!bw)?'<div class="sets" style="margin-top:10px">':`<div class="sethead${bw?' bw':''}"><span></span>${bw?'':'<span>kg</span>'}<span>rep</span><span>RPE</span><span>✓</span></div><div class="sets">`;
+  if(!bw) headShown=true;
   L.sets.forEach((s,si)=>{
     const autoKg = (!bw && s.kg==='' && rec) ? rec.kg : null;
     h+=`<div class="setrow${bw?' bw':''}">
@@ -1107,6 +1175,7 @@ function renderEx(w,d,i,ex){
   h+='</div>';
   return h;
 }
+function toggleWarm(){ S.warmOpen=!S.warmOpen; save(); render(); }
 function pickWeek(i){ S.wk=i; S.dy=0; save(); render(); }
 function pickDay(i){ S.dy=i; save(); render(); }
 function upSet(w,d,i,si,f,v){
@@ -1904,129 +1973,158 @@ function renderGuide(){
 /* ----- settings ----- */
 function renderSettings(){
   const r=S.oneRM;
-  return `<div class="card"><h2>ジムモード</h2>
-    <div class="field"><label>1種目フォーカス表示<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">今やる種目だけを大きく表示</span></label>
-      <input type="checkbox" style="width:26px;height:26px" ${S.gym?'checked':''} onchange="setGym(this.checked)"></div>
-    <p class="note">✓を押すとレストタイマーが自動スタートし、全セット終わると自動で次の種目へ進みます（8秒間は「↩戻る」で戻せます）。レスト時間は種目ごとに±30秒で調整でき、記憶されます。初期値はBIG3が3分、脚2分、背中・肩90秒、腕60秒です。全テーマで使えます。</p>
+  const open=S.setOpen||{};
+  const sec=(key,icon,title,sub,body)=>`
+    <div class="sec${open[key]?' open':''}">
+      <button class="sechead" onclick="toggleSec('${key}')">
+        <span class="secic">${icon}</span>
+        <span class="sectxt"><b>${title}</b>${sub?`<i>${sub}</i>`:''}</span>
+        <span class="secchev">⌄</span>
+      </button>
+      <div class="secbody">${body}</div>
+    </div>`;
+
+  // ---------- よく使う ----------
+  let h=`<div class="quick">
+    <button class="qtile${S.gym?' on':''}" onclick="setGym(${S.gym?'false':'true'})">
+      <b>🏋️</b><span>ジムモード</span><i>${S.gym?'ON':'OFF'}</i></button>
+    <button class="qtile" onclick="toggleSound()">
+      <b>${SOUND_ICON[S.sound]}</b><span>鳴らし方</span><i>${S.sound==='mix'?'音楽優先':S.sound==='sure'?'確実に':'標準タイマー'}</i></button>
+    <button class="qtile" onclick="toggleTheme()">
+      <b>${S.theme==='dopa'?'🎰':S.theme==='candy'?'🍬':'🏋️'}</b><span>テーマ</span><i>${S.theme==='dopa'?'ドパガキ':S.theme==='candy'?'candytune':'通常'}</i></button>
   </div>
-  <div class="card"><h2>テーマ</h2>
-    <div class="thsel">
-      <button class="thbtn ${S.theme==='std'?'on':''}" onclick="setTheme('std')"><b>🏋️</b>通常</button>
-      <button class="thbtn ${S.theme==='candy'?'on':''}" onclick="setTheme('candy')"><b>🍬</b>candytune</button>
-      <button class="thbtn ${S.theme==='dopa'?'on':''}" onclick="setTheme('dopa')"><b>🎰</b>ドパガキ</button>
-    </div>
-    <p class="note">candytune＝メンバーカラー7色の可愛いテーマ。ドパガキ＝ネオン×スロット演出。セットを✓するたびにリールが回り、揃うとドパPTが荒稼ぎできます。全セット完了・自己ベスト更新で大当たり確定。まとめ画像もテーマごとに変わります。</p>
-    ${S.theme==='dopa'?`<div class="dopastat"><div><span>累計ドパPT</span><b>${(S.dopaPT||0).toLocaleString()}</b></div><div><span>最高コンボ</span><b>${S.dopaMaxCombo||0}</b></div><div><span>777回数</span><b>${S.dopa777||0}</b></div></div>`:''}
+  <div class="rmrow">
+    ${[['sq','SQUAT'],['bp','BENCH'],['dl','DEAD']].map(([k,l])=>`<div class="rmcell">
+      <span>${l}</span>
+      <input type="number" inputmode="decimal" step="0.5" value="${r[k]??''}" placeholder="—" onchange="setRM('${k}',this.value)">
+    </div>`).join('')}
   </div>
-  ${S.theme==='candy'?`<div class="card"><h2>candytune の設定</h2>
-    <div class="field"><label>ふわふわ演出<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">✓でハートとキャンディが弾ける</span></label>
-      <input type="checkbox" style="width:26px;height:26px" ${S.candyFx?'checked':''} onchange="setCandy('candyFx',this.checked)"></div>
-    <div class="field"><label>キラン音<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">控えめな効果音</span></label>
-      <input type="checkbox" style="width:26px;height:26px" ${S.candySound?'checked':''} onchange="setCandy('candySound',this.checked)"></div>
-    <div class="field"><label>まとめ画像のデザイン</label>
-      <select class="pick" style="width:150px" onchange="setCandy('candyImg',this.value)">
-        <option value="list"${S.candyImg!=='cheki'?' selected':''}>リスト型</option>
-        <option value="cheki"${S.candyImg==='cheki'?' selected':''}>チェキ風♡</option>
-      </select></div>
-    <p class="note">チェキ風は白フチのフレームに手書き風の日付とシールが付き、その日いちばん頑張った「MVP種目」が大きく載ります。応援メッセージはトレーニング画面の上部に自動で表示されます。</p>
-  </div>`:''}
-  <div class="card"><h2>まとめ画像のサイズ</h2>
-    <div class="field"><label>4:5 縦長<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">Instagram推奨・グリッドで切れない</span></label><input type="radio" name="ratio" style="width:24px" ${S.imgRatio!=='1:1'?'checked':''} onchange="setRatio('4:5')"></div>
-    <div class="field"><label>1:1 正方形<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">従来のサイズ</span></label><input type="radio" name="ratio" style="width:24px" ${S.imgRatio==='1:1'?'checked':''} onchange="setRatio('1:1')"></div>
-    <p class="note">Instagramのプロフィールグリッドは縦長（3:4）で切り抜かれるため、正方形だと日付やロゴの左右が見切れます。4:5にすると投稿でもグリッドでも文字が切れずに綺麗に並びます。</p>
-  </div>
-  <div class="card"><h2>タイマーの時間設定</h2>
-    <p class="note" style="margin-top:0">プリセットボタン3つの時間（タップして直接入力できます）</p>
+  <p class="qnote">1RMは初回の推奨重量にだけ使われます</p>`;
+
+  // ---------- タイマー ----------
+  h+=sec('timer','⏱','タイマー', `${fmtT((S.presets||[90,180,300])[0])} / ${fmtT((S.presets||[90,180,300])[1])} / ${fmtT((S.presets||[90,180,300])[2])}・音量${Math.round((S.vol??0.85)*100)}%`, `
+    <div class="sublabel">プリセット</div>
     <div class="presetrow">
-      ${[0,1,2].map(i=>`<div class="presetcell">
-        <input type="text" inputmode="numeric" value="${fmtT((S.presets||[90,180,300])[i])}" onchange="setPresetText(${i},this.value)">
-        <div class="pbtns">
-          <button onclick="bumpPreset(${i},-S.step)">−</button>
-          <button onclick="bumpPreset(${i},S.step)">＋</button>
-        </div>
+      ${[0,1,2].map(n=>`<div class="presetcell">
+        <input type="text" inputmode="numeric" value="${fmtT((S.presets||[90,180,300])[n])}" onchange="setPresetText(${n},this.value)">
+        <div class="pbtns"><button onclick="bumpPreset(${n},-S.step)">−</button><button onclick="bumpPreset(${n},S.step)">＋</button></div>
       </div>`).join('')}
     </div>
-    <div class="field" style="margin-top:10px"><label>調節の刻み<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">パネルの−／＋ボタンの単位</span></label>
-      <select class="pick" style="width:110px" onchange="setStep(this.value)">
+    <div class="field"><label>調節の刻み</label>
+      <select class="pick" style="width:100px" onchange="setStep(this.value)">
         ${[5,10,15,30,60].map(v=>`<option value="${v}"${S.step==v?' selected':''}>${v}秒</option>`).join('')}
       </select></div>
-    <button class="btn ghost" onclick="resetPresets()">初期値（1:30 / 3:00 / 5:00）に戻す</button>
-  </div>
-  <div class="card"><h2>レストタイマーの通知</h2>
-    <div class="field"><label>音量<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">ジムの騒音に合わせて調整</span></label>
-      <span style="font-size:1rem;font-weight:900;min-width:52px;text-align:right">${Math.round((S.vol??0.85)*100)}%</span></div>
-    <input type="range" min="10" max="100" step="5" value="${Math.round((S.vol??0.85)*100)}"
-      style="width:100%;height:34px" oninput="setVol(this.value)" onchange="setVol(this.value,true)">
-    <div class="field"><label>音の種類</label>
-      <select class="pick" style="width:190px" onchange="setAlarm(this.value)">
-        ${Object.entries(ALARMS).map(([k,v])=>`<option value="${k}"${S.alarm===k?' selected':''}>${esc(v.name)}</option>`).join('')}
-      </select></div>
-    <button class="btn ghost" onclick="testBeep()">🔊 音を試す</button>
-    <div class="field"><label>🎵 音楽を止めない<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">アプリを開いている間だけ鳴る</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='mix'?'checked':''} onchange="setSound('mix')"></div>
-    <div class="field"><label>🔔 確実に鳴らす<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">閉じていても鳴る／音楽は停止</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='sure'?'checked':''} onchange="setSound('sure')"></div>
-    <div class="field"><label>⏱ iPhone標準タイマー<br><span style="font-size:.68rem;color:var(--sub);font-weight:400">音楽を止めずに鳴らせる（要・初回設定）</span></label><input type="radio" name="snd" style="width:24px" ${S.sound==='shortcut'?'checked':''} onchange="setSound('shortcut')"></div>
-    ${S.sound==='shortcut'?`<div class="field"><label>ショートカット名</label>
-      <input type="text" value="${esc(S.scName||'レストタイマー')}" style="width:150px" onchange="setScName(this.value)"></div>
-    <div class="field"><label>実行したあと</label>
-      <select class="pick" style="width:170px" onchange="setScAfter(this.value)">
-        <option value="clock"${S.scAfter==='clock'?' selected':''}>時計アプリを開く</option>
-        <option value="back"${S.scAfter==='back'?' selected':''}>このアプリに戻る</option>
-        <option value="none"${S.scAfter==='none'?' selected':''}>何もしない</option>
-      </select></div>
-    <button class="btn ghost" onclick="testShortcut()">⏱ ショートカットを試す</button>`:''}
-    <button class="btn" onclick="openManual('shortcut')">📖 標準タイマーの設定方法を見る</button>
-    <p class="note">iPhoneでは音楽アプリとタイマーが同時に音を出せないため、どちらかを選ぶ形になります。「音楽を止めない」はアプリを開いている間だけ鳴り、閉じている間は鳴りません（戻った瞬間に「○分前に終了」と表示されます）。スマホを置いてレストする時は「確実に鳴らす」に切り替えてください。タイマーバーの 🎵 / 🔔 ボタンでワンタップ切替できます。</p>
-  </div>
-  <div class="card"><h2>現在の1RM（初回の推奨重量に使用）</h2>
-    <div class="field"><label>SQUAT</label><input type="number" inputmode="decimal" step="0.5" value="${r.sq??''}" placeholder="kg" onchange="setRM('sq',this.value)"></div>
-    <div class="field"><label>BENCH PRESS</label><input type="number" inputmode="decimal" step="0.5" value="${r.bp??''}" placeholder="kg" onchange="setRM('bp',this.value)"></div>
-    <div class="field"><label>DEAD LIFT</label><input type="number" inputmode="decimal" step="0.5" value="${r.dl??''}" placeholder="kg" onchange="setRM('dl',this.value)"></div>
-    <p class="note">推奨重量は<b>同じ種目の前回実績（E1RM）を最優先</b>で自動計算します。実績がまだない種目は、BIG3系ならこの1RMから計算します。赤字で自動入力された値は編集可能で、✓を押すと確定します。</p>
-  </div>
-  <div class="card"><h2>ふたりで共有（Firebase同期）</h2>
-    <div style="margin-bottom:8px"><span id="syncchip" class="sync off"><span class="d"></span>未接続</span></div>
-    <details class="setup"><summary>初回セットアップ手順（片方が1回だけ・約10分）</summary>
+    <div class="sublabel">鳴らし方</div>
+    <div class="segrow">
+      ${['mix','sure','shortcut'].map(m=>`<button class="seg${S.sound===m?' on':''}" onclick="setSound('${m}')">
+        <b>${SOUND_ICON[m]}</b>${m==='mix'?'音楽優先':m==='sure'?'確実に鳴らす':'標準タイマー'}</button>`).join('')}
+    </div>
+    <p class="qnote">${SOUND_LABEL[S.sound]}</p>
+    ${S.sound==='shortcut'?`
+      <div class="field"><label>ショートカット名</label><input type="text" value="${esc(S.scName||'レストタイマー')}" style="width:150px" onchange="setScName(this.value)"></div>
+      <div class="field"><label>実行したあと</label>
+        <select class="pick" style="width:150px" onchange="setScAfter(this.value)">
+          <option value="clock"${S.scAfter==='clock'?' selected':''}>時計アプリを開く</option>
+          <option value="back"${S.scAfter==='back'?' selected':''}>このアプリに戻る</option>
+          <option value="none"${S.scAfter==='none'?' selected':''}>何もしない</option>
+        </select></div>
+      <div class="btnrow"><button class="btn ghost" onclick="testShortcut()">動作テスト</button>
+      <button class="btn ghost" onclick="openManual('shortcut')">設定方法</button></div>`:`
+      <div class="field"><label>音の種類</label>
+        <select class="pick" style="width:170px" onchange="setAlarm(this.value)">
+          ${Object.entries(ALARMS).map(([k,v])=>`<option value="${k}"${S.alarm===k?' selected':''}>${esc(v.name)}</option>`).join('')}
+        </select></div>
+      <div class="field"><label>音量 ${Math.round((S.vol??0.85)*100)}%</label></div>
+      <input type="range" min="10" max="100" step="5" value="${Math.round((S.vol??0.85)*100)}" style="width:100%;height:32px" onchange="setVol(this.value,true)">
+      <button class="btn ghost" onclick="testBeep()">音を試す</button>`}
+  `);
+
+  // ---------- 見た目 ----------
+  h+=sec('look','🎨','見た目', `${S.theme==='dopa'?'ドパガキ':S.theme==='candy'?'candytune':'通常'}・画像${S.imgRatio==='1:1'?'1:1':'4:5'}`, `
+    <div class="sublabel">テーマ</div>
+    <div class="segrow">
+      ${[['std','🏋️','通常'],['candy','🍬','candytune'],['dopa','🎰','ドパガキ']].map(([k,ic,nm])=>
+        `<button class="seg${S.theme===k?' on':''}" onclick="setTheme('${k}')"><b>${ic}</b>${nm}</button>`).join('')}
+    </div>
+    <div class="sublabel">まとめ画像</div>
+    <div class="segrow">
+      <button class="seg${S.imgRatio!=='1:1'?' on':''}" onclick="setRatio('4:5')">4:5 縦長</button>
+      <button class="seg${S.imgRatio==='1:1'?' on':''}" onclick="setRatio('1:1')">1:1 正方形</button>
+    </div>
+    ${S.theme==='candy'?`
+      <div class="sublabel">candytune</div>
+      <div class="field"><label>ふわふわ演出</label><input type="checkbox" style="width:24px;height:24px" ${S.candyFx?'checked':''} onchange="setCandy('candyFx',this.checked)"></div>
+      <div class="field"><label>キラン音</label><input type="checkbox" style="width:24px;height:24px" ${S.candySound?'checked':''} onchange="setCandy('candySound',this.checked)"></div>
+      <div class="field"><label>画像デザイン</label>
+        <select class="pick" style="width:130px" onchange="setCandy('candyImg',this.value)">
+          <option value="list"${S.candyImg!=='cheki'?' selected':''}>リスト型</option>
+          <option value="cheki"${S.candyImg==='cheki'?' selected':''}>チェキ風♡</option>
+        </select></div>`:''}
+    ${S.theme==='dopa'?`<div class="dopastat"><div><span>累計ドパPT</span><b>${(S.dopaPT||0).toLocaleString()}</b></div><div><span>最高コンボ</span><b>${S.dopaMaxCombo||0}</b></div><div><span>777回数</span><b>${S.dopa777||0}</b></div></div>`:''}
+  `);
+
+  // ---------- ふたりで共有 ----------
+  const syncState = FBSTATE==='on'?'同期中':FBSTATE==='err'?'エラー':FB.config?'接続待ち':'未設定';
+  h+=sec('sync','👥','ふたりで共有', syncState, `
+    <div style="margin-bottom:10px"><span id="syncchip" class="sync ${FBSTATE==='on'?'on':FBSTATE==='err'?'err':'off'}"><span class="d"></span>${syncState}</span></div>
+    ${FB.config&&myKey()?`<p class="qnote">あなた：<b>${esc(FB.name)}</b>／クラウドの記録 <b>${(()=>{const m=REMOTE[myKey()];const n=realCount(m&&m.logs);return n?n+'件':'なし';})()}</b></p>
+      <div class="btnrow"><button class="btn ghost" onclick="restoreFromCloud()">記録を取り込む</button>
+      <button class="btn ghost" onclick="disconnectFB()">接続を解除</button></div>
+      ${(()=>{const others=Object.entries(REMOTE).filter(([k,v])=>k!==myKey()&&realCount(v&&v.logs)>0);
+        return others.length?`<select class="pick" style="width:100%;margin-top:8px" onchange="if(this.value)restoreFromKey(this.value)">
+          <option value="">別の名前の記録から選ぶ…</option>
+          ${others.map(([k,v])=>`<option value="${esc(k)}">${esc(v.name||k)}（${realCount(v.logs)}件）</option>`).join('')}</select>`:'';})()}
+      <button class="btn ghost" onclick="document.getElementById('cloudjson').click()">JSONから復元</button>
+      <input type="file" id="cloudjson" accept=".json" style="display:none" onchange="importCloudJSON(this)">`
+    :`<p class="qnote">相手の記録をリアルタイムで見られるようになります。片方が一度セットアップすれば、あとは共有するだけです。</p>`}
+    <details class="setup" style="margin-top:10px"><summary>${FB.config?'接続設定を変更':'セットアップ手順（約10分）'}</summary>
       <ol class="steps">
-        <li><b>console.firebase.google.com</b> にGoogleアカウントでログイン →「プロジェクトを作成」（名前は自由、Analyticsは不要でOFF）</li>
-        <li>左メニュー「構築」→「<b>Realtime Database</b>」→「データベースを作成」→ ロケーションは <b>asia-southeast1</b> →「<b>テストモード</b>で開始」</li>
-        <li>「構築」→「<b>Authentication</b>」→「始める」→ ログイン方法で「<b>匿名</b>」を有効化</li>
-        <li>⚙️プロジェクトの設定 →「全般」→ 下の「アプリを追加」で <b>ウェブ（&lt;/&gt;）</b> を選択 → 表示される <b>firebaseConfig = { ... }</b> をコピー</li>
-        <li>下の欄に貼り付けて名前を入力 →「接続」。<b>相手にも同じconfigを送って</b>、相手の端末でも貼り付け＆自分の名前で接続すれば完了！</li>
+        <li>console.firebase.google.com で新規プロジェクトを作成（Analyticsは不要）</li>
+        <li>構築 → <b>Realtime Database</b> → asia-southeast1 → テストモードで開始</li>
+        <li>構築 → Authentication → <b>匿名</b>を有効化</li>
+        <li>⚙️設定 → 全般 → アプリを追加 → ウェブ → <b>firebaseConfig</b> をコピー</li>
+        <li>下に貼り付けて名前を入れて接続。相手にも同じconfigを送れば完了</li>
       </ol>
-      <p class="note">セキュリティ強化（推奨）：Realtime Databaseの「ルール」を<br><code>{"rules":{".read":"auth != null",".write":"auth != null"}}</code><br>に変更すると、匿名認証したこのアプリだけが読み書きできます。</p>
+      <textarea class="cfg" id="fbcfg" placeholder="firebaseConfig をここに貼り付け">${FB.config?esc(JSON.stringify(FB.config,null,1)):''}</textarea>
+      <div class="field"><label>自分の名前</label><input type="text" id="fbname" value="${esc(FB.name)}" placeholder="れんたろう" style="width:150px"></div>
+      <button class="btn" onclick="applyFBSettings()">接続する</button>
     </details>
-    <textarea class="cfg" id="fbcfg" placeholder='firebaseConfig をここに貼り付け（const firebaseConfig = {...} のままでOK）'>${FB.config?esc(JSON.stringify(FB.config,null,1)):''}</textarea>
-    <div class="field" style="margin-top:4px"><label>自分の名前</label><input type="text" id="fbname" value="${esc(FB.name)}" placeholder="れんたろう"></div>
-    <button class="btn" onclick="applyFBSettings()">接続する</button>
-    ${FB.config?'<button class="btn danger" onclick="disconnectFB()">同期設定を削除</button>':''}
-    <p class="note">記録を保存するたびに自動でクラウドへ同期され、相手の画面の「👥やまねん&amp;おぎれん」タブにリアルタイムで反映されます。configに含まれるapiKeyは公開しても問題ない識別子です（アクセス制御はルール側で行われます）。</p>
-  </div>
-  <div class="card"><h2>アプリのインストール</h2>
-    <button class="btn ghost" onclick="resetInstallHint()">インストール方法を表示</button>
-    <p class="note">ホーム画面に追加すると、全画面で起動して電波がない場所でも使えます。iPhoneはSafariの共有ボタンから「ホーム画面に追加」、Androidはメニューから「アプリをインストール」で追加できます。</p>
-  </div>
-  ${FB.config&&myKey()?`<div class="card"><h2>記録の復元</h2>
-    <p class="note" style="margin-top:0">クラウドにある自分の記録：<b>${(()=>{const m=REMOTE[myKey()];const n=realCount(m&&m.logs);return n?n+'件':'なし';})()}</b></p>
-    <button class="btn ghost" onclick="restoreFromCloud()">クラウドから記録を取り込む</button>
-    ${(()=>{const others=Object.entries(REMOTE).filter(([k,v])=>k!==myKey()&&realCount(v&&v.logs)>0);
-      return others.length?`<select class="pick" style="width:100%;margin-top:8px" onchange="if(this.value)restoreFromKey(this.value)">
-        <option value="">別の名前で保存された記録から選ぶ…</option>
-        ${others.map(([k,v])=>`<option value="${esc(k)}">${esc(v.name||k)}（${realCount(v.logs)}件）</option>`).join('')}
-      </select>`:'';})()}
-    <button class="btn ghost" onclick="document.getElementById('cloudjson').click()">Firebaseから書き出したJSONを取り込む</button>
-    <input type="file" id="cloudjson" accept=".json" style="display:none" onchange="importCloudJSON(this)">
-    <p class="note">Firebaseコンソール → Realtime Database → 「⋮」→「JSONをエクスポート」で保存したファイルも取り込めます。</p>
-  </div>`:''}
-  <div class="card"><h2>データ管理</h2>
-    ${(()=>{const l=backupList();return l.length?`<p class="note" style="margin-top:0">自動バックアップ（週1で自動保存）</p>`+
-      l.map((b,i)=>{const d=new Date(b.ts);return `<button class="btn ghost" onclick="restoreBackup(${i})">${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} の記録に戻す（${b.n}件）</button>`;}).join('')
-      :'<p class="note" style="margin-top:0">自動バックアップは週に1回、自動で保存されます。</p>';})()}
-    <button class="btn ghost" onclick="exportData()">記録をバックアップ（ファイル保存）</button>
-    <button class="btn ghost" onclick="document.getElementById('imp').click()">バックアップを読み込み</button>
+  `);
+
+  // ---------- データ ----------
+  const bl=backupList();
+  h+=sec('data','💾','データ', `自動バックアップ ${bl.length}件`, `
+    ${bl.length?`<div class="sublabel">自動バックアップ（週1）</div>`+
+      bl.map((b,n)=>{const d=new Date(b.ts);return `<button class="btn ghost" onclick="restoreBackup(${n})">${d.getMonth()+1}/${d.getDate()} の記録に戻す（${b.n}件）</button>`;}).join('')
+      :`<p class="qnote">週に1回、自動でバックアップされます</p>`}
+    <div class="sublabel">手動</div>
+    <div class="btnrow">
+      <button class="btn ghost" onclick="exportData()">書き出し</button>
+      <button class="btn ghost" onclick="document.getElementById('imp').click()">読み込み</button>
+    </div>
     <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
     <button class="btn danger" onclick="resetData()">全記録をリセット</button>
-    <p class="note">記録はこの端末のブラウザ内（localStorage）に保存されます。機種変更前やブラウザ削除前にバックアップ推奨。ホーム画面に追加するとアプリのように使えます。</p>
-  </div>`;
+  `);
+
+  // ---------- アプリ ----------
+  h+=sec('app','ℹ️','アプリについて', 'v'+APP_VERSION, `
+    <div class="btnrow">
+      <button class="btn ghost" onclick="showChangelog()">更新履歴</button>
+      <button class="btn ghost" onclick="resetInstallHint()">インストール方法</button>
+    </div>
+    <div class="sublabel">使い方</div>
+    <div class="manrow">
+      <button onclick="openManual('start')">🏁<br>はじめて</button>
+      <button onclick="openManual('sound')">🔊<br>音の設定</button>
+      <button onclick="openManual('shortcut')">⏱<br>標準タイマー</button>
+    </div>
+  `);
+  return h;
+}
+function toggleSec(k){
+  if(!S.setOpen) S.setOpen={};
+  S.setOpen[k]=!S.setOpen[k];
+  save(); render();
 }
 function setCandy(k,v){ S[k]=v; save(); render(); toast(k==='candyImg'?(v==='cheki'?'チェキ風で生成します♡':'リスト型で生成します'):(v?'ON にしました♡':'OFF にしました')); }
 function setRatio(r){ S.imgRatio=r; save(); render(); toast(r==='1:1'?'正方形で生成します':'4:5 縦長で生成します'); }
