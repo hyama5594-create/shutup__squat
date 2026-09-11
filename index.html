@@ -58,7 +58,7 @@ nav.tabs button.on{color:var(--red);font-weight:700}
 .target{margin-top:8px;background:var(--redsoft);border-radius:9px;padding:7px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .target .lbl{font-size:.66rem;color:var(--reddeep);line-height:1.4}
 .target .kg{font-size:1.2rem;font-weight:800;color:var(--red);white-space:nowrap}
-.target .kg small{font-size:.68rem;color:var(--sub);font-weight:600}
+.target .kg small{font-size:.68rem;color:var(--sub2);font-weight:700}
 .memo{margin-top:8px;font-size:.74rem;color:#7a6428;line-height:1.5;background:var(--ambersoft);border-left:3px solid var(--amber);padding:5px 9px;border-radius:0 7px 7px 0}
 /* set rows */
 .sets{margin-top:8px;display:flex;flex-direction:column;gap:6px}
@@ -328,7 +328,7 @@ select.gpick{font-size:1.45rem;font-weight:900;margin-top:6px;padding:10px 34px 
   align-items:baseline;gap:9px;flex-wrap:wrap}
 .gtarget span{font-size:.7rem;color:var(--reddeep);font-weight:800}
 .gtarget b{font-size:2rem;font-weight:900;color:var(--red);line-height:1}
-.gtarget b small{font-size:.8rem;margin-left:2px}
+.gtarget b small{font-size:.8rem;margin-left:2px;color:var(--sub2)}
 .gtarget i{flex:0 0 100%;font-size:.68rem;color:var(--sub2);font-style:normal}
 .gsets{margin-top:14px;display:flex;flex-direction:column;gap:8px}
 .gset{display:grid;grid-template-columns:22px 1fr 1fr 1fr 56px;gap:7px;align-items:center;
@@ -381,6 +381,7 @@ body.candy .gscheme b{color:#d31f68}
 #ccheer{background:linear-gradient(90deg,#fff0f6,#f6ecff);border:1.5px dashed #f9a8cd;border-radius:16px;
   padding:11px 14px;margin-bottom:10px;font-size:.88rem;font-weight:900;color:#c2306f;text-align:center;
   box-shadow:0 2px 8px rgba(244,95,154,.10)}
+body.dark #ccheer{background:linear-gradient(90deg,#2a1a36,#231a3a);border-color:#6b4a7e;color:#ffa8d2;box-shadow:none}
 body.candy .setrow .chk.on,body.candy .gchk.on{animation:cbounce .42s cubic-bezier(.2,1.6,.4,1)}
 @keyframes cbounce{0%{transform:scale(1)}35%{transform:scale(1.28)}70%{transform:scale(.92)}100%{transform:scale(1)}}
 body.candy .ex.done{position:relative}
@@ -524,6 +525,70 @@ body.candy .sec,body.candy .qtile,body.candy .rmcell{border-radius:20px}
 .ex{padding:12px 12px 10px}
 .excat{margin-top:1px}
 .target{padding:6px 10px}
+
+/* ===== ダークモード ===== */
+body.dark{
+  --bg:#121214; --card:#1c1c21; --line:#2c2c34; --line2:#3d3d47;
+  --txt:#f2f2f5; --sub:#94949f; --sub2:#b6b6c2;
+  --ok:#2fd08a; --oksoft:#0f2b20; --amber:#f0b429; --ambersoft:#2e2408;
+}
+body.dark.candy{
+  --bg:#180f20; --card:#241730; --line:#38234a; --line2:#4d3062;
+  --txt:#f7ecff; --sub:#b79ccd; --sub2:#cdb6de;
+  --ok:#3fd6a6; --oksoft:#0f2f26; --amber:#f7a83f; --ambersoft:#2f2410;
+  background-image:radial-gradient(#2a1a38 8%,transparent 9%),radial-gradient(#2a1a38 8%,transparent 9%);
+}
+body.dark header{background:var(--card)}
+body.dark .setrow input,body.dark .field input,body.dark textarea.cfg,
+body.dark .gset input,body.dark .presetcell,body.dark .rmcell,body.dark .qtile,body.dark .sec{background:var(--card)}
+body.dark .setrow input,body.dark .field input,body.dark textarea.cfg,body.dark .gset input{
+  border-color:var(--line2);color:var(--txt)}
+body.dark .setrow input::placeholder,body.dark .field input::placeholder,
+body.dark .gset input::placeholder,body.dark textarea.cfg::placeholder{color:var(--sub)}
+body.dark .setrow .chk,body.dark .gchk,body.dark .btn.ghost,body.dark .pbtns button{
+  background:var(--card);border-color:var(--line2);color:var(--sub2)}
+body.dark .btn.ghost{color:var(--txt)}
+body.dark .btn.danger{background:transparent}
+body.dark .setrow input.auto,body.dark .gset input.auto{background:var(--redsoft);border-color:var(--line2)}
+body.dark .pill{background:var(--card)}
+body.dark .pill.on{background:var(--red);border-color:var(--red)}
+body.dark nav.tabs,body.dark #timerbar{background:var(--card);border-color:var(--line)}
+body.dark .seg,body.dark .tpresets button,body.dark .tadjust button,body.dark .tactions button,
+body.dark #timerbar .thandle,body.dark .thbtn,body.dark .manrow button,body.dark .gnav,body.dark .gbig.ghostbig{
+  background:var(--bg);border-color:var(--line2);color:var(--txt)}
+body.dark .guide .qa,body.dark table.rpet th,body.dark .mlead{background:var(--bg)}
+body.dark #verModal .vbox,body.dark #manModal .mbox,body.dark #smodal .box{background:var(--card)}
+body.dark #verBtn{background:var(--bg);border-color:var(--line2);color:var(--sub2)}
+body.dark .gcard,body.dark .warmbox{background:var(--card)}
+body.dark .toast{background:var(--card);color:var(--txt);border:1px solid var(--line2)}
+body.dark #installBox{background:var(--card)}
+/* アクセント選択 */
+.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:4px}
+.sw{aspect-ratio:1;border-radius:50%;border:2.5px solid transparent;padding:0;
+  font-family:inherit;position:relative;cursor:pointer}
+.sw.on{border-color:var(--txt);box-shadow:0 0 0 2px var(--bg) inset}
+.sw.on::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.9rem;font-weight:900;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.swrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-top:10px}
+.swrow input[type=color]{width:56px;height:40px;border:1.5px solid var(--line2);border-radius:10px;
+  background:var(--card);padding:3px}
+
+/* アクセント上の文字色を自動で切り替える */
+.btn,.pill.on,#timerbar .tgobig,.tactions .tstart,.gbig,.thbtn.on,
+#timerbar button.go,.qtile.on i,nav.tabs button.on{color:var(--onred,#fff)}
+.btn.ghost{color:var(--txt)}
+.btn.danger{color:var(--red)}
+.qtile.on i,nav.tabs button.on{color:var(--red)}
+.gbig.ghostbig{color:var(--sub2)}
+.gbig.done{color:#fff}
+/* 小さな補助文字を読みやすく */
+:root{--sub:#6f6963}
+body.candy{--sub:#9b7288}
+body.dark{--sub:#a3a3ae}
+body.dark.candy{--sub:#c0a5d2}
+body.dark .memo{background:#2e2408;color:#ffdf9b;border-left-color:var(--amber)}
+body.dark .gtarget span,body.dark .target .lbl{color:var(--reddeep)}
+body.dark .excat,body.dark .sethead,body.dark .setrow .n{color:var(--sub2)}
 /* partner / sync */
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;border-radius:14px;padding:4px 11px}
 .sync .d{width:8px;height:8px;border-radius:50%}
@@ -552,7 +617,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
-  <button id="verBtn" onclick="showChangelog()">v1.9</button>
+  <button id="verBtn" onclick="showChangelog()">v2.0</button>
 </header>
 
 <div id="installBox">
@@ -629,8 +694,9 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION='1.9';
+const APP_VERSION='2.0';
 const CHANGELOG=[
+  {v:'2.0', d:'9/11', items:['アクセントカラーを12色＋自由な色から選べるように','ライト／ダークを切り替え可能に（端末設定への自動追従も）','まとめ画像に名前・ひとこと・背景・デザインの設定を追加','設定画面から画像をプレビューできるように']},
   {v:'1.9', d:'9/9', items:['設定画面を整理（よく使う項目＋折りたたみ式に）','ウォームアップを折りたたみ表示に','重複していた説明文とヘッダーを削減']},
   {v:'1.8', d:'9/9', items:['標準タイマーの設定手順を修正（現在のiOSに存在しない項目の案内を削除）']},
   {v:'1.7', d:'9/9', items:['タイマーのプリセット3つを自由に設定できるように','±の刻みを5〜60秒から選べるように','標準タイマー実行後に時計アプリが開くように（ショートカット画面を経由しない）']},
@@ -657,8 +723,8 @@ const CHART = DATA.rpeChart;
 const KEY='squatmania_v1';
 let S = load();
 function load(){
-  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.presets||s.presets.length!==3) s.presets=[90,180,300]; if(!s.step) s.step=30; if(!s.scAfter) s.scAfter='clock'; if(!s.setOpen) s.setOpen={}; if(s.warmOpen==null) s.warmOpen=false; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
-  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', presets:[90,180,300], step:30, scAfter:'clock', setOpen:{}, warmOpen:false, candyImg:'list', candyFx:true, candySound:true };
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s){ if(!s.theme) s.theme='std'; if(!s.picks) s.picks={}; if(!s.sound) s.sound='mix'; if(!s.imgRatio) s.imgRatio='4:5'; if(s.dopaPT==null) s.dopaPT=0; if(s.dopaMaxCombo==null) s.dopaMaxCombo=0; if(s.dopa777==null) s.dopa777=0; if(s.gym==null) s.gym=false; if(!s.rest) s.rest={}; if(s.vol==null) s.vol=0.85; if(!s.alarm) s.alarm='beep'; if(!s.scName) s.scName='レストタイマー'; if(!s.presets||s.presets.length!==3) s.presets=[90,180,300]; if(!s.step) s.step=30; if(!s.scAfter) s.scAfter='clock'; if(!s.setOpen) s.setOpen={}; if(s.warmOpen==null) s.warmOpen=false; if(s.accent===undefined) s.accent=null; if(!s.mode) s.mode='light'; if(s.imgName===undefined) s.imgName=null; if(s.imgTagline===undefined) s.imgTagline=null; if(!s.imgBg) s.imgBg='auto'; if(!s.imgStyle) s.imgStyle='auto'; if(!s.candyImg) s.candyImg='list'; if(s.candyFx==null) s.candyFx=true; if(s.candySound==null) s.candySound=true; return s; } }catch(e){}
+  return { oneRM:{sq:null,bp:null,dl:null}, logs:{}, picks:{}, wk:0, dy:0, theme:'std', sound:'mix', imgRatio:'4:5', dopaPT:0, dopaMaxCombo:0, dopa777:0, gym:false, rest:{}, vol:0.85, alarm:'beep', scName:'レストタイマー', presets:[90,180,300], step:30, scAfter:'clock', setOpen:{}, warmOpen:false, accent:null, mode:'light', imgName:null, imgTagline:null, imgBg:'auto', imgStyle:'auto', candyImg:'list', candyFx:true, candySound:true };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); schedulePush(); }
 
@@ -793,16 +859,81 @@ function syncUI(){
   }
 }
 const CANDY7=['#e8434a','#3d6fd8','#f78bc0','#7fd8b4','#7cc7ee','#a678d8','#f7973f'];
+/* ===== 配色エンジン（アクセントカラー／ライト・ダーク） ===== */
+const ACCENTS=[
+  {k:'red',    n:'レッド',     c:'#d92b2b'},
+  {k:'crimson',n:'クリムゾン', c:'#b3123f'},
+  {k:'orange', n:'オレンジ',   c:'#e06a12'},
+  {k:'amber',  n:'アンバー',   c:'#c98a12'},
+  {k:'lime',   n:'ライム',     c:'#4f9c1b'},
+  {k:'green',  n:'グリーン',   c:'#1b8f5a'},
+  {k:'teal',   n:'ティール',   c:'#0e8f8f'},
+  {k:'sky',    n:'スカイ',     c:'#1583c7'},
+  {k:'blue',   n:'ブルー',     c:'#2f5fd6'},
+  {k:'violet', n:'バイオレット',c:'#6c45d9'},
+  {k:'pink',   n:'ピンク',     c:'#d8348a'},
+  {k:'slate',  n:'スレート',   c:'#4a5568'}
+];
+function hex2rgb(h){
+  h=String(h||'').trim().replace('#','');
+  if(h.length===3) h=h.split('').map(c=>c+c).join('');
+  const n=parseInt(h,16);
+  if(isNaN(n)||h.length!==6) return null;
+  return [(n>>16)&255,(n>>8)&255,n&255];
+}
+function rgb2hex(r){ return '#'+r.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+function mix(a,b,t){ return a.map((v,i)=>v+(b[i]-v)*t); }
+function relLum(rgb){
+  const c=rgb.map(x=>{x/=255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);});
+  return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+}
+/* 背景に対して十分なコントラストになるまで明度を調整する */
+function fitContrast(rgb,bg,target){
+  let out=rgb.slice(), guard=0;
+  const toward = relLum(bg)>0.5 ? [0,0,0] : [255,255,255];
+  const cr=()=>{ const l1=relLum(out),l2=relLum(bg);
+    return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05); };
+  while(cr()<target && guard++<40) out=mix(out,toward,0.06);
+  return out;
+}
+function isDarkMode(){
+  if(S.theme==='dopa') return true;
+  if(S.mode==='auto') return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return S.mode==='dark';
+}
+function themeBaseAccent(){
+  return S.theme==='dopa' ? '#ff2d95' : S.theme==='candy' ? '#f45f9a' : '#d92b2b';
+}
+function applyAccent(){
+  const b=document.body.style;
+  ['--red','--redsoft','--reddeep','--onred'].forEach(k=>b.removeProperty(k));
+  if(S.theme==='dopa' && !S.accent) return;          // ドパガキの標準色はそのまま
+  const rgb=hex2rgb(S.accent||themeBaseAccent()); if(!rgb) return;
+  const dark=isDarkMode();
+  const bg=dark?[28,28,33]:[255,255,255];
+  const main=fitContrast(rgb,bg,4.5);                // 背景に対して読める明度に補正
+  const soft=dark?mix(main,[18,18,21],0.82):mix(main,[255,255,255],0.90);
+  const deep=dark?mix(main,[255,255,255],0.34):mix(main,[0,0,0],0.26);
+  // 塗りの上に乗せる文字色（白か黒か明るい方を選ぶ）
+  const lw=(1.05)/(relLum(main)+0.05), lb=(relLum(main)+0.05)/0.05;
+  b.setProperty('--red',rgb2hex(main));
+  b.setProperty('--redsoft',rgb2hex(soft));
+  b.setProperty('--reddeep',rgb2hex(deep));
+  b.setProperty('--onred', lw>=lb ? '#ffffff' : '#15120f');
+}
+function accentColor(){ return S.accent || themeBaseAccent(); }
 const THEMES=['std','candy','dopa'];
 const THEME_LABEL={std:'🏋️ 通常', candy:'🍬 candy', dopa:'🎰 ドパガキ'};
 function applyTheme(){
   document.body.classList.toggle('candy', S.theme==='candy');
   document.body.classList.toggle('dopa', S.theme==='dopa');
+  document.body.classList.toggle('dark', isDarkMode() && S.theme!=='dopa');
+  applyAccent();
   const b=document.getElementById('themeBtn');
   if(b){ const nx=THEMES[(THEMES.indexOf(S.theme)+1)%3]; b.textContent=THEME_LABEL[nx].split(' ')[0]; }
   if(typeof dopaHUD==='function') dopaHUD();
   const mt=document.getElementById('themeColorMeta');
-  if(mt) mt.setAttribute('content', S.theme==='dopa'?'#07030f':S.theme==='candy'?'#f45f9a':'#d92b2b');
+  if(mt) mt.setAttribute('content', S.theme==='dopa'?'#07030f':(isDarkMode()?'#121214':accentColor()));
 }
 function toggleTheme(){
   S.theme = THEMES[(THEMES.indexOf(S.theme)+1)%3];
@@ -1237,15 +1368,38 @@ function makeSummary(w,d){
   const now=new Date();
   const youbi=['日','月','火','水','木','金','土'][now.getDay()];
   const dateStr=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
-  if(S.theme==='candy') (S.candyImg==='cheki'?drawSummaryCheki:drawSummaryCandy)(cv,items,totalVol,dateStr,youbi,wkName,day.day);
-  else if(S.theme==='dopa') drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,day.day);
-  else drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,day.day);
+  let style=S.imgStyle||'auto';
+  if(style==='auto') style = S.theme==='candy' ? (S.candyImg==='cheki'?'cheki':'candy') : S.theme==='dopa' ? 'dopa' : 'std';
+  const drawer = style==='candy'?drawSummaryCandy : style==='cheki'?drawSummaryCheki : style==='dopa'?drawSummaryDopa : drawSummaryStd;
+  drawer(cv,items,totalVol,dateStr,youbi,wkName,day.day);
   const url=cv.toDataURL('image/png');
   document.getElementById('simg').src=url;
   const a=document.getElementById('sdl');
   a.href=url;
   a.download=`workout_${dateStr.replace(/\./g,'')}_${day.day}.png`;
   document.getElementById('smodal').classList.add('open');
+}
+/* ===== まとめ画像のカスタマイズ ===== */
+function imgBrand(){ const v=(S.imgName||'').trim(); return v || 'SQUAT MANIA'; }
+function imgFoot(){ const v=(S.imgTagline||'').trim(); return v || 'SHUT UP AND SQUAT'; }
+/* 背景パターン。style: auto/plain/grad/dots/grid */
+function drawImgBg(g,W,H,opt){
+  const mode=(S.imgBg&&S.imgBg!=='auto')?S.imgBg:opt.def;
+  const base=opt.base, accent=opt.pattern;
+  if(mode==='grad'){
+    const gr=g.createLinearGradient(0,0,W,H);
+    gr.addColorStop(0,opt.grad[0]); gr.addColorStop(1,opt.grad[1]);
+    g.fillStyle=gr; g.fillRect(0,0,W,H); return;
+  }
+  g.fillStyle=base; g.fillRect(0,0,W,H);
+  if(mode==='dots'){
+    g.fillStyle=accent;
+    for(let y=0;y<H+40;y+=66){ for(let x=((y/66)%2?33:0);x<W+40;x+=66){ g.beginPath(); g.arc(x,y,7,0,7); g.fill(); } }
+  }else if(mode==='grid'){
+    g.strokeStyle=accent; g.lineWidth=2;
+    for(let x=0;x<W;x+=54){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
+    for(let y=0;y<H;y+=54){ g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+  }
 }
 function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   const W=cv.width,H=cv.height;
@@ -1254,9 +1408,10 @@ function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   const SAFE=100;              // グリッドで3:4に切り抜かれても切れない安全域
   const L=SAFE, R=W-SAFE;
 
-  g.fillStyle='#ffffff'; g.fillRect(0,0,W,H);
+  const AC=accentColor(), ACD=rgb2hex(mix(hex2rgb(AC),[0,0,0],0.22)), ACS=rgb2hex(mix(hex2rgb(AC),[255,255,255],0.90));
+  drawImgBg(g,W,H,{def:'plain',base:'#ffffff',pattern:ACS,grad:['#ffffff',ACS]});
   const bandH=Math.round(H*0.155);
-  g.fillStyle='#d92b2b'; g.fillRect(0,0,W,bandH);
+  g.fillStyle=AC; g.fillRect(0,0,W,bandH);
   g.fillStyle='#ffffff';
   g.font='800 60px '+FONT;
   g.fillText(dateStr, L, bandH*0.46);
@@ -1270,7 +1425,7 @@ function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.fillStyle='rgba(255,255,255,.85)';
   g.fillText('WORKOUT LOG', L, bandH*0.75);
   g.font='800 29px '+FONT;
-  const brand='SQUAT MANIA';
+  const brand=imgBrand();
   g.fillText(brand, R-g.measureText(brand).width, bandH*0.75);
 
   const footH=Math.round(H*0.085);
@@ -1282,8 +1437,8 @@ function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
 
   items.forEach((it,idx)=>{
     const y=top+rowH*idx;
-    if(idx%2===0){ g.fillStyle='#faf7f5'; g.fillRect(L-34,y,(R+34)-(L-34),rowH); }
-    g.fillStyle='#d92b2b'; g.fillRect(L-34,y+rowH*0.18,8,rowH*0.64);
+    if(idx%2===0){ g.fillStyle=ACS; g.fillRect(L-34,y,(R+34)-(L-34),rowH); }
+    g.fillStyle=AC; g.fillRect(L-34,y+rowH*0.18,8,rowH*0.64);
     g.fillStyle='#211f1e';
     g.font=`800 ${nameSize}px ${FONT}`;
     let nm=it.name, nmW=g.measureText(nm).width;
@@ -1294,9 +1449,9 @@ function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
       const chip=`RPE${it.rpe}`;
       g.font=`800 ${Math.round(nameSize*0.55)}px ${FONT}`;
       const cw=g.measureText(chip).width+26;
-      g.fillStyle='#fdeeee';
+      g.fillStyle=ACS;
       roundRect(g,L+nmW+18,y+rowH*0.44-nameSize*0.62,cw,nameSize*0.78,10); g.fill();
-      g.fillStyle='#b81f1f';
+      g.fillStyle=ACD;
       g.fillText(chip,L+nmW+31,y+rowH*0.44-nameSize*0.05);
     }
     g.fillStyle='#6d6761';
@@ -1315,8 +1470,8 @@ function drawSummaryStd(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.font='800 36px '+FONT;
   g.fillText(`TOTAL VOLUME  ${Math.round(totalVol).toLocaleString()} kg`, L, H-footH*0.4);
   g.font='700 25px '+FONT;
-  g.fillStyle='#ff6b6b';
-  const foot='SHUT UP AND SQUAT';
+  g.fillStyle=rgb2hex(mix(hex2rgb(AC),[255,255,255],0.42));
+  const foot=imgFoot();
   g.fillText(foot, R-g.measureText(foot).width, H-footH*0.4);
 }
 function drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,dayName){
@@ -1326,10 +1481,7 @@ function drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   const SAFE=100, L=SAFE, R=W-SAFE, CARD=64;
 
   // 背景：黒＋ネオングリッド
-  g.fillStyle='#07030f'; g.fillRect(0,0,W,H);
-  g.strokeStyle='rgba(255,45,149,.10)'; g.lineWidth=2;
-  for(let x=0;x<W;x+=54){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
-  for(let y=0;y<H;y+=54){ g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+  drawImgBg(g,W,H,{def:'grid',base:'#07030f',pattern:'rgba(255,45,149,.10)',grad:['#1a0630','#07030f']});
 
   const neon=(fn,color,blur)=>{ g.save(); g.shadowColor=color; g.shadowBlur=blur||18; fn(); g.restore(); };
 
@@ -1346,9 +1498,9 @@ function drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.font='900 36px '+FONT; g.fillStyle='#ffcf3d';
   const wd=`${wkName}  ${dayName.toUpperCase()}`;
   neon(()=>g.fillText(wd, R-g.measureText(wd).width, bandTop+bandH*0.45),'#ffcf3d',16);
-  g.font='800 27px '+FONT; g.fillStyle='#9b7fc4';
+  g.font='800 26px '+FONT; g.fillStyle='#9b7fc4';
   g.fillText('WORKOUT LOG', L, bandTop+bandH*0.76);
-  const brand='SQUAT MANIA';
+  const brand=imgBrand();
   g.fillText(brand, R-g.measureText(brand).width, bandTop+bandH*0.76);
 
   const footH=Math.round(H*0.085), footTop=H-footH-44;
@@ -1395,8 +1547,8 @@ function drawSummaryDopa(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.font='900 26px '+FONT; g.fillStyle='#ffcf3d';
   const pts=`🎰 ${(S.dopaPT||0).toLocaleString()} PT`;
   neon(()=>g.fillText(pts, R-g.measureText(pts).width, footTop+footH*0.44),'#ffcf3d',14);
-  g.font='800 23px '+FONT; g.fillStyle='#ff2d95';
-  const foot='SHUT UP AND SQUAT';
+  g.font='800 22px '+FONT; g.fillStyle='#ff2d95';
+  const foot=imgFoot();
   g.fillText(foot, L, footTop+footH*0.8);
   g.fillStyle='#9b7fc4';
   const cmb=`MAX ${S.dopaMaxCombo||0} COMBO ・ 777×${S.dopa777||0}`;
@@ -1478,11 +1630,7 @@ function drawSummaryCheki(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   const SAFE=100;
 
   // 背景：パステル＋水玉
-  const bgGrad=g.createLinearGradient(0,0,W,H);
-  bgGrad.addColorStop(0,'#fff2f7'); bgGrad.addColorStop(1,'#f4f0ff');
-  g.fillStyle=bgGrad; g.fillRect(0,0,W,H);
-  g.fillStyle='#ffe0ee';
-  for(let y=0;y<H+40;y+=66){ for(let x=((y/66)%2?33:0);x<W+40;x+=66){ g.beginPath(); g.arc(x,y,7,0,7); g.fill(); } }
+  drawImgBg(g,W,H,{def:'dots',base:'#fff4f9',pattern:'#ffe0ee',grad:['#fff2f7','#f4f0ff']});
 
   // チェキ枠（白フチ）
   const fx=SAFE-16, fy=64, fw=W-(SAFE-16)*2, fh=H-64-70;
@@ -1501,8 +1649,8 @@ function drawSummaryCheki(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   // ヘッダー
   g.fillStyle='#d3457f'; g.font='900 40px '+FONT;
   g.fillText(`${wkName}  ${dayName.toUpperCase()}`, L, py+62);
-  g.font='800 26px '+FONT; g.fillStyle='#b07fa8';
-  const hd='WORKOUT DIARY';
+  g.font='800 25px '+FONT; g.fillStyle='#b07fa8';
+  const hd=(S.imgTagline||'').trim()? (S.imgTagline||'').trim().toUpperCase() : 'WORKOUT DIARY';
   g.fillText(hd, R-g.measureText(hd).width, py+58);
   // 区切りリボン線
   g.strokeStyle='#f9c3da'; g.lineWidth=3;
@@ -1568,8 +1716,8 @@ function drawSummaryCheki(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.fillText(`(${youbi})`, fx+pad+16+dw, cy+64);
   g.font='800 27px '+FONT; g.fillStyle='#a3819a';
   g.fillText(`TOTAL ${Math.round(totalVol).toLocaleString()} kg`, fx+pad+6, cy+104);
-  g.font='900 27px '+FONT; g.fillStyle='#f45f9a';
-  const sig='SQUAT MANIA ♡';
+  g.font='900 26px '+FONT; g.fillStyle='#f45f9a';
+  const sig=imgBrand()+' ♡';
   g.fillText(sig, fx+fw-pad-6-g.measureText(sig).width, cy+104);
   // かわいい換算
   const cl=cuteLines(totalVol);
@@ -1595,13 +1743,7 @@ function drawSummaryCandy(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   const SAFE=100, L=SAFE, R=W-SAFE;
   const CARD=64;               // カード外枠（切り抜かれても違和感が出ない位置）
 
-  g.fillStyle='#fff6f9'; g.fillRect(0,0,W,H);
-  g.fillStyle='#ffe3ee';
-  for(let y=0;y<H+40;y+=72){
-    for(let x=((y/72)%2?36:0);x<W+40;x+=72){
-      g.beginPath(); g.arc(x,y,10,0,7); g.fill();
-    }
-  }
+  drawImgBg(g,W,H,{def:'dots',base:'#fff6f9',pattern:'#ffe3ee',grad:['#fff2f8','#f3ecff']});
 
   const bandTop=44, bandH=Math.round(H*0.135);
   g.fillStyle='#f45f9a';
@@ -1618,8 +1760,8 @@ function drawSummaryCandy(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.font='700 27px '+FONT;
   g.fillStyle='rgba(255,255,255,.9)';
   g.fillText('WORKOUT LOG ♥', L, bandTop+bandH*0.76);
-  g.font='800 27px '+FONT;
-  const brand='SQUAT MANIA';
+  g.font='800 26px '+FONT;
+  const brand=imgBrand();
   g.fillText(brand, R-g.measureText(brand).width, bandTop+bandH*0.76);
   g.fillStyle=candyGrad(g,CARD,W-CARD,0);
   roundRect(g,CARD,bandTop+bandH+14,W-CARD*2,14,7); g.fill();
@@ -1673,8 +1815,8 @@ function drawSummaryCandy(cv,items,totalVol,dateStr,youbi,wkName,dayName){
   g.fillStyle='#ffffff';
   g.font='800 34px '+FONT;
   g.fillText(`TOTAL VOLUME  ${Math.round(totalVol).toLocaleString()} kg`, L, footTop+footH*0.42);
-  g.font='800 25px '+FONT;
-  const foot='SHUT UP AND SQUAT ♥';
+  g.font='800 24px '+FONT;
+  const foot=imgFoot()+' ♥';
   g.fillText(foot, R-g.measureText(foot).width, footTop+footH*0.42);
   // かわいい換算
   g.font='800 25px '+FONT;
@@ -2040,17 +2182,53 @@ function renderSettings(){
   `);
 
   // ---------- 見た目 ----------
-  h+=sec('look','🎨','見た目', `${S.theme==='dopa'?'ドパガキ':S.theme==='candy'?'candytune':'通常'}・画像${S.imgRatio==='1:1'?'1:1':'4:5'}`, `
+  const accName=(ACCENTS.find(a=>a.c===S.accent)||{}).n || (S.accent?'カスタム':'テーマ標準');
+  h+=sec('look','🎨','見た目', `${S.theme==='dopa'?'ドパガキ':S.theme==='candy'?'candytune':'通常'}・${accName}・${S.mode==='dark'?'ダーク':S.mode==='auto'?'自動':'ライト'}`, `
     <div class="sublabel">テーマ</div>
     <div class="segrow">
       ${[['std','🏋️','通常'],['candy','🍬','candytune'],['dopa','🎰','ドパガキ']].map(([k,ic,nm])=>
         `<button class="seg${S.theme===k?' on':''}" onclick="setTheme('${k}')"><b>${ic}</b>${nm}</button>`).join('')}
     </div>
+    <div class="sublabel">明るさ${S.theme==='dopa'?'（ドパガキは常にダーク）':''}</div>
+    <div class="segrow">
+      ${[['light','☀️','ライト'],['dark','🌙','ダーク'],['auto','⚙️','端末に合わせる']].map(([k,ic,nm])=>
+        `<button class="seg${S.mode===k?' on':''}" onclick="setMode('${k}')"><b>${ic}</b>${nm}</button>`).join('')}
+    </div>
+    <div class="sublabel">アクセントカラー</div>
+    <div class="swatches">
+      ${ACCENTS.map(a=>`<button class="sw${S.accent===a.c?' on':''}" style="background:${a.c}" title="${a.n}" onclick="setAccent('${a.c}')"></button>`).join('')}
+    </div>
+    <div class="swrow">
+      <button class="btn ghost" style="margin-top:0" onclick="setAccent(null)">テーマ標準に戻す</button>
+      <input type="color" value="${S.accent||themeBaseAccent()}" onchange="setAccent(this.value)" title="好きな色を選ぶ">
+    </div>
     <div class="sublabel">まとめ画像</div>
+    <div class="field"><label>デザイン</label>
+      <select class="pick" style="width:170px" onchange="setImg('imgStyle',this.value)">
+        <option value="auto"${S.imgStyle==='auto'?' selected':''}>テーマに合わせる</option>
+        <option value="std"${S.imgStyle==='std'?' selected':''}>ベーシック</option>
+        <option value="candy"${S.imgStyle==='candy'?' selected':''}>キャンディ</option>
+        <option value="cheki"${S.imgStyle==='cheki'?' selected':''}>チェキ風♡</option>
+        <option value="dopa"${S.imgStyle==='dopa'?' selected':''}>ネオン</option>
+      </select></div>
+    <div class="field"><label>背景</label>
+      <select class="pick" style="width:170px" onchange="setImg('imgBg',this.value)">
+        <option value="auto"${S.imgBg==='auto'?' selected':''}>デザイン標準</option>
+        <option value="plain"${S.imgBg==='plain'?' selected':''}>無地</option>
+        <option value="grad"${S.imgBg==='grad'?' selected':''}>グラデーション</option>
+        <option value="dots"${S.imgBg==='dots'?' selected':''}>ドット</option>
+        <option value="grid"${S.imgBg==='grid'?' selected':''}>グリッド</option>
+      </select></div>
+    <div class="field"><label>名前・チーム名</label>
+      <input type="text" value="${esc(S.imgName||'')}" placeholder="SQUAT MANIA" style="width:160px" onchange="setImg('imgName',this.value)"></div>
+    <div class="field"><label>ひとこと</label>
+      <input type="text" value="${esc(S.imgTagline||'')}" placeholder="SHUT UP AND SQUAT" style="width:160px" onchange="setImg('imgTagline',this.value)"></div>
+    <div class="field"><label>サイズ</label></div>
     <div class="segrow">
       <button class="seg${S.imgRatio!=='1:1'?' on':''}" onclick="setRatio('4:5')">4:5 縦長</button>
       <button class="seg${S.imgRatio==='1:1'?' on':''}" onclick="setRatio('1:1')">1:1 正方形</button>
     </div>
+    <button class="btn ghost" onclick="previewSummary()">画像をプレビュー</button>
     ${S.theme==='candy'?`
       <div class="sublabel">candytune</div>
       <div class="field"><label>ふわふわ演出</label><input type="checkbox" style="width:24px;height:24px" ${S.candyFx?'checked':''} onchange="setCandy('candyFx',this.checked)"></div>
@@ -2127,6 +2305,50 @@ function toggleSec(k){
   save(); render();
 }
 function setCandy(k,v){ S[k]=v; save(); render(); toast(k==='candyImg'?(v==='cheki'?'チェキ風で生成します♡':'リスト型で生成します'):(v?'ON にしました♡':'OFF にしました')); }
+function setAccent(c){
+  S.accent = c || null; save(); applyTheme(); render();
+  toast(c?'アクセントカラーを変更しました':'テーマ標準の色に戻しました');
+}
+function setMode(m){
+  S.mode=m; save(); applyTheme(); render();
+  if(S.theme==='dopa') toast('ドパガキモードは常にダークです');
+  else toast(m==='dark'?'🌙 ダーク':m==='auto'?'⚙️ 端末の設定に合わせます':'☀️ ライト');
+}
+function setImg(k,v){
+  S[k]=(typeof v==='string' && v.trim()==='')?null:v; save(); render();
+}
+/* 設定画面から画像を確認する（記録がない週でもサンプルで表示） */
+function previewSummary(){
+  let found=null;
+  PROGRAM.forEach((wk,w)=>wk.days.forEach((day,d)=>{
+    if(found) return;
+    const any=day.exercises.some((ex,i)=>{const L=S.logs[logKey(w,d,i)];return L&&L.sets.some(s=>s.done);});
+    if(any) found=[w,d];
+  }));
+  if(found){ makeSummary(found[0],found[1]); return; }
+  previewSample();
+}
+function previewSample(){
+  const cv=document.createElement('canvas'); cv.width=1080; cv.height=(S.imgRatio==='1:1'?1080:1350);
+  const items=[
+    {name:'スクワット',parts:['112.5×5','112.5×5'],rpe:7,vol:1125,reps:10,sets:2},
+    {name:'ベンチプレス',parts:['85×5','85×5','85×5'],rpe:8,vol:1275,reps:15,sets:3},
+    {name:'デッドリフト',parts:['140×3','140×3'],rpe:7,vol:840,reps:6,sets:2},
+    {name:'ラットプルダウン',parts:['55×12','55×12'],rpe:7,vol:1320,reps:24,sets:2}
+  ];
+  const now=new Date();
+  const youbi=['日','月','火','水','木','金','土'][now.getDay()];
+  const dateStr=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  let style=S.imgStyle||'auto';
+  if(style==='auto') style = S.theme==='candy' ? (S.candyImg==='cheki'?'cheki':'candy') : S.theme==='dopa' ? 'dopa' : 'std';
+  const drawer = style==='candy'?drawSummaryCandy : style==='cheki'?drawSummaryCheki : style==='dopa'?drawSummaryDopa : drawSummaryStd;
+  drawer(cv,items,4560,dateStr,youbi,'w1','d1');
+  const url=cv.toDataURL('image/png');
+  document.getElementById('simg').src=url;
+  const a=document.getElementById('sdl'); a.href=url; a.download='preview.png';
+  document.getElementById('smodal').classList.add('open');
+  toast('サンプルで表示しています');
+}
 function setRatio(r){ S.imgRatio=r; save(); render(); toast(r==='1:1'?'正方形で生成します':'4:5 縦長で生成します'); }
 const SOUND_MODES=['mix','sure','shortcut'];
 const SOUND_ICON={mix:'🎵',sure:'🔔',shortcut:'⏱'};
@@ -2946,6 +3168,8 @@ function resetInstallHint(){
   localStorage.removeItem(INSTKEY); showInstall();
   toast(isStandalone()?'すでにインストール済みです':'インストール案内を表示しました');
 }
+
+try{ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{ if(S.mode==='auto'){ applyTheme(); render(); } }); }catch(e){}
 
 /* init */
 applyTheme();
