@@ -617,7 +617,7 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
   <div class="tag">SQUAT4EVER — SHUT UP AND SQUAT</div>
   <h1>SQUAT <span>MANIA</span> ログ</h1>
   <button id="themeBtn" onclick="toggleTheme()">🍬</button>
-  <button id="verBtn" onclick="showChangelog()">v2.0</button>
+  <button id="verBtn" onclick="showChangelog()">v2.1</button>
 </header>
 
 <div id="installBox">
@@ -694,8 +694,9 @@ details.setup summary{font-size:.8rem;font-weight:800;color:var(--red);cursor:po
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION='2.0';
+const APP_VERSION='2.1';
 const CHANGELOG=[
+  {v:'2.1', d:'9/11', items:['標準タイマー使用時にアプリ側の音・通知・バイブが重複していたのを修正']},
   {v:'2.0', d:'9/11', items:['アクセントカラーを12色＋自由な色から選べるように','ライト／ダークを切り替え可能に（端末設定への自動追従も）','まとめ画像に名前・ひとこと・背景・デザインの設定を追加','設定画面から画像をプレビューできるように']},
   {v:'1.9', d:'9/9', items:['設定画面を整理（よく使う項目＋折りたたみ式に）','ウォームアップを折りたたみ表示に','重複していた説明文とヘッダーを削減']},
   {v:'1.8', d:'9/9', items:['標準タイマーの設定手順を修正（現在のiOSに存在しない項目の案内を削除）']},
@@ -3022,7 +3023,7 @@ function runShortcutTimer(sec){
 function startTimer(){
   tRun=true; tEnd=Date.now()+tBase*1000; saveTimer();
   if(S.sound==='shortcut'){
-    // iPhone標準タイマーを呼び出す（音楽を止めずに鳴らせる）
+    // iPhone標準タイマーに任せる（アプリ側は音もバイブも出さない）
     runShortcutTimer(tBase);
   }else if(S.sound==='sure'){
     // 確実に鳴らすモード：無音WAVで再生を維持（他アプリの音楽は停止します）
@@ -3039,7 +3040,7 @@ function startTimer(){
     setAudioSession('ambient');
     scheduleMixBeeps(tBase);
   }
-  if('Notification' in window && Notification.permission==='default'){
+  if(S.sound!=='shortcut' && 'Notification' in window && Notification.permission==='default'){
     Notification.requestPermission().catch(()=>{});
   }
   clearInterval(tInt);
@@ -3059,6 +3060,8 @@ function stopTimer(fired){
 }
 function fireTimer(lateSec){
   stopTimer(true);
+  // 標準タイマーモードでは時計アプリが鳴らすので、アプリ側は一切知らせない
+  if(S.sound==='shortcut'){ paintT(); return; }
   if(navigator.vibrate) navigator.vibrate([300,120,300,120,500]);
   try{
     if('Notification' in window && Notification.permission==='granted'){
